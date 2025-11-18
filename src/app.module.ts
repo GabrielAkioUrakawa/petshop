@@ -1,11 +1,23 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { GraficaModule } from './modules/grafica/grafica.module';
+import { PessoaModule } from './modules/pessoa/pessoa.module';
+import { ClienteModule } from './modules/cliente/cliente.module';
+import { FuncionarioModule } from './modules/funcionario/funcionario.module';
+import { AnimalModule } from './modules/animal/animal.module';
+import { ServicoModule } from './modules/servico/servico.module';
+import { CompraModule } from './modules/compra/compra.module';
+import { FornecedorModule } from './modules/fornecedor/fornecedor.module';
 
 @Module({
   imports: [
-    GraficaModule, 
+    PessoaModule,
+    ClienteModule,
+    FuncionarioModule,
+    AnimalModule,
+    ServicoModule,
+    CompraModule,
+    FornecedorModule,
   ],
   controllers: [AppController],
   providers: [AppService],

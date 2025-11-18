@@ -1,0 +1,32 @@
+import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { FuncionarioService } from './funcionario.service';
+
+@Controller('funcionario')
+export class FuncionarioController {
+  constructor(private readonly funcionarioService: FuncionarioService) {}
+
+  @Get()
+  async findAll() {
+    return this.funcionarioService.findAll();
+  }
+
+  @Get(':cpf')
+  async findByCpf(@Param('cpf') cpf: string) {
+    return this.funcionarioService.findByCpf(cpf);
+  }
+
+  @Post()
+  async create(@Body() body: { cpf: string; especialidade: string }) {
+    return this.funcionarioService.create(body.cpf, body.especialidade);
+  }
+
+  @Put(':cpf')
+  async update(@Param('cpf') cpf: string, @Body() body: { especialidade: string }) {
+    return this.funcionarioService.update(cpf, body.especialidade);
+  }
+
+  @Delete(':cpf')
+  async delete(@Param('cpf') cpf: string) {
+    return this.funcionarioService.delete(cpf);
+  }
+}
