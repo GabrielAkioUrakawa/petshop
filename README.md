@@ -107,12 +107,20 @@ Cada módulo suporta operações CRUD básicas:
 #### Serviço (`/servico`)
 - `GET /servico/count` - Retorna o número total de serviços
   - Retorna: Número inteiro com a contagem
+- `GET /servico/revenue-by-month?mes=MM&ano=YYYY` - Retorna o faturamento do mês
+  - Parâmetros: mes (1-12) e ano (YYYY)
+  - Retorna: Mês, ano, faturamento de serviços, faturamento de produtos, faturamento total e total de serviços realizados
+  - O faturamento total inclui tanto o valor dos serviços quanto o valor dos produtos vendidos nos serviços
 - `GET /servico/by-fornecedor/:nomeFornecedor` - Lista serviços por fornecedor
   - Retorna: Nome do fornecedor, produto, tipo de serviço e data/hora
 - `GET /servico/by-date?dataEspecifica=YYYY-MM-DD` - Agenda diária de serviços
   - Retorna: Nome do funcionário, especialidade, tipo de serviço, data/hora, nome do animal e dono
 
 #### Funcionário (`/funcionario`)
+- `GET /funcionario/employee-of-the-month?mes=MM&ano=YYYY` - Retorna o funcionário destaque do mês
+  - Parâmetros: mes (1-12) e ano (YYYY)
+  - Retorna: Nome, CPF, especialidade e total de atendimentos realizados no mês
+  - Funcionário com maior número de atendimentos no período especificado
 - `GET /funcionario/with-service-count` - Lista funcionários com contagem de serviços
   - Retorna: Nome, especialidade e total de serviços realizados
   - Ordenado por total de serviços (DESC)

@@ -10,4 +10,5 @@ export declare class ServicoService {
     findByFornecedor(nomeFornecedor: string): Promise<any[]>;
     findByDate(dataEspecifica: string): Promise<any[]>;
     count(): Promise<number>;
+    findRevenueByMonth(mes: number, ano: number): Promise<any>;
 }

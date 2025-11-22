@@ -69,6 +69,22 @@ let ServicoRepository = class ServicoRepository {
         const result = await this.pool.query('SELECT COUNT(*) FROM servico');
         return parseInt(result.rows[0].count);
     }
+    async findRevenueByMonth(mes, ano) {
+        const result = await this.pool.query(`SELECT EXTRACT(MONTH FROM S.DATA_HORA) AS MES,
+              EXTRACT(YEAR FROM S.DATA_HORA) AS ANO,
+              SUM(S.PRECO) AS FATURAMENTO_SERVICOS,
+              COALESCE(SUM(CI.QUANTIDADE * P.PRECO_VENDA), 0) AS FATURAMENTO_PRODUTOS,
+              SUM(S.PRECO) + COALESCE(SUM(CI.QUANTIDADE * P.PRECO_VENDA), 0) AS FATURAMENTO_TOTAL,
+              COUNT(DISTINCT S.SERVICO_CPF) AS TOTAL_SERVICOS
+       FROM SERVICO S
+       LEFT JOIN COMPRA_INCLUI CI ON S.SERVICO_CPF = CI.SERVICO_CPF
+                                  AND S.DATA_HORA = CI.SERVICO_DATA_HORA
+       LEFT JOIN PRODUTO P ON CI.ID_PRODUTO = P.ID_PRODUTO
+       WHERE EXTRACT(MONTH FROM S.DATA_HORA) = $1
+         AND EXTRACT(YEAR FROM S.DATA_HORA) = $2
+       GROUP BY EXTRACT(MONTH FROM S.DATA_HORA), EXTRACT(YEAR FROM S.DATA_HORA)`, [mes, ano]);
+        return result.rows[0];
+    }
 };
 exports.ServicoRepository = ServicoRepository;
 exports.ServicoRepository = ServicoRepository = __decorate([

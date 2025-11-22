@@ -72,4 +72,8 @@ export class ServicoService {
   async count() {
     return this.servicoRepository.count();
   }
+
+  async findRevenueByMonth(mes: number, ano: number) {
+    return this.servicoRepository.findRevenueByMonth(mes, ano);
+  }
 }

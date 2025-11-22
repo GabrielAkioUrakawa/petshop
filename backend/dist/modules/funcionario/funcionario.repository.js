@@ -52,6 +52,19 @@ let FuncionarioRepository = class FuncionarioRepository {
     `);
         return result.rows;
     }
+    async findEmployeeOfTheMonth(mes, ano) {
+        const result = await this.pool.query(`SELECT P.NOME AS FUNCIONARIO_NOME, F.CPF AS FUNCIONARIO_CPF, F.ESPECIALIDADE,
+              COUNT(S.SERVICO_CPF) AS TOTAL_ATENDIMENTOS
+       FROM FUNCIONARIO F
+       JOIN PESSOA P ON F.CPF = P.CPF
+       JOIN SERVICO S ON F.CPF = S.FUNCIONARIO_CPF
+       WHERE EXTRACT(MONTH FROM S.DATA_HORA) = $1
+         AND EXTRACT(YEAR FROM S.DATA_HORA) = $2
+       GROUP BY P.NOME, F.CPF, F.ESPECIALIDADE
+       ORDER BY TOTAL_ATENDIMENTOS DESC
+       LIMIT 1`, [mes, ano]);
+        return result.rows[0];
+    }
 };
 exports.FuncionarioRepository = FuncionarioRepository;
 exports.FuncionarioRepository = FuncionarioRepository = __decorate([

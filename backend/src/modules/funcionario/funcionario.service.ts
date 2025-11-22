@@ -28,4 +28,8 @@ export class FuncionarioService {
   async findWithServiceCount() {
     return this.funcionarioRepository.findWithServiceCount();
   }
+
+  async findEmployeeOfTheMonth(mes: number, ano: number) {
+    return this.funcionarioRepository.findEmployeeOfTheMonth(mes, ano);
+  }
 }

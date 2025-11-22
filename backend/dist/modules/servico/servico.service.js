@@ -41,6 +41,9 @@ let ServicoService = class ServicoService {
     async count() {
         return this.servicoRepository.count();
     }
+    async findRevenueByMonth(mes, ano) {
+        return this.servicoRepository.findRevenueByMonth(mes, ano);
+    }
 };
 exports.ServicoService = ServicoService;
 exports.ServicoService = ServicoService = __decorate([

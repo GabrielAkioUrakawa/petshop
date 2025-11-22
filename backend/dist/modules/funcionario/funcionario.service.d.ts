@@ -8,4 +8,5 @@ export declare class FuncionarioService {
     update(cpf: string, especialidade: string): Promise<void>;
     delete(cpf: string): Promise<void>;
     findWithServiceCount(): Promise<any[]>;
+    findEmployeeOfTheMonth(mes: number, ano: number): Promise<any>;
 }

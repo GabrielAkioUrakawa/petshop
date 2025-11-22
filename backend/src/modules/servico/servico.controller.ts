@@ -15,6 +15,11 @@ export class ServicoController {
     return this.servicoService.count();
   }
 
+  @Get('revenue-by-month')
+  async findRevenueByMonth(@Query('mes') mes: string, @Query('ano') ano: string) {
+    return this.servicoService.findRevenueByMonth(parseInt(mes), parseInt(ano));
+  }
+
   @Get('by-fornecedor/:nomeFornecedor')
   async findByFornecedor(@Param('nomeFornecedor') nomeFornecedor: string) {
     return this.servicoService.findByFornecedor(nomeFornecedor);

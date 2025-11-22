@@ -35,6 +35,9 @@ let FuncionarioService = class FuncionarioService {
     async findWithServiceCount() {
         return this.funcionarioRepository.findWithServiceCount();
     }
+    async findEmployeeOfTheMonth(mes, ano) {
+        return this.funcionarioRepository.findEmployeeOfTheMonth(mes, ano);
+    }
 };
 exports.FuncionarioService = FuncionarioService;
 exports.FuncionarioService = FuncionarioService = __decorate([

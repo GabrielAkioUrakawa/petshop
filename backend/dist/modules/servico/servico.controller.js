@@ -26,6 +26,9 @@ let ServicoController = class ServicoController {
     async count() {
         return this.servicoService.count();
     }
+    async findRevenueByMonth(mes, ano) {
+        return this.servicoService.findRevenueByMonth(parseInt(mes), parseInt(ano));
+    }
     async findByFornecedor(nomeFornecedor) {
         return this.servicoService.findByFornecedor(nomeFornecedor);
     }
@@ -58,6 +61,14 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], ServicoController.prototype, "count", null);
+__decorate([
+    (0, common_1.Get)('revenue-by-month'),
+    __param(0, (0, common_1.Query)('mes')),
+    __param(1, (0, common_1.Query)('ano')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], ServicoController.prototype, "findRevenueByMonth", null);
 __decorate([
     (0, common_1.Get)('by-fornecedor/:nomeFornecedor'),
     __param(0, (0, common_1.Param)('nomeFornecedor')),
