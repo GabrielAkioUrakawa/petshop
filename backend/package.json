@@ -17,7 +17,11 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "db:drop": "docker exec -i postgres_db psql -U postgres -d petshop -c 'DROP TABLE IF EXISTS lote CASCADE; DROP TABLE IF EXISTS compra_inclui CASCADE; DROP TABLE IF EXISTS servico CASCADE; DROP TABLE IF EXISTS produto CASCADE; DROP TABLE IF EXISTS compra CASCADE; DROP TABLE IF EXISTS animal CASCADE; DROP TABLE IF EXISTS fornecedor CASCADE; DROP TABLE IF EXISTS funcionario CASCADE; DROP TABLE IF EXISTS cliente CASCADE; DROP TABLE IF EXISTS pessoa CASCADE;'",
+    "db:init": "docker exec -i postgres_db psql -U postgres -d petshop < src/modules/database/init.sql",
+    "db:reset": "npm run db:drop && npm run db:init",
+    "db:recreate": "docker compose down -v && docker compose up -d postgres"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
