@@ -24,24 +24,24 @@ let ServicoRepository = class ServicoRepository {
             ssl: false,
         });
     }
-    async create(dataHora, preco, tipo, descricao, clienteCpf, funcionarioCpf, animalCpf) {
-        await this.pool.query(`INSERT INTO servico (data_hora, preco, tipo, descricao, cliente_cpf, funcionario_cpf, animal_cpf)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)`, [dataHora, preco, tipo, descricao, clienteCpf, funcionarioCpf, animalCpf]);
+    async create(servicoCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalNome, animalCpf) {
+        await this.pool.query(`INSERT INTO servico (servico_cpf, data_hora, preco, tipo, descricao, funcionario_cpf, animal_nome, animal_cpf)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`, [servicoCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalNome, animalCpf]);
     }
     async findAll() {
         const result = await this.pool.query('SELECT * FROM servico');
         return result.rows;
     }
-    async findById(clienteCpf, dataHora) {
-        const result = await this.pool.query('SELECT * FROM servico WHERE cliente_cpf = $1 AND data_hora = $2', [clienteCpf, dataHora]);
+    async findById(servicoCpf, dataHora) {
+        const result = await this.pool.query('SELECT * FROM servico WHERE servico_cpf = $1 AND data_hora = $2', [servicoCpf, dataHora]);
         return result.rows[0];
     }
-    async update(clienteCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalCpf) {
-        await this.pool.query(`UPDATE servico SET preco = $3, tipo = $4, descricao = $5, funcionario_cpf = $6, animal_cpf = $7
-       WHERE cliente_cpf = $1 AND data_hora = $2`, [clienteCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalCpf]);
+    async update(servicoCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalNome, animalCpf) {
+        await this.pool.query(`UPDATE servico SET preco = $3, tipo = $4, descricao = $5, funcionario_cpf = $6, animal_nome = $7, animal_cpf = $8
+       WHERE servico_cpf = $1 AND data_hora = $2`, [servicoCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalNome, animalCpf]);
     }
-    async delete(clienteCpf, dataHora) {
-        await this.pool.query('DELETE FROM servico WHERE cliente_cpf = $1 AND data_hora = $2', [clienteCpf, dataHora]);
+    async delete(servicoCpf, dataHora) {
+        await this.pool.query('DELETE FROM servico WHERE servico_cpf = $1 AND data_hora = $2', [servicoCpf, dataHora]);
     }
 };
 exports.ServicoRepository = ServicoRepository;

@@ -6,7 +6,7 @@ export class AnimalService {
   constructor(private readonly animalRepository: AnimalRepository) {}
 
   async create(
-    clientCpf: string,
+    donoCpf: string,
     nome: string,
     raca: string,
     especie: string,
@@ -14,30 +14,30 @@ export class AnimalService {
     peso: number,
     dataNascimento: string
   ) {
-    return this.animalRepository.create(clientCpf, nome, raca, especie, sexo, peso, dataNascimento);
+    return this.animalRepository.create(donoCpf, nome, raca, especie, sexo, peso, dataNascimento);
   }
 
   async findAll() {
     return this.animalRepository.findAll();
   }
 
-  async findByClientCpf(clientCpf: string) {
-    return this.animalRepository.findByClientCpf(clientCpf);
+  async findByNomeAndDonoCpf(nome: string, donoCpf: string) {
+    return this.animalRepository.findByNomeAndDonoCpf(nome, donoCpf);
   }
 
   async update(
-    clientCpf: string,
     nome: string,
+    donoCpf: string,
     raca: string,
     especie: string,
     sexo: string,
     peso: number,
     dataNascimento: string
   ) {
-    return this.animalRepository.update(clientCpf, nome, raca, especie, sexo, peso, dataNascimento);
+    return this.animalRepository.update(nome, donoCpf, raca, especie, sexo, peso, dataNascimento);
   }
 
-  async delete(clientCpf: string) {
-    return this.animalRepository.delete(clientCpf);
+  async delete(nome: string, donoCpf: string) {
+    return this.animalRepository.delete(nome, donoCpf);
   }
 }

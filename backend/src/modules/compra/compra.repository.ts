@@ -17,7 +17,6 @@ export class CompraRepository {
   }
 
   async create(
-    idCompra: string,
     dataHora: string,
     meio: string,
     parcela: number,
@@ -25,9 +24,9 @@ export class CompraRepository {
     cpfCliente: string
   ) {
     await this.pool.query(
-      `INSERT INTO compra (id_compra, data_hora, meio, parcela, status, cpf_cliente)
-       VALUES ($1, $2, $3, $4, $5, $6)`,
-      [idCompra, dataHora, meio, parcela, status, cpfCliente]
+      `INSERT INTO compra (data_hora, meio, parcela, status, cpf_cliente)
+       VALUES ($1, $2, $3, $4, $5)`,
+      [dataHora, meio, parcela, status, cpfCliente]
     );
   }
 
@@ -36,7 +35,7 @@ export class CompraRepository {
     return result.rows;
   }
 
-  async findById(idCompra: string) {
+  async findById(idCompra: number) {
     const result = await this.pool.query(
       'SELECT * FROM compra WHERE id_compra = $1',
       [idCompra]
@@ -45,7 +44,7 @@ export class CompraRepository {
   }
 
   async update(
-    idCompra: string,
+    idCompra: number,
     dataHora: string,
     meio: string,
     parcela: number,
@@ -59,7 +58,7 @@ export class CompraRepository {
     );
   }
 
-  async delete(idCompra: string) {
+  async delete(idCompra: number) {
     await this.pool.query('DELETE FROM compra WHERE id_compra = $1', [idCompra]);
   }
 }

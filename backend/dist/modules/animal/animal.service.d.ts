@@ -2,9 +2,9 @@ import { AnimalRepository } from './animal.repository';
 export declare class AnimalService {
     private readonly animalRepository;
     constructor(animalRepository: AnimalRepository);
-    create(clientCpf: string, nome: string, raca: string, especie: string, sexo: string, peso: number, dataNascimento: string): Promise<void>;
+    create(donoCpf: string, nome: string, raca: string, especie: string, sexo: string, peso: number, dataNascimento: string): Promise<void>;
     findAll(): Promise<any[]>;
-    findByClientCpf(clientCpf: string): Promise<any>;
-    update(clientCpf: string, nome: string, raca: string, especie: string, sexo: string, peso: number, dataNascimento: string): Promise<void>;
-    delete(clientCpf: string): Promise<void>;
+    findByNomeAndDonoCpf(nome: string, donoCpf: string): Promise<any>;
+    update(nome: string, donoCpf: string, raca: string, especie: string, sexo: string, peso: number, dataNascimento: string): Promise<void>;
+    delete(nome: string, donoCpf: string): Promise<void>;
 }

@@ -5,23 +5,38 @@ import { ProdutoRepository } from './produto.repository';
 export class ProdutoService {
   constructor(private readonly produtoRepository: ProdutoRepository) {}
 
-  async create(codigo: number, nome: string, preco: number, quantidade: number) {
-    return this.produtoRepository.create(codigo, nome, preco, quantidade);
+  async create(
+    descricao: string,
+    categoria: string,
+    precoVenda: number,
+    qtdeEstoque: number,
+    qtdeMinima: number,
+    fornCnpj?: string
+  ) {
+    return this.produtoRepository.create(descricao, categoria, precoVenda, qtdeEstoque, qtdeMinima, fornCnpj);
   }
 
   async findAll() {
     return this.produtoRepository.findAll();
   }
 
-  async findByCodigo(codigo: number) {
-    return this.produtoRepository.findByCodigo(codigo);
+  async findById(idProduto: number) {
+    return this.produtoRepository.findById(idProduto);
   }
 
-  async update(codigo: number, nome: string, preco: number, quantidade: number) {
-    return this.produtoRepository.update(codigo, nome, preco, quantidade);
+  async update(
+    idProduto: number,
+    descricao: string,
+    categoria: string,
+    precoVenda: number,
+    qtdeEstoque: number,
+    qtdeMinima: number,
+    fornCnpj?: string
+  ) {
+    return this.produtoRepository.update(idProduto, descricao, categoria, precoVenda, qtdeEstoque, qtdeMinima, fornCnpj);
   }
 
-  async delete(codigo: number) {
-    return this.produtoRepository.delete(codigo);
+  async delete(idProduto: number) {
+    return this.produtoRepository.delete(idProduto);
   }
 }

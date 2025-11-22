@@ -23,17 +23,17 @@ let ServicoController = class ServicoController {
     async findAll() {
         return this.servicoService.findAll();
     }
-    async findById(clienteCpf, dataHora) {
-        return this.servicoService.findById(clienteCpf, dataHora);
+    async findById(servicoCpf, dataHora) {
+        return this.servicoService.findById(servicoCpf, dataHora);
     }
     async create(body) {
-        return this.servicoService.create(body.dataHora, body.preco, body.tipo, body.descricao, body.clienteCpf, body.funcionarioCpf, body.animalCpf);
+        return this.servicoService.create(body.servicoCpf, body.dataHora, body.preco, body.tipo, body.descricao, body.funcionarioCpf, body.animalNome, body.animalCpf);
     }
-    async update(clienteCpf, dataHora, body) {
-        return this.servicoService.update(clienteCpf, dataHora, body.preco, body.tipo, body.descricao, body.funcionarioCpf, body.animalCpf);
+    async update(servicoCpf, dataHora, body) {
+        return this.servicoService.update(servicoCpf, dataHora, body.preco, body.tipo, body.descricao, body.funcionarioCpf, body.animalNome, body.animalCpf);
     }
-    async delete(clienteCpf, dataHora) {
-        return this.servicoService.delete(clienteCpf, dataHora);
+    async delete(servicoCpf, dataHora) {
+        return this.servicoService.delete(servicoCpf, dataHora);
     }
 };
 exports.ServicoController = ServicoController;
@@ -44,8 +44,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ServicoController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)(':clienteCpf/:dataHora'),
-    __param(0, (0, common_1.Param)('clienteCpf')),
+    (0, common_1.Get)(':servicoCpf/:dataHora'),
+    __param(0, (0, common_1.Param)('servicoCpf')),
     __param(1, (0, common_1.Param)('dataHora')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
@@ -59,8 +59,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ServicoController.prototype, "create", null);
 __decorate([
-    (0, common_1.Put)(':clienteCpf/:dataHora'),
-    __param(0, (0, common_1.Param)('clienteCpf')),
+    (0, common_1.Put)(':servicoCpf/:dataHora'),
+    __param(0, (0, common_1.Param)('servicoCpf')),
     __param(1, (0, common_1.Param)('dataHora')),
     __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -68,8 +68,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ServicoController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)(':clienteCpf/:dataHora'),
-    __param(0, (0, common_1.Param)('clienteCpf')),
+    (0, common_1.Delete)(':servicoCpf/:dataHora'),
+    __param(0, (0, common_1.Param)('servicoCpf')),
     __param(1, (0, common_1.Param)('dataHora')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),

@@ -12,12 +12,11 @@ export class CompraController {
 
   @Get(':idCompra')
   async findById(@Param('idCompra') idCompra: string) {
-    return this.compraService.findById(idCompra);
+    return this.compraService.findById(Number(idCompra));
   }
 
   @Post()
   async create(@Body() body: {
-    idCompra: string;
     dataHora: string;
     meio: string;
     parcela: number;
@@ -25,7 +24,6 @@ export class CompraController {
     cpfCliente: string;
   }) {
     return this.compraService.create(
-      body.idCompra,
       body.dataHora,
       body.meio,
       body.parcela,
@@ -46,7 +44,7 @@ export class CompraController {
     }
   ) {
     return this.compraService.update(
-      idCompra,
+      Number(idCompra),
       body.dataHora,
       body.meio,
       body.parcela,
@@ -57,6 +55,6 @@ export class CompraController {
 
   @Delete(':idCompra')
   async delete(@Param('idCompra') idCompra: string) {
-    return this.compraService.delete(idCompra);
+    return this.compraService.delete(Number(idCompra));
   }
 }

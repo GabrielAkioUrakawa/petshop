@@ -10,26 +10,55 @@ export class ProdutoController {
     return this.produtoService.findAll();
   }
 
-  @Get(':codigo')
-  async findByCodigo(@Param('codigo') codigo: string) {
-    return this.produtoService.findByCodigo(Number(codigo));
+  @Get(':id')
+  async findById(@Param('id') id: string) {
+    return this.produtoService.findById(Number(id));
   }
 
   @Post()
-  async create(@Body() body: { codigo: number; nome: string; preco: number; quantidade: number }) {
-    return this.produtoService.create(body.codigo, body.nome, body.preco, body.quantidade);
+  async create(@Body() body: {
+    descricao: string;
+    categoria: string;
+    precoVenda: number;
+    qtdeEstoque: number;
+    qtdeMinima: number;
+    fornCnpj?: string;
+  }) {
+    return this.produtoService.create(
+      body.descricao,
+      body.categoria,
+      body.precoVenda,
+      body.qtdeEstoque,
+      body.qtdeMinima,
+      body.fornCnpj
+    );
   }
 
-  @Put(':codigo')
+  @Put(':id')
   async update(
-    @Param('codigo') codigo: string,
-    @Body() body: { nome: string; preco: number; quantidade: number }
+    @Param('id') id: string,
+    @Body() body: {
+      descricao: string;
+      categoria: string;
+      precoVenda: number;
+      qtdeEstoque: number;
+      qtdeMinima: number;
+      fornCnpj?: string;
+    }
   ) {
-    return this.produtoService.update(Number(codigo), body.nome, body.preco, body.quantidade);
+    return this.produtoService.update(
+      Number(id),
+      body.descricao,
+      body.categoria,
+      body.precoVenda,
+      body.qtdeEstoque,
+      body.qtdeMinima,
+      body.fornCnpj
+    );
   }
 
-  @Delete(':codigo')
-  async delete(@Param('codigo') codigo: string) {
-    return this.produtoService.delete(Number(codigo));
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return this.produtoService.delete(Number(id));
   }
 }

@@ -17,18 +17,16 @@ export class LoteController {
 
   @Post()
   async create(@Body() body: {
-    idLote: number;
     dataValidade: string;
     quantidade: number;
-    idCompra: string;
-    codigoProduto: number;
+    idCompra: number;
+    idProduto: number;
   }) {
     return this.loteService.create(
-      body.idLote,
       body.dataValidade,
       body.quantidade,
       body.idCompra,
-      body.codigoProduto
+      body.idProduto
     );
   }
 
@@ -38,8 +36,8 @@ export class LoteController {
     @Body() body: {
       dataValidade: string;
       quantidade: number;
-      idCompra: string;
-      codigoProduto: number;
+      idCompra: number;
+      idProduto: number;
     }
   ) {
     return this.loteService.update(
@@ -47,7 +45,7 @@ export class LoteController {
       body.dataValidade,
       body.quantidade,
       body.idCompra,
-      body.codigoProduto
+      body.idProduto
     );
   }
 

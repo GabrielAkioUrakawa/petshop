@@ -17,7 +17,7 @@ export class AnimalRepository {
   }
 
   async create(
-    clientCpf: string,
+    donoCpf: string,
     nome: string,
     raca: string,
     especie: string,
@@ -26,9 +26,9 @@ export class AnimalRepository {
     dataNascimento: string
   ) {
     await this.pool.query(
-      `INSERT INTO animal (client_cpf, nome, raca, especie, sexo, peso, data_nascimento)
+      `INSERT INTO animal (dono_cpf, nome, raca, especie, sexo, peso, data_nascimento)
        VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-      [clientCpf, nome, raca, especie, sexo, peso, dataNascimento]
+      [donoCpf, nome, raca, especie, sexo, peso, dataNascimento]
     );
   }
 
@@ -37,14 +37,17 @@ export class AnimalRepository {
     return result.rows;
   }
 
-  async findByClientCpf(clientCpf: string) {
-    const result = await this.pool.query('SELECT * FROM animal WHERE client_cpf = $1', [clientCpf]);
+  async findByNomeAndDonoCpf(nome: string, donoCpf: string) {
+    const result = await this.pool.query(
+      'SELECT * FROM animal WHERE nome = $1 AND dono_cpf = $2',
+      [nome, donoCpf]
+    );
     return result.rows[0];
   }
 
   async update(
-    clientCpf: string,
     nome: string,
+    donoCpf: string,
     raca: string,
     especie: string,
     sexo: string,
@@ -52,13 +55,13 @@ export class AnimalRepository {
     dataNascimento: string
   ) {
     await this.pool.query(
-      `UPDATE animal SET nome = $2, raca = $3, especie = $4, sexo = $5, peso = $6, data_nascimento = $7
-       WHERE client_cpf = $1`,
-      [clientCpf, nome, raca, especie, sexo, peso, dataNascimento]
+      `UPDATE animal SET raca = $3, especie = $4, sexo = $5, peso = $6, data_nascimento = $7
+       WHERE nome = $1 AND dono_cpf = $2`,
+      [nome, donoCpf, raca, especie, sexo, peso, dataNascimento]
     );
   }
 
-  async delete(clientCpf: string) {
-    await this.pool.query('DELETE FROM animal WHERE client_cpf = $1', [clientCpf]);
+  async delete(nome: string, donoCpf: string) {
+    await this.pool.query('DELETE FROM animal WHERE nome = $1 AND dono_cpf = $2', [nome, donoCpf]);
   }
 }

@@ -3,9 +3,9 @@ export declare class AnimalController {
     private readonly animalService;
     constructor(animalService: AnimalService);
     findAll(): Promise<any[]>;
-    findByClientCpf(clientCpf: string): Promise<any>;
+    findByNomeAndDonoCpf(nome: string, donoCpf: string): Promise<any>;
     create(body: {
-        clientCpf: string;
+        donoCpf: string;
         nome: string;
         raca: string;
         especie: string;
@@ -13,13 +13,12 @@ export declare class AnimalController {
         peso: number;
         dataNascimento: string;
     }): Promise<void>;
-    update(clientCpf: string, body: {
-        nome: string;
+    update(nome: string, donoCpf: string, body: {
         raca: string;
         especie: string;
         sexo: string;
         peso: number;
         dataNascimento: string;
     }): Promise<void>;
-    delete(clientCpf: string): Promise<void>;
+    delete(nome: string, donoCpf: string): Promise<void>;
 }

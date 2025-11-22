@@ -24,24 +24,24 @@ let AnimalRepository = class AnimalRepository {
             ssl: false,
         });
     }
-    async create(clientCpf, nome, raca, especie, sexo, peso, dataNascimento) {
-        await this.pool.query(`INSERT INTO animal (client_cpf, nome, raca, especie, sexo, peso, data_nascimento)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)`, [clientCpf, nome, raca, especie, sexo, peso, dataNascimento]);
+    async create(donoCpf, nome, raca, especie, sexo, peso, dataNascimento) {
+        await this.pool.query(`INSERT INTO animal (dono_cpf, nome, raca, especie, sexo, peso, data_nascimento)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)`, [donoCpf, nome, raca, especie, sexo, peso, dataNascimento]);
     }
     async findAll() {
         const result = await this.pool.query('SELECT * FROM animal');
         return result.rows;
     }
-    async findByClientCpf(clientCpf) {
-        const result = await this.pool.query('SELECT * FROM animal WHERE client_cpf = $1', [clientCpf]);
+    async findByNomeAndDonoCpf(nome, donoCpf) {
+        const result = await this.pool.query('SELECT * FROM animal WHERE nome = $1 AND dono_cpf = $2', [nome, donoCpf]);
         return result.rows[0];
     }
-    async update(clientCpf, nome, raca, especie, sexo, peso, dataNascimento) {
-        await this.pool.query(`UPDATE animal SET nome = $2, raca = $3, especie = $4, sexo = $5, peso = $6, data_nascimento = $7
-       WHERE client_cpf = $1`, [clientCpf, nome, raca, especie, sexo, peso, dataNascimento]);
+    async update(nome, donoCpf, raca, especie, sexo, peso, dataNascimento) {
+        await this.pool.query(`UPDATE animal SET raca = $3, especie = $4, sexo = $5, peso = $6, data_nascimento = $7
+       WHERE nome = $1 AND dono_cpf = $2`, [nome, donoCpf, raca, especie, sexo, peso, dataNascimento]);
     }
-    async delete(clientCpf) {
-        await this.pool.query('DELETE FROM animal WHERE client_cpf = $1', [clientCpf]);
+    async delete(nome, donoCpf) {
+        await this.pool.query('DELETE FROM animal WHERE nome = $1 AND dono_cpf = $2', [nome, donoCpf]);
     }
 };
 exports.AnimalRepository = AnimalRepository;

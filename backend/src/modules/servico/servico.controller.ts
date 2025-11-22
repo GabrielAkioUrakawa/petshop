@@ -10,57 +10,61 @@ export class ServicoController {
     return this.servicoService.findAll();
   }
 
-  @Get(':clienteCpf/:dataHora')
-  async findById(@Param('clienteCpf') clienteCpf: string, @Param('dataHora') dataHora: string) {
-    return this.servicoService.findById(clienteCpf, dataHora);
+  @Get(':servicoCpf/:dataHora')
+  async findById(@Param('servicoCpf') servicoCpf: string, @Param('dataHora') dataHora: string) {
+    return this.servicoService.findById(servicoCpf, dataHora);
   }
 
   @Post()
   async create(@Body() body: {
+    servicoCpf: string;
     dataHora: string;
     preco: number;
     tipo: string;
     descricao: string;
-    clienteCpf: string;
     funcionarioCpf: string;
+    animalNome: string;
     animalCpf: string;
   }) {
     return this.servicoService.create(
+      body.servicoCpf,
       body.dataHora,
       body.preco,
       body.tipo,
       body.descricao,
-      body.clienteCpf,
       body.funcionarioCpf,
+      body.animalNome,
       body.animalCpf
     );
   }
 
-  @Put(':clienteCpf/:dataHora')
+  @Put(':servicoCpf/:dataHora')
   async update(
-    @Param('clienteCpf') clienteCpf: string,
+    @Param('servicoCpf') servicoCpf: string,
     @Param('dataHora') dataHora: string,
     @Body() body: {
       preco: number;
       tipo: string;
       descricao: string;
       funcionarioCpf: string;
+      animalNome: string;
       animalCpf: string;
     }
   ) {
     return this.servicoService.update(
-      clienteCpf,
+      servicoCpf,
       dataHora,
       body.preco,
       body.tipo,
       body.descricao,
       body.funcionarioCpf,
+      body.animalNome,
       body.animalCpf
     );
   }
 
-  @Delete(':clienteCpf/:dataHora')
-  async delete(@Param('clienteCpf') clienteCpf: string, @Param('dataHora') dataHora: string) {
-    return this.servicoService.delete(clienteCpf, dataHora);
+  @Delete(':servicoCpf/:dataHora')
+  async delete(@Param('servicoCpf') servicoCpf: string, @Param('dataHora') dataHora: string) {
+    return this.servicoService.delete(servicoCpf, dataHora);
   }
 }

@@ -16,10 +16,17 @@ export class ProdutoRepository {
     });
   }
 
-  async create(codigo: number, nome: string, preco: number, quantidade: number) {
+  async create(
+    descricao: string,
+    categoria: string,
+    precoVenda: number,
+    qtdeEstoque: number,
+    qtdeMinima: number,
+    fornCnpj?: string
+  ) {
     await this.pool.query(
-      'INSERT INTO produto (codigo, nome, preco, quantidade) VALUES ($1, $2, $3, $4)',
-      [codigo, nome, preco, quantidade]
+      'INSERT INTO produto (descricao, categoria, preco_venda, qtde_estoque, qtde_minima, forn_cnpj) VALUES ($1, $2, $3, $4, $5, $6)',
+      [descricao, categoria, precoVenda, qtdeEstoque, qtdeMinima, fornCnpj]
     );
   }
 
@@ -28,19 +35,27 @@ export class ProdutoRepository {
     return result.rows;
   }
 
-  async findByCodigo(codigo: number) {
-    const result = await this.pool.query('SELECT * FROM produto WHERE codigo = $1', [codigo]);
+  async findById(idProduto: number) {
+    const result = await this.pool.query('SELECT * FROM produto WHERE id_produto = $1', [idProduto]);
     return result.rows[0];
   }
 
-  async update(codigo: number, nome: string, preco: number, quantidade: number) {
+  async update(
+    idProduto: number,
+    descricao: string,
+    categoria: string,
+    precoVenda: number,
+    qtdeEstoque: number,
+    qtdeMinima: number,
+    fornCnpj?: string
+  ) {
     await this.pool.query(
-      'UPDATE produto SET nome = $2, preco = $3, quantidade = $4 WHERE codigo = $1',
-      [codigo, nome, preco, quantidade]
+      'UPDATE produto SET descricao = $2, categoria = $3, preco_venda = $4, qtde_estoque = $5, qtde_minima = $6, forn_cnpj = $7 WHERE id_produto = $1',
+      [idProduto, descricao, categoria, precoVenda, qtdeEstoque, qtdeMinima, fornCnpj]
     );
   }
 
-  async delete(codigo: number) {
-    await this.pool.query('DELETE FROM produto WHERE codigo = $1', [codigo]);
+  async delete(idProduto: number) {
+    await this.pool.query('DELETE FROM produto WHERE id_produto = $1', [idProduto]);
   }
 }

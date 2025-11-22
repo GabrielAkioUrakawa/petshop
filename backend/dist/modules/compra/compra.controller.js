@@ -24,16 +24,16 @@ let CompraController = class CompraController {
         return this.compraService.findAll();
     }
     async findById(idCompra) {
-        return this.compraService.findById(idCompra);
+        return this.compraService.findById(Number(idCompra));
     }
     async create(body) {
-        return this.compraService.create(body.idCompra, body.dataHora, body.meio, body.parcela, body.status, body.cpfCliente);
+        return this.compraService.create(body.dataHora, body.meio, body.parcela, body.status, body.cpfCliente);
     }
     async update(idCompra, body) {
-        return this.compraService.update(idCompra, body.dataHora, body.meio, body.parcela, body.status, body.cpfCliente);
+        return this.compraService.update(Number(idCompra), body.dataHora, body.meio, body.parcela, body.status, body.cpfCliente);
     }
     async delete(idCompra) {
-        return this.compraService.delete(idCompra);
+        return this.compraService.delete(Number(idCompra));
     }
 };
 exports.CompraController = CompraController;

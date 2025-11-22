@@ -17,20 +17,20 @@ let AnimalService = class AnimalService {
     constructor(animalRepository) {
         this.animalRepository = animalRepository;
     }
-    async create(clientCpf, nome, raca, especie, sexo, peso, dataNascimento) {
-        return this.animalRepository.create(clientCpf, nome, raca, especie, sexo, peso, dataNascimento);
+    async create(donoCpf, nome, raca, especie, sexo, peso, dataNascimento) {
+        return this.animalRepository.create(donoCpf, nome, raca, especie, sexo, peso, dataNascimento);
     }
     async findAll() {
         return this.animalRepository.findAll();
     }
-    async findByClientCpf(clientCpf) {
-        return this.animalRepository.findByClientCpf(clientCpf);
+    async findByNomeAndDonoCpf(nome, donoCpf) {
+        return this.animalRepository.findByNomeAndDonoCpf(nome, donoCpf);
     }
-    async update(clientCpf, nome, raca, especie, sexo, peso, dataNascimento) {
-        return this.animalRepository.update(clientCpf, nome, raca, especie, sexo, peso, dataNascimento);
+    async update(nome, donoCpf, raca, especie, sexo, peso, dataNascimento) {
+        return this.animalRepository.update(nome, donoCpf, raca, especie, sexo, peso, dataNascimento);
     }
-    async delete(clientCpf) {
-        return this.animalRepository.delete(clientCpf);
+    async delete(nome, donoCpf) {
+        return this.animalRepository.delete(nome, donoCpf);
     }
 };
 exports.AnimalService = AnimalService;

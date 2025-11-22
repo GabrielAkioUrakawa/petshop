@@ -10,14 +10,14 @@ export class AnimalController {
     return this.animalService.findAll();
   }
 
-  @Get(':clientCpf')
-  async findByClientCpf(@Param('clientCpf') clientCpf: string) {
-    return this.animalService.findByClientCpf(clientCpf);
+  @Get(':nome/:donoCpf')
+  async findByNomeAndDonoCpf(@Param('nome') nome: string, @Param('donoCpf') donoCpf: string) {
+    return this.animalService.findByNomeAndDonoCpf(nome, donoCpf);
   }
 
   @Post()
   async create(@Body() body: {
-    clientCpf: string;
+    donoCpf: string;
     nome: string;
     raca: string;
     especie: string;
@@ -26,7 +26,7 @@ export class AnimalController {
     dataNascimento: string;
   }) {
     return this.animalService.create(
-      body.clientCpf,
+      body.donoCpf,
       body.nome,
       body.raca,
       body.especie,
@@ -36,11 +36,11 @@ export class AnimalController {
     );
   }
 
-  @Put(':clientCpf')
+  @Put(':nome/:donoCpf')
   async update(
-    @Param('clientCpf') clientCpf: string,
+    @Param('nome') nome: string,
+    @Param('donoCpf') donoCpf: string,
     @Body() body: {
-      nome: string;
       raca: string;
       especie: string;
       sexo: string;
@@ -49,8 +49,8 @@ export class AnimalController {
     }
   ) {
     return this.animalService.update(
-      clientCpf,
-      body.nome,
+      nome,
+      donoCpf,
       body.raca,
       body.especie,
       body.sexo,
@@ -59,8 +59,8 @@ export class AnimalController {
     );
   }
 
-  @Delete(':clientCpf')
-  async delete(@Param('clientCpf') clientCpf: string) {
-    return this.animalService.delete(clientCpf);
+  @Delete(':nome/:donoCpf')
+  async delete(@Param('nome') nome: string, @Param('donoCpf') donoCpf: string) {
+    return this.animalService.delete(nome, donoCpf);
   }
 }

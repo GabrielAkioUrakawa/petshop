@@ -17,16 +17,15 @@ export class LoteRepository {
   }
 
   async create(
-    idLote: number,
     dataValidade: string,
     quantidade: number,
-    idCompra: string,
-    codigoProduto: number
+    idCompra: number,
+    idProduto: number
   ) {
     await this.pool.query(
-      `INSERT INTO lote (id_lote, data_validade, quantidade, id_compra, codigo_produto)
-       VALUES ($1, $2, $3, $4, $5)`,
-      [idLote, dataValidade, quantidade, idCompra, codigoProduto]
+      `INSERT INTO lote (data_validade, quantidade, id_compra, id_produto)
+       VALUES ($1, $2, $3, $4)`,
+      [dataValidade, quantidade, idCompra, idProduto]
     );
   }
 
@@ -44,13 +43,13 @@ export class LoteRepository {
     idLote: number,
     dataValidade: string,
     quantidade: number,
-    idCompra: string,
-    codigoProduto: number
+    idCompra: number,
+    idProduto: number
   ) {
     await this.pool.query(
-      `UPDATE lote SET data_validade = $2, quantidade = $3, id_compra = $4, codigo_produto = $5
+      `UPDATE lote SET data_validade = $2, quantidade = $3, id_compra = $4, id_produto = $5
        WHERE id_lote = $1`,
-      [idLote, dataValidade, quantidade, idCompra, codigoProduto]
+      [idLote, dataValidade, quantidade, idCompra, idProduto]
     );
   }
 

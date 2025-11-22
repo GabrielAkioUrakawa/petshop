@@ -24,9 +24,9 @@ let CompraRepository = class CompraRepository {
             ssl: false,
         });
     }
-    async create(idCompra, dataHora, meio, parcela, status, cpfCliente) {
-        await this.pool.query(`INSERT INTO compra (id_compra, data_hora, meio, parcela, status, cpf_cliente)
-       VALUES ($1, $2, $3, $4, $5, $6)`, [idCompra, dataHora, meio, parcela, status, cpfCliente]);
+    async create(dataHora, meio, parcela, status, cpfCliente) {
+        await this.pool.query(`INSERT INTO compra (data_hora, meio, parcela, status, cpf_cliente)
+       VALUES ($1, $2, $3, $4, $5)`, [dataHora, meio, parcela, status, cpfCliente]);
     }
     async findAll() {
         const result = await this.pool.query('SELECT * FROM compra');

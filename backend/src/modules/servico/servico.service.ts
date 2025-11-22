@@ -6,21 +6,23 @@ export class ServicoService {
   constructor(private readonly servicoRepository: ServicoRepository) {}
 
   async create(
+    servicoCpf: string,
     dataHora: string,
     preco: number,
     tipo: string,
     descricao: string,
-    clienteCpf: string,
     funcionarioCpf: string,
+    animalNome: string,
     animalCpf: string
   ) {
     return this.servicoRepository.create(
+      servicoCpf,
       dataHora,
       preco,
       tipo,
       descricao,
-      clienteCpf,
       funcionarioCpf,
+      animalNome,
       animalCpf
     );
   }
@@ -29,31 +31,33 @@ export class ServicoService {
     return this.servicoRepository.findAll();
   }
 
-  async findById(clienteCpf: string, dataHora: string) {
-    return this.servicoRepository.findById(clienteCpf, dataHora);
+  async findById(servicoCpf: string, dataHora: string) {
+    return this.servicoRepository.findById(servicoCpf, dataHora);
   }
 
   async update(
-    clienteCpf: string,
+    servicoCpf: string,
     dataHora: string,
     preco: number,
     tipo: string,
     descricao: string,
     funcionarioCpf: string,
+    animalNome: string,
     animalCpf: string
   ) {
     return this.servicoRepository.update(
-      clienteCpf,
+      servicoCpf,
       dataHora,
       preco,
       tipo,
       descricao,
       funcionarioCpf,
+      animalNome,
       animalCpf
     );
   }
 
-  async delete(clienteCpf: string, dataHora: string) {
-    return this.servicoRepository.delete(clienteCpf, dataHora);
+  async delete(servicoCpf: string, dataHora: string) {
+    return this.servicoRepository.delete(servicoCpf, dataHora);
   }
 }

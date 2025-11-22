@@ -17,20 +17,20 @@ let ServicoService = class ServicoService {
     constructor(servicoRepository) {
         this.servicoRepository = servicoRepository;
     }
-    async create(dataHora, preco, tipo, descricao, clienteCpf, funcionarioCpf, animalCpf) {
-        return this.servicoRepository.create(dataHora, preco, tipo, descricao, clienteCpf, funcionarioCpf, animalCpf);
+    async create(servicoCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalNome, animalCpf) {
+        return this.servicoRepository.create(servicoCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalNome, animalCpf);
     }
     async findAll() {
         return this.servicoRepository.findAll();
     }
-    async findById(clienteCpf, dataHora) {
-        return this.servicoRepository.findById(clienteCpf, dataHora);
+    async findById(servicoCpf, dataHora) {
+        return this.servicoRepository.findById(servicoCpf, dataHora);
     }
-    async update(clienteCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalCpf) {
-        return this.servicoRepository.update(clienteCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalCpf);
+    async update(servicoCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalNome, animalCpf) {
+        return this.servicoRepository.update(servicoCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalNome, animalCpf);
     }
-    async delete(clienteCpf, dataHora) {
-        return this.servicoRepository.delete(clienteCpf, dataHora);
+    async delete(servicoCpf, dataHora) {
+        return this.servicoRepository.delete(servicoCpf, dataHora);
     }
 };
 exports.ServicoService = ServicoService;

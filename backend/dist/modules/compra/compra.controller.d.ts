@@ -5,7 +5,6 @@ export declare class CompraController {
     findAll(): Promise<any[]>;
     findById(idCompra: string): Promise<any>;
     create(body: {
-        idCompra: string;
         dataHora: string;
         meio: string;
         parcela: number;

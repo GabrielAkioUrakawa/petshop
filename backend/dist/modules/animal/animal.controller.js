@@ -23,17 +23,17 @@ let AnimalController = class AnimalController {
     async findAll() {
         return this.animalService.findAll();
     }
-    async findByClientCpf(clientCpf) {
-        return this.animalService.findByClientCpf(clientCpf);
+    async findByNomeAndDonoCpf(nome, donoCpf) {
+        return this.animalService.findByNomeAndDonoCpf(nome, donoCpf);
     }
     async create(body) {
-        return this.animalService.create(body.clientCpf, body.nome, body.raca, body.especie, body.sexo, body.peso, body.dataNascimento);
+        return this.animalService.create(body.donoCpf, body.nome, body.raca, body.especie, body.sexo, body.peso, body.dataNascimento);
     }
-    async update(clientCpf, body) {
-        return this.animalService.update(clientCpf, body.nome, body.raca, body.especie, body.sexo, body.peso, body.dataNascimento);
+    async update(nome, donoCpf, body) {
+        return this.animalService.update(nome, donoCpf, body.raca, body.especie, body.sexo, body.peso, body.dataNascimento);
     }
-    async delete(clientCpf) {
-        return this.animalService.delete(clientCpf);
+    async delete(nome, donoCpf) {
+        return this.animalService.delete(nome, donoCpf);
     }
 };
 exports.AnimalController = AnimalController;
@@ -44,12 +44,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AnimalController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)(':clientCpf'),
-    __param(0, (0, common_1.Param)('clientCpf')),
+    (0, common_1.Get)(':nome/:donoCpf'),
+    __param(0, (0, common_1.Param)('nome')),
+    __param(1, (0, common_1.Param)('donoCpf')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
-], AnimalController.prototype, "findByClientCpf", null);
+], AnimalController.prototype, "findByNomeAndDonoCpf", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
@@ -58,18 +59,20 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AnimalController.prototype, "create", null);
 __decorate([
-    (0, common_1.Put)(':clientCpf'),
-    __param(0, (0, common_1.Param)('clientCpf')),
-    __param(1, (0, common_1.Body)()),
+    (0, common_1.Put)(':nome/:donoCpf'),
+    __param(0, (0, common_1.Param)('nome')),
+    __param(1, (0, common_1.Param)('donoCpf')),
+    __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String, String, Object]),
     __metadata("design:returntype", Promise)
 ], AnimalController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)(':clientCpf'),
-    __param(0, (0, common_1.Param)('clientCpf')),
+    (0, common_1.Delete)(':nome/:donoCpf'),
+    __param(0, (0, common_1.Param)('nome')),
+    __param(1, (0, common_1.Param)('donoCpf')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], AnimalController.prototype, "delete", null);
 exports.AnimalController = AnimalController = __decorate([

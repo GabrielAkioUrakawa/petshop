@@ -6,26 +6,25 @@ export class CompraService {
   constructor(private readonly compraRepository: CompraRepository) {}
 
   async create(
-    idCompra: string,
     dataHora: string,
     meio: string,
     parcela: number,
     status: string,
     cpfCliente: string
   ) {
-    return this.compraRepository.create(idCompra, dataHora, meio, parcela, status, cpfCliente);
+    return this.compraRepository.create(dataHora, meio, parcela, status, cpfCliente);
   }
 
   async findAll() {
     return this.compraRepository.findAll();
   }
 
-  async findById(idCompra: string) {
+  async findById(idCompra: number) {
     return this.compraRepository.findById(idCompra);
   }
 
   async update(
-    idCompra: string,
+    idCompra: number,
     dataHora: string,
     meio: string,
     parcela: number,
@@ -35,7 +34,7 @@ export class CompraService {
     return this.compraRepository.update(idCompra, dataHora, meio, parcela, status, cpfCliente);
   }
 
-  async delete(idCompra: string) {
+  async delete(idCompra: number) {
     return this.compraRepository.delete(idCompra);
   }
 }
