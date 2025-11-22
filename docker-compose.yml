@@ -1,19 +1,45 @@
 version: '3.8'
 services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: nextjs_frontend
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    restart: always
+    profiles:
+      - frontend
+      - full
+
   nestjs:
-    build: .
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: nestjs_app
     ports:
       - "3000:3000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
     environment:
       - DATABASE_HOST=postgres
       - DATABASE_PORT=5432
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=postgres
       - DATABASE_NAME=petshop
+      - NODE_ENV=development
     depends_on:
       - postgres
     restart: always
+    profiles:
+      - backend
+      - full
 
   postgres:
     image: postgres:16
@@ -24,7 +50,7 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./src/modules/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./backend/src/modules/database/init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: always
 
   adminer:
