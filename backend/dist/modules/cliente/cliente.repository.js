@@ -28,11 +28,17 @@ let ClienteRepository = class ClienteRepository {
         await this.pool.query('INSERT INTO cliente (cpf, data_cadastro) VALUES ($1, $2)', [cpf, dataCadastro]);
     }
     async findAll() {
-        const result = await this.pool.query('SELECT * FROM cliente');
+        const result = await this.pool.query(`SELECT CL.CPF, CL.DATA_CADASTRO, P.NOME, P.TELEFONE, P.ENDERECO
+       FROM CLIENTE CL
+       JOIN PESSOA P ON CL.CPF = P.CPF
+       ORDER BY P.NOME`);
         return result.rows;
     }
     async findByCpf(cpf) {
-        const result = await this.pool.query('SELECT * FROM cliente WHERE cpf = $1', [cpf]);
+        const result = await this.pool.query(`SELECT CL.CPF, CL.DATA_CADASTRO, P.NOME, P.TELEFONE, P.ENDERECO
+       FROM CLIENTE CL
+       JOIN PESSOA P ON CL.CPF = P.CPF
+       WHERE CL.CPF = $1`, [cpf]);
         return result.rows[0];
     }
     async update(cpf, dataCadastro) {

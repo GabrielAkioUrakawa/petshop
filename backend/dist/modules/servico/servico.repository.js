@@ -29,11 +29,29 @@ let ServicoRepository = class ServicoRepository {
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`, [servicoCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalNome, animalCpf]);
     }
     async findAll() {
-        const result = await this.pool.query('SELECT * FROM servico');
+        const result = await this.pool.query(`SELECT S.SERVICO_CPF, S.DATA_HORA, S.PRECO, S.TIPO, S.DESCRICAO,
+              S.FUNCIONARIO_CPF, PF.NOME AS FUNCIONARIO_NOME,
+              S.ANIMAL_NOME, S.ANIMAL_CPF, A.ESPECIE AS ANIMAL_ESPECIE,
+              PC.NOME AS CLIENTE_NOME
+       FROM SERVICO S
+       JOIN FUNCIONARIO F ON S.FUNCIONARIO_CPF = F.CPF
+       JOIN PESSOA PF ON F.CPF = PF.CPF
+       JOIN ANIMAL A ON S.ANIMAL_NOME = A.NOME AND S.ANIMAL_CPF = A.DONO_CPF
+       JOIN PESSOA PC ON A.DONO_CPF = PC.CPF
+       ORDER BY S.DATA_HORA DESC`);
         return result.rows;
     }
     async findById(servicoCpf, dataHora) {
-        const result = await this.pool.query('SELECT * FROM servico WHERE servico_cpf = $1 AND data_hora = $2', [servicoCpf, dataHora]);
+        const result = await this.pool.query(`SELECT S.SERVICO_CPF, S.DATA_HORA, S.PRECO, S.TIPO, S.DESCRICAO,
+              S.FUNCIONARIO_CPF, PF.NOME AS FUNCIONARIO_NOME, F.ESPECIALIDADE AS FUNCIONARIO_ESPECIALIDADE,
+              S.ANIMAL_NOME, S.ANIMAL_CPF, A.ESPECIE AS ANIMAL_ESPECIE, A.RACA AS ANIMAL_RACA,
+              PC.NOME AS CLIENTE_NOME, PC.TELEFONE AS CLIENTE_TELEFONE
+       FROM SERVICO S
+       JOIN FUNCIONARIO F ON S.FUNCIONARIO_CPF = F.CPF
+       JOIN PESSOA PF ON F.CPF = PF.CPF
+       JOIN ANIMAL A ON S.ANIMAL_NOME = A.NOME AND S.ANIMAL_CPF = A.DONO_CPF
+       JOIN PESSOA PC ON A.DONO_CPF = PC.CPF
+       WHERE S.SERVICO_CPF = $1 AND S.DATA_HORA = $2`, [servicoCpf, dataHora]);
         return result.rows[0];
     }
     async update(servicoCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalNome, animalCpf) {

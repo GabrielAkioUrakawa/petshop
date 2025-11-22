@@ -24,12 +24,23 @@ export class FuncionarioRepository {
   }
 
   async findAll() {
-    const result = await this.pool.query('SELECT * FROM funcionario');
+    const result = await this.pool.query(
+      `SELECT F.CPF, F.ESPECIALIDADE, P.NOME, P.TELEFONE, P.ENDERECO
+       FROM FUNCIONARIO F
+       JOIN PESSOA P ON F.CPF = P.CPF
+       ORDER BY P.NOME`
+    );
     return result.rows;
   }
 
   async findByCpf(cpf: string) {
-    const result = await this.pool.query('SELECT * FROM funcionario WHERE cpf = $1', [cpf]);
+    const result = await this.pool.query(
+      `SELECT F.CPF, F.ESPECIALIDADE, P.NOME, P.TELEFONE, P.ENDERECO
+       FROM FUNCIONARIO F
+       JOIN PESSOA P ON F.CPF = P.CPF
+       WHERE F.CPF = $1`,
+      [cpf]
+    );
     return result.rows[0];
   }
 

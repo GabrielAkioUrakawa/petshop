@@ -28,11 +28,17 @@ let FuncionarioRepository = class FuncionarioRepository {
         await this.pool.query('INSERT INTO funcionario (cpf, especialidade) VALUES ($1, $2)', [cpf, especialidade]);
     }
     async findAll() {
-        const result = await this.pool.query('SELECT * FROM funcionario');
+        const result = await this.pool.query(`SELECT F.CPF, F.ESPECIALIDADE, P.NOME, P.TELEFONE, P.ENDERECO
+       FROM FUNCIONARIO F
+       JOIN PESSOA P ON F.CPF = P.CPF
+       ORDER BY P.NOME`);
         return result.rows;
     }
     async findByCpf(cpf) {
-        const result = await this.pool.query('SELECT * FROM funcionario WHERE cpf = $1', [cpf]);
+        const result = await this.pool.query(`SELECT F.CPF, F.ESPECIALIDADE, P.NOME, P.TELEFONE, P.ENDERECO
+       FROM FUNCIONARIO F
+       JOIN PESSOA P ON F.CPF = P.CPF
+       WHERE F.CPF = $1`, [cpf]);
         return result.rows[0];
     }
     async update(cpf, especialidade) {
