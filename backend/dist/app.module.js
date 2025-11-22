@@ -17,6 +17,7 @@ const animal_module_1 = require("./modules/animal/animal.module");
 const servico_module_1 = require("./modules/servico/servico.module");
 const compra_module_1 = require("./modules/compra/compra.module");
 const fornecedor_module_1 = require("./modules/fornecedor/fornecedor.module");
+const produto_module_1 = require("./modules/produto/produto.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -30,6 +31,7 @@ exports.AppModule = AppModule = __decorate([
             servico_module_1.ServicoModule,
             compra_module_1.CompraModule,
             fornecedor_module_1.FornecedorModule,
+            produto_module_1.ProdutoModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

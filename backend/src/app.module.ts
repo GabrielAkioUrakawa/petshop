@@ -8,6 +8,7 @@ import { AnimalModule } from './modules/animal/animal.module';
 import { ServicoModule } from './modules/servico/servico.module';
 import { CompraModule } from './modules/compra/compra.module';
 import { FornecedorModule } from './modules/fornecedor/fornecedor.module';
+import { ProdutoModule } from './modules/produto/produto.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { FornecedorModule } from './modules/fornecedor/fornecedor.module';
     ServicoModule,
     CompraModule,
     FornecedorModule,
+    ProdutoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
