@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, Query } from '@nestjs/common';
 import { ClienteService } from './cliente.service';
 
 @Controller('cliente')
@@ -8,6 +8,16 @@ export class ClienteController {
   @Get()
   async findAll() {
     return this.clienteService.findAll();
+  }
+
+  @Get('count')
+  async count() {
+    return this.clienteService.count();
+  }
+
+  @Get('inactive')
+  async findInactive(@Query('dataLimite') dataLimite: string) {
+    return this.clienteService.findInactive(dataLimite);
   }
 
   @Get(':cpf')

@@ -41,6 +41,19 @@ let ClienteRepository = class ClienteRepository {
     async delete(cpf) {
         await this.pool.query('DELETE FROM cliente WHERE cpf = $1', [cpf]);
     }
+    async findInactive(dataLimite) {
+        const result = await this.pool.query(`SELECT P.NOME AS NOME_CLIENTE, P.CPF AS CPF_CLIENTE, MAX(C.DATA_HORA) AS DATA_ULTIMA_COMPRA
+       FROM CLIENTE CL
+       JOIN PESSOA P ON CL.CPF = P.CPF
+       LEFT JOIN COMPRA C ON CL.CPF = C.CPF_CLIENTE
+       GROUP BY P.NOME, P.CPF
+       HAVING MAX(C.DATA_HORA) IS NULL OR MAX(C.DATA_HORA) < $1`, [dataLimite]);
+        return result.rows;
+    }
+    async count() {
+        const result = await this.pool.query('SELECT COUNT(*) FROM cliente');
+        return parseInt(result.rows[0].count);
+    }
 };
 exports.ClienteRepository = ClienteRepository;
 exports.ClienteRepository = ClienteRepository = __decorate([

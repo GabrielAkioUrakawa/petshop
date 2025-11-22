@@ -10,6 +10,16 @@ export class ProdutoController {
     return this.produtoService.findAll();
   }
 
+  @Get('low-stock')
+  async findLowStock() {
+    return this.produtoService.findLowStock();
+  }
+
+  @Get('best-sellers')
+  async findBestSellers() {
+    return this.produtoService.findBestSellers();
+  }
+
   @Get(':id')
   async findById(@Param('id') id: string) {
     return this.produtoService.findById(Number(id));

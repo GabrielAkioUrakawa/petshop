@@ -6,4 +6,6 @@ export declare class ClienteRepository {
     findByCpf(cpf: string): Promise<any>;
     update(cpf: string, dataCadastro: string): Promise<void>;
     delete(cpf: string): Promise<void>;
+    findInactive(dataLimite: string): Promise<any[]>;
+    count(): Promise<number>;
 }

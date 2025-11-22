@@ -37,4 +37,8 @@ export class CompraService {
   async delete(idCompra: number) {
     return this.compraRepository.delete(idCompra);
   }
+
+  async findByDateRange(dataInicio: string, dataFinal: string) {
+    return this.compraRepository.findByDateRange(dataInicio, dataFinal);
+  }
 }

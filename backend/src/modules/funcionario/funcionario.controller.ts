@@ -10,6 +10,11 @@ export class FuncionarioController {
     return this.funcionarioService.findAll();
   }
 
+  @Get('with-service-count')
+  async findWithServiceCount() {
+    return this.funcionarioService.findWithServiceCount();
+  }
+
   @Get(':cpf')
   async findByCpf(@Param('cpf') cpf: string) {
     return this.funcionarioService.findByCpf(cpf);

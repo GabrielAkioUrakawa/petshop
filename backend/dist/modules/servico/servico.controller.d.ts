@@ -3,6 +3,9 @@ export declare class ServicoController {
     private readonly servicoService;
     constructor(servicoService: ServicoService);
     findAll(): Promise<any[]>;
+    count(): Promise<number>;
+    findByFornecedor(nomeFornecedor: string): Promise<any[]>;
+    findByDate(dataEspecifica: string): Promise<any[]>;
     findById(servicoCpf: string, dataHora: string): Promise<any>;
     create(body: {
         servicoCpf: string;

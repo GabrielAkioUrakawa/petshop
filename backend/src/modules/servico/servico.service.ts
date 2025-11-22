@@ -60,4 +60,16 @@ export class ServicoService {
   async delete(servicoCpf: string, dataHora: string) {
     return this.servicoRepository.delete(servicoCpf, dataHora);
   }
+
+  async findByFornecedor(nomeFornecedor: string) {
+    return this.servicoRepository.findByFornecedor(nomeFornecedor);
+  }
+
+  async findByDate(dataEspecifica: string) {
+    return this.servicoRepository.findByDate(dataEspecifica);
+  }
+
+  async count() {
+    return this.servicoRepository.count();
+  }
 }

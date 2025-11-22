@@ -58,4 +58,24 @@ export class ProdutoRepository {
   async delete(idProduto: number) {
     await this.pool.query('DELETE FROM produto WHERE id_produto = $1', [idProduto]);
   }
+
+  async findLowStock() {
+    const result = await this.pool.query(`
+      SELECT P.ID_PRODUTO, P.DESCRICAO AS NOME_PRODUTO, P.CATEGORIA, F.NOME AS NOME_FORNECEDOR
+      FROM PRODUTO AS P JOIN FORNECEDOR AS F ON P.FORN_CNPJ = F.CNPJ
+      WHERE P.QTDE_ESTOQUE < P.QTDE_MINIMA
+    `);
+    return result.rows;
+  }
+
+  async findBestSellers() {
+    const result = await this.pool.query(`
+      SELECT P.DESCRICAO AS NOME_PRODUTO, P.CATEGORIA, P.PRECO_VENDA, SUM(CI.QUANTIDADE) AS QUANTIDADE_TOTAL_VENDIDA
+      FROM PRODUTO P
+      JOIN COMPRA_INCLUI CI ON P.ID_PRODUTO = CI.ID_PRODUTO
+      GROUP BY P.DESCRICAO, P.CATEGORIA, P.PRECO_VENDA
+      ORDER BY QUANTIDADE_TOTAL_VENDIDA DESC
+    `);
+    return result.rows;
+  }
 }

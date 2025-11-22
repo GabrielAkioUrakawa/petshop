@@ -32,6 +32,9 @@ let FuncionarioService = class FuncionarioService {
     async delete(cpf) {
         return this.funcionarioRepository.delete(cpf);
     }
+    async findWithServiceCount() {
+        return this.funcionarioRepository.findWithServiceCount();
+    }
 };
 exports.FuncionarioService = FuncionarioService;
 exports.FuncionarioService = FuncionarioService = __decorate([

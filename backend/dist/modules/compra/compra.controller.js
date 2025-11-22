@@ -23,6 +23,9 @@ let CompraController = class CompraController {
     async findAll() {
         return this.compraService.findAll();
     }
+    async findByDateRange(dataInicio, dataFinal) {
+        return this.compraService.findByDateRange(dataInicio, dataFinal);
+    }
     async findById(idCompra) {
         return this.compraService.findById(Number(idCompra));
     }
@@ -43,6 +46,14 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], CompraController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)('by-date-range'),
+    __param(0, (0, common_1.Query)('dataInicio')),
+    __param(1, (0, common_1.Query)('dataFinal')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], CompraController.prototype, "findByDateRange", null);
 __decorate([
     (0, common_1.Get)(':idCompra'),
     __param(0, (0, common_1.Param)('idCompra')),

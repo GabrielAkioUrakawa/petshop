@@ -23,6 +23,12 @@ let ClienteController = class ClienteController {
     async findAll() {
         return this.clienteService.findAll();
     }
+    async count() {
+        return this.clienteService.count();
+    }
+    async findInactive(dataLimite) {
+        return this.clienteService.findInactive(dataLimite);
+    }
     async findByCpf(cpf) {
         return this.clienteService.findByCpf(cpf);
     }
@@ -43,6 +49,19 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], ClienteController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)('count'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ClienteController.prototype, "count", null);
+__decorate([
+    (0, common_1.Get)('inactive'),
+    __param(0, (0, common_1.Query)('dataLimite')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ClienteController.prototype, "findInactive", null);
 __decorate([
     (0, common_1.Get)(':cpf'),
     __param(0, (0, common_1.Param)('cpf')),

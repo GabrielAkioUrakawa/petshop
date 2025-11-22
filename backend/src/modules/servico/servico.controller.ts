@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, Query } from '@nestjs/common';
 import { ServicoService } from './servico.service';
 
 @Controller('servico')
@@ -8,6 +8,21 @@ export class ServicoController {
   @Get()
   async findAll() {
     return this.servicoService.findAll();
+  }
+
+  @Get('count')
+  async count() {
+    return this.servicoService.count();
+  }
+
+  @Get('by-fornecedor/:nomeFornecedor')
+  async findByFornecedor(@Param('nomeFornecedor') nomeFornecedor: string) {
+    return this.servicoService.findByFornecedor(nomeFornecedor);
+  }
+
+  @Get('by-date')
+  async findByDate(@Query('dataEspecifica') dataEspecifica: string) {
+    return this.servicoService.findByDate(dataEspecifica);
   }
 
   @Get(':servicoCpf/:dataHora')

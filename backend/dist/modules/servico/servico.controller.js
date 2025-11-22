@@ -23,6 +23,15 @@ let ServicoController = class ServicoController {
     async findAll() {
         return this.servicoService.findAll();
     }
+    async count() {
+        return this.servicoService.count();
+    }
+    async findByFornecedor(nomeFornecedor) {
+        return this.servicoService.findByFornecedor(nomeFornecedor);
+    }
+    async findByDate(dataEspecifica) {
+        return this.servicoService.findByDate(dataEspecifica);
+    }
     async findById(servicoCpf, dataHora) {
         return this.servicoService.findById(servicoCpf, dataHora);
     }
@@ -43,6 +52,26 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], ServicoController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)('count'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ServicoController.prototype, "count", null);
+__decorate([
+    (0, common_1.Get)('by-fornecedor/:nomeFornecedor'),
+    __param(0, (0, common_1.Param)('nomeFornecedor')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ServicoController.prototype, "findByFornecedor", null);
+__decorate([
+    (0, common_1.Get)('by-date'),
+    __param(0, (0, common_1.Query)('dataEspecifica')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ServicoController.prototype, "findByDate", null);
 __decorate([
     (0, common_1.Get)(':servicoCpf/:dataHora'),
     __param(0, (0, common_1.Param)('servicoCpf')),

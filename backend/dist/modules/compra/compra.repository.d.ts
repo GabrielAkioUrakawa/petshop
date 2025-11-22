@@ -6,4 +6,5 @@ export declare class CompraRepository {
     findById(idCompra: number): Promise<any>;
     update(idCompra: number, dataHora: string, meio: string, parcela: number, status: string, cpfCliente: string): Promise<void>;
     delete(idCompra: number): Promise<void>;
+    findByDateRange(dataInicio: string, dataFinal: string): Promise<any[]>;
 }

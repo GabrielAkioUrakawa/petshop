@@ -32,6 +32,12 @@ let ClienteService = class ClienteService {
     async delete(cpf) {
         return this.clienteRepository.delete(cpf);
     }
+    async findInactive(dataLimite) {
+        return this.clienteRepository.findInactive(dataLimite);
+    }
+    async count() {
+        return this.clienteRepository.count();
+    }
 };
 exports.ClienteService = ClienteService;
 exports.ClienteService = ClienteService = __decorate([

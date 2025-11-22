@@ -6,4 +6,7 @@ export declare class ServicoRepository {
     findById(servicoCpf: string, dataHora: string): Promise<any>;
     update(servicoCpf: string, dataHora: string, preco: number, tipo: string, descricao: string, funcionarioCpf: string, animalNome: string, animalCpf: string): Promise<void>;
     delete(servicoCpf: string, dataHora: string): Promise<void>;
+    findByFornecedor(nomeFornecedor: string): Promise<any[]>;
+    findByDate(dataEspecifica: string): Promise<any[]>;
+    count(): Promise<number>;
 }

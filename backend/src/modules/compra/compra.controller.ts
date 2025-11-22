@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, Query } from '@nestjs/common';
 import { CompraService } from './compra.service';
 
 @Controller('compra')
@@ -8,6 +8,14 @@ export class CompraController {
   @Get()
   async findAll() {
     return this.compraService.findAll();
+  }
+
+  @Get('by-date-range')
+  async findByDateRange(
+    @Query('dataInicio') dataInicio: string,
+    @Query('dataFinal') dataFinal: string
+  ) {
+    return this.compraService.findByDateRange(dataInicio, dataFinal);
   }
 
   @Get(':idCompra')

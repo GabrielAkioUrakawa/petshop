@@ -3,6 +3,8 @@ export declare class AnimalController {
     private readonly animalService;
     constructor(animalService: AnimalService);
     findAll(): Promise<any[]>;
+    count(): Promise<number>;
+    findByCliente(cpfCliente: string): Promise<any[]>;
     findByNomeAndDonoCpf(nome: string, donoCpf: string): Promise<any>;
     create(body: {
         donoCpf: string;

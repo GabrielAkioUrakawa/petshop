@@ -3,6 +3,7 @@ export declare class CompraController {
     private readonly compraService;
     constructor(compraService: CompraService);
     findAll(): Promise<any[]>;
+    findByDateRange(dataInicio: string, dataFinal: string): Promise<any[]>;
     findById(idCompra: string): Promise<any>;
     create(body: {
         dataHora: string;

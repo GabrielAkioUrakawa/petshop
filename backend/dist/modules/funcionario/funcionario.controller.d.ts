@@ -3,6 +3,7 @@ export declare class FuncionarioController {
     private readonly funcionarioService;
     constructor(funcionarioService: FuncionarioService);
     findAll(): Promise<any[]>;
+    findWithServiceCount(): Promise<any[]>;
     findByCpf(cpf: string): Promise<any>;
     create(body: {
         cpf: string;

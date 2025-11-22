@@ -43,6 +43,18 @@ let AnimalRepository = class AnimalRepository {
     async delete(nome, donoCpf) {
         await this.pool.query('DELETE FROM animal WHERE nome = $1 AND dono_cpf = $2', [nome, donoCpf]);
     }
+    async findByCliente(cpfCliente) {
+        const result = await this.pool.query(`SELECT A.NOME, A.ESPECIE, A.RACA, A.SEXO, A.PESO, A.DATA_NASCIMENTO, P.NOME AS NOME_DONO
+       FROM ANIMAL A
+       JOIN PESSOA P ON A.DONO_CPF = P.CPF
+       WHERE A.DONO_CPF = $1
+       ORDER BY A.NOME`, [cpfCliente]);
+        return result.rows;
+    }
+    async count() {
+        const result = await this.pool.query('SELECT COUNT(*) FROM animal');
+        return parseInt(result.rows[0].count);
+    }
 };
 exports.AnimalRepository = AnimalRepository;
 exports.AnimalRepository = AnimalRepository = __decorate([

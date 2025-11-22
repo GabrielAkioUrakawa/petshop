@@ -39,4 +39,12 @@ export class ProdutoService {
   async delete(idProduto: number) {
     return this.produtoRepository.delete(idProduto);
   }
+
+  async findLowStock() {
+    return this.produtoRepository.findLowStock();
+  }
+
+  async findBestSellers() {
+    return this.produtoRepository.findBestSellers();
+  }
 }

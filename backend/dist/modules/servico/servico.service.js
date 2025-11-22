@@ -32,6 +32,15 @@ let ServicoService = class ServicoService {
     async delete(servicoCpf, dataHora) {
         return this.servicoRepository.delete(servicoCpf, dataHora);
     }
+    async findByFornecedor(nomeFornecedor) {
+        return this.servicoRepository.findByFornecedor(nomeFornecedor);
+    }
+    async findByDate(dataEspecifica) {
+        return this.servicoRepository.findByDate(dataEspecifica);
+    }
+    async count() {
+        return this.servicoRepository.count();
+    }
 };
 exports.ServicoService = ServicoService;
 exports.ServicoService = ServicoService = __decorate([

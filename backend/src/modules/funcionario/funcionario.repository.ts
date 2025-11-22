@@ -43,4 +43,16 @@ export class FuncionarioRepository {
   async delete(cpf: string) {
     await this.pool.query('DELETE FROM funcionario WHERE cpf = $1', [cpf]);
   }
+
+  async findWithServiceCount() {
+    const result = await this.pool.query(`
+      SELECT P.NOME AS FUNCIONARIO_NOME, F.ESPECIALIDADE, COUNT(S.SERVICO_CPF) AS TOTAL_SERVICO
+      FROM FUNCIONARIO F
+      JOIN PESSOA P ON F.CPF = P.CPF
+      JOIN SERVICO S ON F.CPF = S.FUNCIONARIO_CPF
+      GROUP BY P.NOME, F.ESPECIALIDADE
+      ORDER BY TOTAL_SERVICO DESC
+    `);
+    return result.rows;
+  }
 }

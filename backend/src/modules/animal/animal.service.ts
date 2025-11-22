@@ -40,4 +40,12 @@ export class AnimalService {
   async delete(nome: string, donoCpf: string) {
     return this.animalRepository.delete(nome, donoCpf);
   }
+
+  async findByCliente(cpfCliente: string) {
+    return this.animalRepository.findByCliente(cpfCliente);
+  }
+
+  async count() {
+    return this.animalRepository.count();
+  }
 }

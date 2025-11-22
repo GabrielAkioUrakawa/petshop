@@ -34,6 +34,15 @@ petshop/
 
 ## Início Rápido
 
+### Configuração Inicial
+
+Antes de executar o projeto, copie o arquivo de variáveis de ambiente:
+
+```bash
+# Copiar arquivo de exemplo para .env
+cp .env_developer .env
+```
+
 ### Executar todos os serviços com Docker
 
 ```bash
@@ -79,21 +88,53 @@ npm run dev
 
 ### Módulos Disponíveis
 
-- `/pessoa` - Gerenciamento de pessoas
-- `/cliente` - Gerenciamento de clientes
-- `/funcionario` - Gerenciamento de funcionários
-- `/animal` - Gerenciamento de animais
-- `/servico` - Gerenciamento de serviços
-- `/compra` - Gerenciamento de compras
-- `/fornecedor` - Gerenciamento de fornecedores
-- `/produto` - Gerenciamento de produtos
-
-Cada módulo suporta operações CRUD:
+Cada módulo suporta operações CRUD básicas:
 - `GET /modulo` - Listar todos
 - `GET /modulo/:id` - Buscar por ID
 - `POST /modulo` - Criar novo
 - `PUT /modulo/:id` - Atualizar
 - `DELETE /modulo/:id` - Remover
+
+### Endpoints de Consultas Especiais
+
+#### Produto (`/produto`)
+- `GET /produto/low-stock` - Lista produtos com estoque abaixo do mínimo
+  - Retorna: ID, nome, categoria e fornecedor dos produtos
+- `GET /produto/best-sellers` - Lista produtos mais vendidos
+  - Retorna: Nome, categoria, preço e quantidade total vendida
+  - Ordenado por quantidade vendida (DESC)
+
+#### Serviço (`/servico`)
+- `GET /servico/count` - Retorna o número total de serviços
+  - Retorna: Número inteiro com a contagem
+- `GET /servico/by-fornecedor/:nomeFornecedor` - Lista serviços por fornecedor
+  - Retorna: Nome do fornecedor, produto, tipo de serviço e data/hora
+- `GET /servico/by-date?dataEspecifica=YYYY-MM-DD` - Agenda diária de serviços
+  - Retorna: Nome do funcionário, especialidade, tipo de serviço, data/hora, nome do animal e dono
+
+#### Funcionário (`/funcionario`)
+- `GET /funcionario/with-service-count` - Lista funcionários com contagem de serviços
+  - Retorna: Nome, especialidade e total de serviços realizados
+  - Ordenado por total de serviços (DESC)
+
+#### Compra (`/compra`)
+- `GET /compra/by-date-range?dataInicio=YYYY-MM-DD&dataFinal=YYYY-MM-DD` - Compras por período
+  - Retorna: ID da compra, cliente, data/hora, forma de pagamento, status e total de produtos
+  - Ordenado por data/hora
+
+#### Cliente (`/cliente`)
+- `GET /cliente/count` - Retorna o número total de clientes
+  - Retorna: Número inteiro com a contagem
+- `GET /cliente/inactive?dataLimite=YYYY-MM-DD` - Lista clientes inativos
+  - Retorna: Nome, CPF e data da última compra
+  - Inclui clientes que nunca compraram ou última compra antes da data limite
+
+#### Animal (`/animal`)
+- `GET /animal/count` - Retorna o número total de animais
+  - Retorna: Número inteiro com a contagem
+- `GET /animal/by-cliente/:cpfCliente` - Lista animais de um cliente específico
+  - Retorna: Nome, espécie, raça, sexo, peso, data de nascimento e nome do dono
+  - Ordenado por nome do animal
 
 ## Comandos Docker Úteis
 
@@ -113,12 +154,33 @@ docker compose down -v
 
 ## Variáveis de Ambiente
 
-As variáveis de ambiente estão no arquivo `.env`:
+O projeto inclui um arquivo `.env_developer` com as configurações padrão de desenvolvimento.
+
+### Configuração
+
+1. Copie o arquivo de exemplo:
+```bash
+cp .env_developer .env
+```
+
+2. Edite o arquivo `.env` se necessário para ajustar às suas configurações locais.
+
+### Variáveis Disponíveis
 
 ```env
+# Database Configuration (para desenvolvimento local)
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_NAME=petshop
+DATABASE_USER=postgres
+DATABASE_PASSWORD=postgres
+
+# PostgreSQL Configuration (para Docker Compose)
 POSTGRES_HOST=postgres
 POSTGRES_PORT=5432
 POSTGRES_DB=petshop
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 ```
+
+**Nota:** O arquivo `.env` é ignorado pelo Git para proteger suas credenciais. Use sempre o `.env_developer` como referência.

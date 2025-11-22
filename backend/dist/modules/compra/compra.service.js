@@ -32,6 +32,9 @@ let CompraService = class CompraService {
     async delete(idCompra) {
         return this.compraRepository.delete(idCompra);
     }
+    async findByDateRange(dataInicio, dataFinal) {
+        return this.compraRepository.findByDateRange(dataInicio, dataFinal);
+    }
 };
 exports.CompraService = CompraService;
 exports.CompraService = CompraService = __decorate([

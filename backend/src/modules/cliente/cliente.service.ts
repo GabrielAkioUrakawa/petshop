@@ -24,4 +24,12 @@ export class ClienteService {
   async delete(cpf: string) {
     return this.clienteRepository.delete(cpf);
   }
+
+  async findInactive(dataLimite: string) {
+    return this.clienteRepository.findInactive(dataLimite);
+  }
+
+  async count() {
+    return this.clienteRepository.count();
+  }
 }

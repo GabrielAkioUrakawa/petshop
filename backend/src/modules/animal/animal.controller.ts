@@ -10,6 +10,16 @@ export class AnimalController {
     return this.animalService.findAll();
   }
 
+  @Get('count')
+  async count() {
+    return this.animalService.count();
+  }
+
+  @Get('by-cliente/:cpfCliente')
+  async findByCliente(@Param('cpfCliente') cpfCliente: string) {
+    return this.animalService.findByCliente(cpfCliente);
+  }
+
   @Get(':nome/:donoCpf')
   async findByNomeAndDonoCpf(@Param('nome') nome: string, @Param('donoCpf') donoCpf: string) {
     return this.animalService.findByNomeAndDonoCpf(nome, donoCpf);

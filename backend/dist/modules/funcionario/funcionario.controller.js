@@ -23,6 +23,9 @@ let FuncionarioController = class FuncionarioController {
     async findAll() {
         return this.funcionarioService.findAll();
     }
+    async findWithServiceCount() {
+        return this.funcionarioService.findWithServiceCount();
+    }
     async findByCpf(cpf) {
         return this.funcionarioService.findByCpf(cpf);
     }
@@ -43,6 +46,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], FuncionarioController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)('with-service-count'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], FuncionarioController.prototype, "findWithServiceCount", null);
 __decorate([
     (0, common_1.Get)(':cpf'),
     __param(0, (0, common_1.Param)('cpf')),

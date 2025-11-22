@@ -32,6 +32,12 @@ let AnimalService = class AnimalService {
     async delete(nome, donoCpf) {
         return this.animalRepository.delete(nome, donoCpf);
     }
+    async findByCliente(cpfCliente) {
+        return this.animalRepository.findByCliente(cpfCliente);
+    }
+    async count() {
+        return this.animalRepository.count();
+    }
 };
 exports.AnimalService = AnimalService;
 exports.AnimalService = AnimalService = __decorate([

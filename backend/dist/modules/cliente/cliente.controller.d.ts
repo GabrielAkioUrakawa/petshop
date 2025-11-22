@@ -3,6 +3,8 @@ export declare class ClienteController {
     private readonly clienteService;
     constructor(clienteService: ClienteService);
     findAll(): Promise<any[]>;
+    count(): Promise<number>;
+    findInactive(dataLimite: string): Promise<any[]>;
     findByCpf(cpf: string): Promise<any>;
     create(body: {
         cpf: string;

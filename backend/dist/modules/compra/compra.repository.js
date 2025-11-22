@@ -43,6 +43,18 @@ let CompraRepository = class CompraRepository {
     async delete(idCompra) {
         await this.pool.query('DELETE FROM compra WHERE id_compra = $1', [idCompra]);
     }
+    async findByDateRange(dataInicio, dataFinal) {
+        const result = await this.pool.query(`SELECT C.ID_COMPRA, P.NOME AS NOME_CLIENTE, P.CPF AS CPF_CLIENTE, C.DATA_HORA,
+              C.MEIO AS FORMA_PAGAMENTO, C.STATUS, SUM(CI.QUANTIDADE) AS TOTAL_PRODUTOS_ADQUIRIDOS
+       FROM COMPRA C
+       JOIN CLIENTE CL ON C.CPF_CLIENTE = CL.CPF
+       JOIN PESSOA P ON CL.CPF = P.CPF
+       JOIN COMPRA_INCLUI CI ON C.ID_COMPRA = CI.ID_COMPRA
+       WHERE C.DATA_HORA BETWEEN $1 AND $2
+       GROUP BY C.ID_COMPRA, P.NOME, P.CPF, C.DATA_HORA, C.MEIO, C.STATUS
+       ORDER BY C.DATA_HORA`, [dataInicio, dataFinal]);
+        return result.rows;
+    }
 };
 exports.CompraRepository = CompraRepository;
 exports.CompraRepository = CompraRepository = __decorate([

@@ -24,4 +24,8 @@ export class FuncionarioService {
   async delete(cpf: string) {
     return this.funcionarioRepository.delete(cpf);
   }
+
+  async findWithServiceCount() {
+    return this.funcionarioRepository.findWithServiceCount();
+  }
 }

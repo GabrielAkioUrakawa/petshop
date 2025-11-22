@@ -23,6 +23,12 @@ let AnimalController = class AnimalController {
     async findAll() {
         return this.animalService.findAll();
     }
+    async count() {
+        return this.animalService.count();
+    }
+    async findByCliente(cpfCliente) {
+        return this.animalService.findByCliente(cpfCliente);
+    }
     async findByNomeAndDonoCpf(nome, donoCpf) {
         return this.animalService.findByNomeAndDonoCpf(nome, donoCpf);
     }
@@ -43,6 +49,19 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], AnimalController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)('count'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AnimalController.prototype, "count", null);
+__decorate([
+    (0, common_1.Get)('by-cliente/:cpfCliente'),
+    __param(0, (0, common_1.Param)('cpfCliente')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AnimalController.prototype, "findByCliente", null);
 __decorate([
     (0, common_1.Get)(':nome/:donoCpf'),
     __param(0, (0, common_1.Param)('nome')),
