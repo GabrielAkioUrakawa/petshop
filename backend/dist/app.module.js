@@ -14,7 +14,9 @@ const pessoa_module_1 = require("./modules/pessoa/pessoa.module");
 const cliente_module_1 = require("./modules/cliente/cliente.module");
 const funcionario_module_1 = require("./modules/funcionario/funcionario.module");
 const animal_module_1 = require("./modules/animal/animal.module");
+const animal_alergia_module_1 = require("./modules/animal-alergia/animal-alergia.module");
 const servico_module_1 = require("./modules/servico/servico.module");
+const realiza_module_1 = require("./modules/realiza/realiza.module");
 const compra_module_1 = require("./modules/compra/compra.module");
 const fornecedor_module_1 = require("./modules/fornecedor/fornecedor.module");
 const produto_module_1 = require("./modules/produto/produto.module");
@@ -29,7 +31,9 @@ exports.AppModule = AppModule = __decorate([
             cliente_module_1.ClienteModule,
             funcionario_module_1.FuncionarioModule,
             animal_module_1.AnimalModule,
+            animal_alergia_module_1.AnimalAlergiaModule,
             servico_module_1.ServicoModule,
+            realiza_module_1.RealizaModule,
             compra_module_1.CompraModule,
             fornecedor_module_1.FornecedorModule,
             produto_module_1.ProdutoModule,

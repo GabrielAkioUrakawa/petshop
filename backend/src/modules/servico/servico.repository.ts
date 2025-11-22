@@ -22,28 +22,28 @@ export class ServicoRepository {
     preco: number,
     tipo: string,
     descricao: string,
-    funcionarioCpf: string,
     animalNome: string,
     animalCpf: string
   ) {
     await this.pool.query(
-      `INSERT INTO servico (servico_cpf, data_hora, preco, tipo, descricao, funcionario_cpf, animal_nome, animal_cpf)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-      [servicoCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalNome, animalCpf]
+      `INSERT INTO servico (servico_cpf, data_hora, preco, tipo, descricao, animal_nome, animal_cpf)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+      [servicoCpf, dataHora, preco, tipo, descricao, animalNome, animalCpf]
     );
   }
 
   async findAll() {
     const result = await this.pool.query(
       `SELECT S.SERVICO_CPF, S.DATA_HORA, S.PRECO, S.TIPO, S.DESCRICAO,
-              S.FUNCIONARIO_CPF, PF.NOME AS FUNCIONARIO_NOME,
               S.ANIMAL_NOME, S.ANIMAL_CPF, A.ESPECIE AS ANIMAL_ESPECIE,
-              PC.NOME AS CLIENTE_NOME
+              PC.NOME AS CLIENTE_NOME,
+              PF.NOME AS FUNCIONARIO_NOME, F.ESPECIALIDADE AS FUNCIONARIO_ESPECIALIDADE
        FROM SERVICO S
-       JOIN FUNCIONARIO F ON S.FUNCIONARIO_CPF = F.CPF
-       JOIN PESSOA PF ON F.CPF = PF.CPF
        JOIN ANIMAL A ON S.ANIMAL_NOME = A.NOME AND S.ANIMAL_CPF = A.DONO_CPF
        JOIN PESSOA PC ON A.DONO_CPF = PC.CPF
+       LEFT JOIN REALIZA R ON S.SERVICO_CPF = R.SERVICO_CPF AND S.DATA_HORA = R.SERVICO_DATA_HORA
+       LEFT JOIN FUNCIONARIO F ON R.FUNCIONARIO_CPF = F.CPF
+       LEFT JOIN PESSOA PF ON F.CPF = PF.CPF
        ORDER BY S.DATA_HORA DESC`
     );
     return result.rows;
@@ -52,14 +52,15 @@ export class ServicoRepository {
   async findById(servicoCpf: string, dataHora: string) {
     const result = await this.pool.query(
       `SELECT S.SERVICO_CPF, S.DATA_HORA, S.PRECO, S.TIPO, S.DESCRICAO,
-              S.FUNCIONARIO_CPF, PF.NOME AS FUNCIONARIO_NOME, F.ESPECIALIDADE AS FUNCIONARIO_ESPECIALIDADE,
               S.ANIMAL_NOME, S.ANIMAL_CPF, A.ESPECIE AS ANIMAL_ESPECIE, A.RACA AS ANIMAL_RACA,
-              PC.NOME AS CLIENTE_NOME, PC.TELEFONE AS CLIENTE_TELEFONE
+              PC.NOME AS CLIENTE_NOME, PC.TELEFONE AS CLIENTE_TELEFONE,
+              PF.NOME AS FUNCIONARIO_NOME, F.ESPECIALIDADE AS FUNCIONARIO_ESPECIALIDADE, R.FUNCIONARIO_CPF
        FROM SERVICO S
-       JOIN FUNCIONARIO F ON S.FUNCIONARIO_CPF = F.CPF
-       JOIN PESSOA PF ON F.CPF = PF.CPF
        JOIN ANIMAL A ON S.ANIMAL_NOME = A.NOME AND S.ANIMAL_CPF = A.DONO_CPF
        JOIN PESSOA PC ON A.DONO_CPF = PC.CPF
+       LEFT JOIN REALIZA R ON S.SERVICO_CPF = R.SERVICO_CPF AND S.DATA_HORA = R.SERVICO_DATA_HORA
+       LEFT JOIN FUNCIONARIO F ON R.FUNCIONARIO_CPF = F.CPF
+       LEFT JOIN PESSOA PF ON F.CPF = PF.CPF
        WHERE S.SERVICO_CPF = $1 AND S.DATA_HORA = $2`,
       [servicoCpf, dataHora]
     );
@@ -72,14 +73,13 @@ export class ServicoRepository {
     preco: number,
     tipo: string,
     descricao: string,
-    funcionarioCpf: string,
     animalNome: string,
     animalCpf: string
   ) {
     await this.pool.query(
-      `UPDATE servico SET preco = $3, tipo = $4, descricao = $5, funcionario_cpf = $6, animal_nome = $7, animal_cpf = $8
+      `UPDATE servico SET preco = $3, tipo = $4, descricao = $5, animal_nome = $6, animal_cpf = $7
        WHERE servico_cpf = $1 AND data_hora = $2`,
-      [servicoCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalNome, animalCpf]
+      [servicoCpf, dataHora, preco, tipo, descricao, animalNome, animalCpf]
     );
   }
 
@@ -108,11 +108,12 @@ export class ServicoRepository {
       `SELECT PF.NOME AS NOME_FUNCIONARIO, F.ESPECIALIDADE, S.TIPO AS TIPO_SERVICO, S.DATA_HORA,
               A.NOME AS NOME_ANIMAL, PC.NOME AS DONO_ANIMAL
        FROM SERVICO S
-       JOIN FUNCIONARIO F ON S.FUNCIONARIO_CPF = F.CPF
-       JOIN PESSOA PF ON F.CPF = PF.CPF
        JOIN ANIMAL A ON S.ANIMAL_NOME = A.NOME AND S.ANIMAL_CPF = A.DONO_CPF
        JOIN CLIENTE CL ON A.DONO_CPF = CL.CPF
        JOIN PESSOA PC ON CL.CPF = PC.CPF
+       LEFT JOIN REALIZA R ON S.SERVICO_CPF = R.SERVICO_CPF AND S.DATA_HORA = R.SERVICO_DATA_HORA
+       LEFT JOIN FUNCIONARIO F ON R.FUNCIONARIO_CPF = F.CPF
+       LEFT JOIN PESSOA PF ON F.CPF = PF.CPF
        WHERE DATE(S.DATA_HORA) = DATE($1)
        ORDER BY S.DATA_HORA`,
       [dataEspecifica]

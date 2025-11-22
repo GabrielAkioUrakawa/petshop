@@ -42,7 +42,6 @@ export class ServicoController {
     preco: number;
     tipo: string;
     descricao: string;
-    funcionarioCpf: string;
     animalNome: string;
     animalCpf: string;
   }) {
@@ -52,7 +51,6 @@ export class ServicoController {
       body.preco,
       body.tipo,
       body.descricao,
-      body.funcionarioCpf,
       body.animalNome,
       body.animalCpf
     );
@@ -66,7 +64,6 @@ export class ServicoController {
       preco: number;
       tipo: string;
       descricao: string;
-      funcionarioCpf: string;
       animalNome: string;
       animalCpf: string;
     }
@@ -77,7 +74,6 @@ export class ServicoController {
       body.preco,
       body.tipo,
       body.descricao,
-      body.funcionarioCpf,
       body.animalNome,
       body.animalCpf
     );

@@ -17,8 +17,8 @@ let ServicoService = class ServicoService {
     constructor(servicoRepository) {
         this.servicoRepository = servicoRepository;
     }
-    async create(servicoCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalNome, animalCpf) {
-        return this.servicoRepository.create(servicoCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalNome, animalCpf);
+    async create(servicoCpf, dataHora, preco, tipo, descricao, animalNome, animalCpf) {
+        return this.servicoRepository.create(servicoCpf, dataHora, preco, tipo, descricao, animalNome, animalCpf);
     }
     async findAll() {
         return this.servicoRepository.findAll();
@@ -26,8 +26,8 @@ let ServicoService = class ServicoService {
     async findById(servicoCpf, dataHora) {
         return this.servicoRepository.findById(servicoCpf, dataHora);
     }
-    async update(servicoCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalNome, animalCpf) {
-        return this.servicoRepository.update(servicoCpf, dataHora, preco, tipo, descricao, funcionarioCpf, animalNome, animalCpf);
+    async update(servicoCpf, dataHora, preco, tipo, descricao, animalNome, animalCpf) {
+        return this.servicoRepository.update(servicoCpf, dataHora, preco, tipo, descricao, animalNome, animalCpf);
     }
     async delete(servicoCpf, dataHora) {
         return this.servicoRepository.delete(servicoCpf, dataHora);

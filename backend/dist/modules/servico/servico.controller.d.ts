@@ -14,7 +14,6 @@ export declare class ServicoController {
         preco: number;
         tipo: string;
         descricao: string;
-        funcionarioCpf: string;
         animalNome: string;
         animalCpf: string;
     }): Promise<void>;
@@ -22,7 +21,6 @@ export declare class ServicoController {
         preco: number;
         tipo: string;
         descricao: string;
-        funcionarioCpf: string;
         animalNome: string;
         animalCpf: string;
     }): Promise<void>;

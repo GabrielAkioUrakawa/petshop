@@ -39,10 +39,10 @@ let ServicoController = class ServicoController {
         return this.servicoService.findById(servicoCpf, dataHora);
     }
     async create(body) {
-        return this.servicoService.create(body.servicoCpf, body.dataHora, body.preco, body.tipo, body.descricao, body.funcionarioCpf, body.animalNome, body.animalCpf);
+        return this.servicoService.create(body.servicoCpf, body.dataHora, body.preco, body.tipo, body.descricao, body.animalNome, body.animalCpf);
     }
     async update(servicoCpf, dataHora, body) {
-        return this.servicoService.update(servicoCpf, dataHora, body.preco, body.tipo, body.descricao, body.funcionarioCpf, body.animalNome, body.animalCpf);
+        return this.servicoService.update(servicoCpf, dataHora, body.preco, body.tipo, body.descricao, body.animalNome, body.animalCpf);
     }
     async delete(servicoCpf, dataHora) {
         return this.servicoService.delete(servicoCpf, dataHora);

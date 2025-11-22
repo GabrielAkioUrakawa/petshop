@@ -6,12 +6,11 @@ export class LoteService {
   constructor(private readonly loteRepository: LoteRepository) {}
 
   async create(
-    dataValidade: string,
-    quantidade: number,
-    idCompra: number,
-    idProduto: number
+    idProd: number,
+    fCnpj: string,
+    quantidade: number
   ) {
-    return this.loteRepository.create(dataValidade, quantidade, idCompra, idProduto);
+    return this.loteRepository.create(idProd, fCnpj, quantidade);
   }
 
   async findAll() {
@@ -24,12 +23,11 @@ export class LoteService {
 
   async update(
     idLote: number,
-    dataValidade: string,
-    quantidade: number,
-    idCompra: number,
-    idProduto: number
+    idProd: number,
+    fCnpj: string,
+    quantidade: number
   ) {
-    return this.loteRepository.update(idLote, dataValidade, quantidade, idCompra, idProduto);
+    return this.loteRepository.update(idLote, idProd, fCnpj, quantidade);
   }
 
   async delete(idLote: number) {

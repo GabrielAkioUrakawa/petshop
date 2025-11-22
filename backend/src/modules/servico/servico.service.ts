@@ -11,7 +11,6 @@ export class ServicoService {
     preco: number,
     tipo: string,
     descricao: string,
-    funcionarioCpf: string,
     animalNome: string,
     animalCpf: string
   ) {
@@ -21,7 +20,6 @@ export class ServicoService {
       preco,
       tipo,
       descricao,
-      funcionarioCpf,
       animalNome,
       animalCpf
     );
@@ -41,7 +39,6 @@ export class ServicoService {
     preco: number,
     tipo: string,
     descricao: string,
-    funcionarioCpf: string,
     animalNome: string,
     animalCpf: string
   ) {
@@ -51,7 +48,6 @@ export class ServicoService {
       preco,
       tipo,
       descricao,
-      funcionarioCpf,
       animalNome,
       animalCpf
     );
