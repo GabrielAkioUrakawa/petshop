@@ -9,6 +9,7 @@ import { ServicoModule } from './modules/servico/servico.module';
 import { CompraModule } from './modules/compra/compra.module';
 import { FornecedorModule } from './modules/fornecedor/fornecedor.module';
 import { ProdutoModule } from './modules/produto/produto.module';
+import { LoteModule } from './modules/lote/lote.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ProdutoModule } from './modules/produto/produto.module';
     CompraModule,
     FornecedorModule,
     ProdutoModule,
+    LoteModule,
   ],
   controllers: [AppController],
   providers: [AppService],
