@@ -29,9 +29,25 @@ export class LoteRepository {
   }
 
   async findAll() {
-    const result = await this.pool.query('SELECT * FROM lote');
+    const query = `
+      SELECT 
+        l.id_lote,
+        p.id_produto,
+        p.descricao,
+        f.cnpj,
+        f.nome AS nome_fornecedor,
+        p.preco_compra,
+        l.quantidade
+      FROM lote l
+      JOIN produto p ON p.id_produto = l.id_prod
+      JOIN fornecedor f ON f.cnpj = l.f_cnpj
+      ORDER BY l.id_lote;
+    `;
+  
+    const result = await this.pool.query(query);
     return result.rows;
   }
+  
 
   async findById(idLote: number) {
     const result = await this.pool.query('SELECT * FROM lote WHERE id_lote = $1', [idLote]);

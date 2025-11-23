@@ -25,7 +25,7 @@ export class ClienteRepository {
 
   async findAll() {
     const result = await this.pool.query(
-      `SELECT CL.CPF, CL.DATA_CADASTRO, P.NOME, P.TELEFONE, P.ENDERECO
+      `SELECT CL.CPF, CL.DATA_CADASTRO, P.NOME, P.TELEFONE, P.ENDERECO, P.EMAIL
        FROM CLIENTE CL
        JOIN PESSOA P ON CL.CPF = P.CPF
        ORDER BY P.NOME`
