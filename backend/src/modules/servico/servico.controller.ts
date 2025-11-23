@@ -38,6 +38,7 @@ export class ServicoController {
   @Post()
   async create(@Body() body: {
     servicoCpf: string;
+    funcionarioCpf: string;
     dataHora: string;
     preco: number;
     tipo: string;

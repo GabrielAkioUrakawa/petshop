@@ -3,6 +3,7 @@ export declare class ServicoRepository {
     constructor();
     create(data: {
         servicoCpf: string;
+        funcionarioCpf: string;
         dataHora: string;
         preco: number;
         tipo: string;

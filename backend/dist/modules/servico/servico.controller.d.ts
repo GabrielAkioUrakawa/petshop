@@ -10,6 +10,7 @@ export declare class ServicoController {
     findById(servicoCpf: string, dataHora: string): Promise<any>;
     create(body: {
         servicoCpf: string;
+        funcionarioCpf: string;
         dataHora: string;
         preco: number;
         tipo: string;

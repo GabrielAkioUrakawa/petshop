@@ -18,6 +18,7 @@ export class ServicoRepository {
 
   async create(data: {
     servicoCpf: string;
+    funcionarioCpf: string;
     dataHora: string;
     preco: number;
     tipo: string;
@@ -35,11 +36,57 @@ export class ServicoRepository {
     try {
       await client.query('BEGIN');
 
+      // Valida se o funcionário existe e tem a especialidade correta
+      const funcionarioResult = await client.query(
+        `SELECT especialidade FROM funcionario WHERE cpf = $1`,
+        [data.funcionarioCpf]
+      );
+
+      if (funcionarioResult.rows.length === 0) {
+        throw new Error('Funcionário não encontrado');
+      }
+
+      const especialidade = funcionarioResult.rows[0].especialidade;
+      const tipoServicoLower = data.tipo.toLowerCase();
+
+      // Mapeamento de tipos de serviço para especialidades
+      const especialidadesPorTipo: Record<string, string[]> = {
+        consulta: ['Veterinário'],
+        cirurgia: ['Veterinário'],
+        vacinação: ['Veterinário'],
+        'avaliação': ['Veterinário'],
+        'exame': ['Veterinário'],
+        banho: ['Banhista', 'Tosador'],
+        tosa: ['Tosador'],
+      };
+
+      // Verifica se o tipo de serviço requer alguma especialidade específica
+      let especialidadesPermitidas: string[] = [];
+      for (const [tipoKey, especialidades] of Object.entries(especialidadesPorTipo)) {
+        if (tipoServicoLower.includes(tipoKey)) {
+          especialidadesPermitidas = especialidades;
+          break;
+        }
+      }
+
+      if (especialidadesPermitidas.length > 0 && !especialidadesPermitidas.includes(especialidade)) {
+        throw new Error(
+          `Funcionário com especialidade '${especialidade}' não pode realizar serviço do tipo '${data.tipo}'. Especialidades permitidas: ${especialidadesPermitidas.join(', ')}`
+        );
+      }
+
       // Insere o serviço
       await client.query(
         `INSERT INTO servico (servico_cpf, data_hora, preco, tipo, descricao, animal_nome, animal_cpf)
          VALUES ($1, $2, $3, $4, $5, $6, $7)`,
         [data.servicoCpf, data.dataHora, data.preco, data.tipo, data.descricao, data.animalNome, data.animalCpf]
+      );
+
+      // Insere na tabela REALIZA
+      await client.query(
+        `INSERT INTO realiza (funcionario_cpf, servico_cpf, servico_data_hora)
+         VALUES ($1, $2, $3)`,
+        [data.funcionarioCpf, data.servicoCpf, data.dataHora]
       );
 
       // Se houver produtos, insere/atualiza na tabela COMPRA_INCLUI e atualiza o estoque

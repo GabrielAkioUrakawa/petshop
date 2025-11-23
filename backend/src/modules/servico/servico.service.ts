@@ -3,6 +3,7 @@ import { ServicoRepository } from './servico.repository';
 
 interface CreateServicoDto {
   servicoCpf: string;
+  funcionarioCpf: string;
   dataHora: string;
   preco: number;
   tipo: string;

@@ -28,8 +28,35 @@ let ServicoRepository = class ServicoRepository {
         const client = await this.pool.connect();
         try {
             await client.query('BEGIN');
+            const funcionarioResult = await client.query(`SELECT especialidade FROM funcionario WHERE cpf = $1`, [data.funcionarioCpf]);
+            if (funcionarioResult.rows.length === 0) {
+                throw new Error('Funcionário não encontrado');
+            }
+            const especialidade = funcionarioResult.rows[0].especialidade;
+            const tipoServicoLower = data.tipo.toLowerCase();
+            const especialidadesPorTipo = {
+                consulta: ['Veterinário'],
+                cirurgia: ['Veterinário'],
+                vacinação: ['Veterinário'],
+                'avaliação': ['Veterinário'],
+                'exame': ['Veterinário'],
+                banho: ['Banhista', 'Tosador'],
+                tosa: ['Tosador'],
+            };
+            let especialidadesPermitidas = [];
+            for (const [tipoKey, especialidades] of Object.entries(especialidadesPorTipo)) {
+                if (tipoServicoLower.includes(tipoKey)) {
+                    especialidadesPermitidas = especialidades;
+                    break;
+                }
+            }
+            if (especialidadesPermitidas.length > 0 && !especialidadesPermitidas.includes(especialidade)) {
+                throw new Error(`Funcionário com especialidade '${especialidade}' não pode realizar serviço do tipo '${data.tipo}'. Especialidades permitidas: ${especialidadesPermitidas.join(', ')}`);
+            }
             await client.query(`INSERT INTO servico (servico_cpf, data_hora, preco, tipo, descricao, animal_nome, animal_cpf)
          VALUES ($1, $2, $3, $4, $5, $6, $7)`, [data.servicoCpf, data.dataHora, data.preco, data.tipo, data.descricao, data.animalNome, data.animalCpf]);
+            await client.query(`INSERT INTO realiza (funcionario_cpf, servico_cpf, servico_data_hora)
+         VALUES ($1, $2, $3)`, [data.funcionarioCpf, data.servicoCpf, data.dataHora]);
             if (data.produtos && data.produtos.length > 0) {
                 for (const produto of data.produtos) {
                     await client.query(`INSERT INTO compra_inclui (id_compra, id_produto, quantidade, preco_unitario, servico_cpf, servico_data_hora)
