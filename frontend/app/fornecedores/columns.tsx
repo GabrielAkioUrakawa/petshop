@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { api } from "@/lib/api"
 
 export type Fornecedor = {
   cnpj: number
@@ -20,8 +21,9 @@ export type Fornecedor = {
 }
 
 export function deleteFornecedor(cnpj: number) {
-  console.log(`Excluindo fornecedor com CNPJ: ${cnpj}`);
-  return new Promise((resolve) => setTimeout(resolve, 800));
+  return api(`/fornecedor/${cnpj}`, {
+    method: "DELETE",
+  });
 }
 
 export function createColumns(onEdit?: (fornecedor: Fornecedor) => void): ColumnDef<Fornecedor>[] {

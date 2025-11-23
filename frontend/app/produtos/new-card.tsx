@@ -13,33 +13,46 @@ import { Label } from "@/components/ui/label"
 import { X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Produto } from "./columns"
+import { api } from "@/lib/api"
 
 async function criarProdutoApi(data) {
-  console.log("Enviando produto para API...", data)
-  return new Promise((resolve) => setTimeout(resolve, 1500))
+  const novo = await api("/produto", {
+    method: "POST",
+    body: JSON.stringify(data)
+  });
+  return novo;
 }
 
 async function alterarProdutoApi(data) {
-  console.log("Alterando produto na API...", data)
-  return new Promise((resolve) => setTimeout(resolve, 1500))
+  const atualizado = await api(`/produto/${data.id_produto}`, {
+    method: "PUT",
+    body: JSON.stringify(data)
+  });
+  return atualizado;
 }
 
 const getInitialFormData = (produto) => {
   if (produto) {
     return {
+      id_produto: produto.id_produto,
       descricao: produto.descricao,
       categoria: produto.categoria,
-      qtde_minima: produto.qtde_minima.toString(),
-      qtde_estoque: produto.qtde_estoque.toString(),
-      preco_venda: produto.preco_venda.toString(),
+      qtde_minima: produto.qtde_minima?.toString() ?? "",
+      qtde_estoque: produto.qtde_estoque?.toString() ?? "",
+      preco_venda: produto.preco_venda?.toString() ?? "",
+      preco_compra: produto.preco_compra?.toString() ?? "",
+      forn_cnpj: produto.forn_cnpj ?? null,
     }
   }
   return {
+    id_produto: "",
     descricao: "",
     categoria: "",
     qtde_minima: "",
     qtde_estoque: "",
     preco_venda: "",
+    preco_compra: "",
+    forn_cnpj: null,
   }
 }
 
@@ -52,12 +65,17 @@ export default function NewProdutoPopup({ open, onClose, produto, isEditing = fa
     setLoading(true)
 
     const data = {
+      id_produto: formData.id_produto,
       descricao: formData.descricao,
       categoria: formData.categoria,
-      qtde_minima: Number(formData.qtde_minima),
-      qtde_estoque: Number(formData.qtde_estoque),
-      preco_venda: Number(formData.preco_venda),
+      precoVenda: Number(formData.preco_venda),  
+      precoCompra: Number(formData.preco_compra),
+      qtdeEstoque: Number(formData.qtde_estoque),
+      qtdeMinima: Number(formData.qtde_minima),
+      fornCnpj: formData.forn_cnpj ?? null,
     }
+
+    console.log(data)
 
     if (isEditing) {
       await alterarProdutoApi(data)
@@ -156,6 +174,19 @@ export default function NewProdutoPopup({ open, onClose, produto, isEditing = fa
                         min="0"
                         value={formData.preco_venda}
                         onChange={(e) => handleChange("preco_venda", e.target.value)}
+                      />
+                    </div>
+
+                    <div className="grid gap-2">
+                      <Label htmlFor="preco_compra">Preço de Compra</Label>
+                      <Input
+                        id="preco_compra"
+                        type="number"
+                        step="0.01"
+                        required
+                        min="0"
+                        value={formData.preco_compra}
+                        onChange={(e) => handleChange("preco_compra", e.target.value)}
                       />
                     </div>
 

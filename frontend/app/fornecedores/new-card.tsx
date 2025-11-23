@@ -12,16 +12,22 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Fornecedor } from "./columns"
+import { api } from "@/lib/api"
 
 async function criarFornecedorApi(data) {
-  console.log("Enviando fornecedor para API...", data)
-  return new Promise((resolve) => setTimeout(resolve, 1500))
+  const novo = await api("/fornecedor", {
+    method: "POST",
+    body: JSON.stringify(data)
+  });
+  return novo;
 }
 
 async function alterarFornecedorApi(data) {
-  console.log("Alterando fornecedor na API...", data)
-  return new Promise((resolve) => setTimeout(resolve, 1500))
+  const atualizado = await api(`/fornecedor/${data.cnpj}`, {
+    method: "PUT",
+    body: JSON.stringify(data)
+  });
+  return atualizado;
 }
 
 const getInitialFormData = (fornecedor) => {

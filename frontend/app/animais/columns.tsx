@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { api } from "@/lib/api"
 
 export type Animal = {
   nome: string
@@ -23,8 +24,9 @@ export type Animal = {
 }
 
 export function deleteAnimal(nome: string, dono_cpf: string) {
-  console.log(`Excluindo animal ${nome} do dono com CPF: ${dono_cpf}`);
-  return new Promise((resolve) => setTimeout(resolve, 800));
+  return api(`/animal/${nome}/${dono_cpf}`, {
+    method: "DELETE",
+  })
 }
 
 export function createColumns(onEdit?: (animal: Animal) => void,  onViewProducts?: (animal: Animal) => void): ColumnDef<Animal>[] {

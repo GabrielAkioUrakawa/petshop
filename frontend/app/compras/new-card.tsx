@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import {
@@ -22,119 +23,52 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Compra } from "./columns"
 import { Produto } from "../produtos/columns"
 import { Fornecedor } from "../fornecedores/columns"
+import { api } from "@/lib/api"
 
 async function criarCompraApi(data) {
-  console.log("Enviando compra para API...", data)
-  return new Promise((resolve) => setTimeout(resolve, 1500))
+  const response = await api("/lote", {
+    method: "POST",
+    body: JSON.stringify(data),
+  })
+  return response as any
 }
 
 async function alterarCompraApi(data) {
-  console.log("Alterando compra na API...", data)
-  return new Promise((resolve) => setTimeout(resolve, 1500))
-}
-
-async function buscarProdutosApi(): Promise<Produto[]> {
-  // TODO: Substituir por chamada real da API
-  console.log("Buscando produtos da API...")
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          id: 1,
-          qtde_minima: 10,
-          qtde_estoque: 50,
-          descricao: "Ração Premium para Cães",
-          categoria: "Alimentação",
-          preco_venda: 89.90,
-        },
-        {
-          id: 2,
-          qtde_minima: 5,
-          qtde_estoque: 30,
-          descricao: "Shampoo para Gatos",
-          categoria: "Higiene",
-          preco_venda: 24.90,
-        },
-        {
-          id: 3,
-          qtde_minima: 8,
-          qtde_estoque: 25,
-          descricao: "Brinquedo Interativo",
-          categoria: "Brinquedos",
-          preco_venda: 45.00,
-        },
-        {
-          id: 4,
-          qtde_minima: 3,
-          qtde_estoque: 15,
-          descricao: "Coleira Ajustável",
-          categoria: "Acessórios",
-          preco_venda: 35.50,
-        },
-      ])
-    }, 500)
+  console.log(data)
+  const response = await api(`/lote/${data.idLote}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
   })
+  return response as any
 }
 
-async function buscarFornecedoresApi(): Promise<Fornecedor[]> {
-  // TODO: Substituir por chamada real da API
-  console.log("Buscando fornecedores da API...")
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          cnpj: 12345678000190,
-          nome: "PetShop Supplies LTDA",
-          email: "contato@petshopsupplies.com.br",
-          telefone: "(11) 3456-7890",
-          categoria: "Alimentação",
-        },
-        {
-          cnpj: 98765432000110,
-          nome: "Brinquedos Pet S.A.",
-          email: "vendas@brinquedospet.com.br",
-          telefone: "(21) 2345-6789",
-          categoria: "Brinquedos",
-        },
-        {
-          cnpj: 55544433000122,
-          nome: "Higiene Animal ME",
-          email: "comercial@higieneanimal.com.br",
-          telefone: "(31) 3456-7890",
-          categoria: "Higiene",
-        },
-      ])
-    }, 500)
-  })
+async function buscarProdutosApi() {
+  const response = await api("/produto")
+  return response as any
 }
 
-async function buscarPrecoCompraApi(idProduto: number): Promise<number> {
-  // TODO: Substituir por chamada real da API
-  console.log(`Buscando preço de compra para produto ${idProduto}...`)
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      // Simulando preços de compra (geralmente menores que preço de venda)
-      const precosCompra: Record<number, number> = {
-        1: 65.00,  // Ração Premium
-        2: 18.00,  // Shampoo
-        3: 32.00,  // Brinquedo
-        4: 25.00,  // Coleira
-      }
-      resolve(precosCompra[idProduto] || 0)
-    }, 300)
-  })
+async function buscarFornecedoresApi() {
+  const response = await api("/fornecedor")
+  return response as any
 }
 
-const getInitialFormData = (compra: Compra | null | undefined) => {
+async function buscarPrecoCompraApi(idProduto) {
+  const response = await api(`/produto/${idProduto}`) as any
+  return response.preco_compra as any
+}
+
+const getInitialFormData = (compra) => {
   if (compra) {
     return {
+      idLote: compra.id_lote.toString(),
       id_produto: compra.id_produto.toString(),
-      cnpj_fornecedor: compra.cnpj_fornecedor.toString(),
+      cnpj_fornecedor: compra.cnpj.toString(),
       quantidade: compra.quantidade.toString(),
       preco_compra: compra.preco_compra.toString(),
     }
   }
   return {
+    idLote: "",
     id_produto: "",
     cnpj_fornecedor: "",
     quantidade: "",
@@ -195,10 +129,10 @@ export default function NewCompraPopup({ open, onClose, compra, isEditing = fals
     setLoading(true)
 
     const data = {
-      id_produto: Number(formData.id_produto),
-      cnpj_fornecedor: Number(formData.cnpj_fornecedor),
+      idLote: Number(formData.idLote),
+      idProd: Number(formData.id_produto),
+      fCnpj: Number(formData.cnpj_fornecedor),
       quantidade: Number(formData.quantidade),
-      preco_compra: Number(formData.preco_compra),
     }
 
     if (isEditing) {
@@ -228,7 +162,7 @@ export default function NewCompraPopup({ open, onClose, compra, isEditing = fals
       try {
         const preco = await buscarPrecoCompraApi(idProduto)
         if (!cancelled && preco > 0) {
-          setFormData(prev => ({ ...prev, preco_compra: preco.toFixed(2) }))
+          setFormData(prev => ({ ...prev, preco_compra: preco }))
         }
       } catch (error) {
         console.error("Erro ao buscar preço de compra:", error)
@@ -281,8 +215,8 @@ export default function NewCompraPopup({ open, onClose, compra, isEditing = fals
                         </SelectTrigger>
                         <SelectContent>
                           {produtos.map((produto) => (
-                            <SelectItem key={produto.id} value={produto.id.toString()}>
-                              {produto.id} - {produto.descricao} ({produto.categoria})
+                            <SelectItem key={produto.id_produto} value={produto.id_produto.toString()}>
+                              {produto.id_produto} - {produto.descricao} ({produto.categoria})
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -328,6 +262,7 @@ export default function NewCompraPopup({ open, onClose, compra, isEditing = fals
                         type="number"
                         step="0.01"
                         required
+                        disabled={true}
                         min="0"
                         value={formData.preco_compra}
                         onChange={(e) => handleChange("preco_compra", e.target.value)}

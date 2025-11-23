@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,200 +27,43 @@ import { Funcionario } from "../profissionais/columns";
 import { Cliente } from "../clientes/columns";
 import { Animal } from "../animais/columns";
 import { Produto } from "../produtos/columns";
+import { api } from "@/lib/api";
 
 async function criarServicoApi(data) {
-  console.log("Enviando serviço para API...", data);
-  return new Promise((resolve) => setTimeout(resolve, 1500));
+  const response = await api("/servico", {
+    method: "POST",
+    body: JSON.stringify(data),
+  })
+  return response as any
 }
 
 async function alterarServicoApi(data) {
-  console.log("Alterando serviço na API...", data);
-  return new Promise((resolve) => setTimeout(resolve, 1500));
+  const response = await api(`/servico/${data.servico_cpf}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  })
+  return response as any
 }
 
-async function buscarFuncionariosApi(): Promise<Funcionario[]> {
-  // TODO: Substituir por chamada real da API
-  console.log("Buscando funcionários da API...");
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          cpf: 12345678900,
-          nome: "João Silva",
-          email: "joao.silva@email.com",
-          telefone: "(11) 91234-5678",
-          endereco: "Rua das Flores, 123, São Paulo, SP",
-          especialidade: "Veterinário",
-          qtd_servicos: 20,
-        },
-        {
-          cpf: 98765432100,
-          nome: "Maria Oliveira",
-          email: "maria.oliveira@email.com",
-          telefone: "(21) 99876-5432",
-          endereco: "Av. Brasil, 456, Rio de Janeiro, RJ",
-          especialidade: "Veterinário",
-          qtd_servicos: 23,
-        },
-        {
-          cpf: 55544433322,
-          nome: "Carlos Pereira",
-          email: "carlos.pereira@email.com",
-          telefone: "(31) 93456-7890",
-          endereco: "Praça Central, 789, Belo Horizonte, MG",
-          especialidade: "Tosador",
-          qtd_servicos: 10,
-        },
-        {
-          cpf: 11122233344,
-          nome: "Ana Costa",
-          email: "ana.costa@email.com",
-          telefone: "(41) 98765-4321",
-          endereco: "Rua Principal, 321, Curitiba, PR",
-          especialidade: "Tosador",
-          qtd_servicos: 15,
-        },
-      ]);
-    }, 500);
-  });
+async function buscarFuncionariosApi() {
+  const response = await api("/funcionario")
+  return response as any
+}
+         
+
+async function buscarClientesApi() {
+  const response = await api("/cliente")
+  return response as any
 }
 
-async function buscarClientesApi(): Promise<Cliente[]> {
-  // TODO: Substituir por chamada real da API
-  console.log("Buscando clientes da API...");
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          cpf: 12345678900,
-          nome: "João Silva",
-          email: "joao.silva@email.com",
-          telefone: "(11) 91234-5678",
-          endereco: "Rua das Flores, 123, São Paulo, SP",
-          data_cadastro: new Date("2023-11-20"),
-        },
-        {
-          cpf: 98765432100,
-          nome: "Maria Oliveira",
-          email: "maria.oliveira@email.com",
-          telefone: "(21) 99876-5432",
-          endereco: "Av. Brasil, 456, Rio de Janeiro, RJ",
-          data_cadastro: new Date("2024-01-15"),
-        },
-        {
-          cpf: 55544433322,
-          nome: "Carlos Pereira",
-          email: "carlos.pereira@email.com",
-          telefone: "(31) 93456-7890",
-          endereco: "Praça Central, 789, Belo Horizonte, MG",
-          data_cadastro: new Date("2024-03-07"),
-        },
-      ]);
-    }, 500);
-  });
+async function buscarAnimaisApi(donoCpf?: string) {
+  const response = await api(`/animal/by-cliente/${donoCpf}`)
+  return response as any
 }
 
-async function buscarAnimaisApi(donoCpf?: number): Promise<Animal[]> {
-  // TODO: Substituir por chamada real da API
-  console.log(
-    "Buscando animais da API...",
-    donoCpf ? `para dono CPF: ${donoCpf}` : ""
-  );
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const animais: Animal[] = [
-        {
-          nome: "Rex",
-          raca: "Labrador",
-          especie: "Cão",
-          sexo: "M",
-          peso: 25.5,
-          data_nascimento: new Date("2020-05-15"),
-          dono_cpf: 12345678900,
-          dono_nome: "João Silva",
-        },
-        {
-          nome: "Luna",
-          raca: "Golden Retriever",
-          especie: "Cão",
-          sexo: "F",
-          peso: 22.0,
-          data_nascimento: new Date("2021-03-20"),
-          dono_cpf: 12345678900,
-          dono_nome: "João Silva",
-        },
-        {
-          nome: "Mimi",
-          raca: "Persa",
-          especie: "Gato",
-          sexo: "F",
-          peso: 4.5,
-          data_nascimento: new Date("2022-01-10"),
-          dono_cpf: 98765432100,
-          dono_nome: "Maria Oliveira",
-        },
-        {
-          nome: "Thor",
-          raca: "Bulldog",
-          especie: "Cão",
-          sexo: "M",
-          peso: 18.0,
-          data_nascimento: new Date("2019-11-05"),
-          dono_cpf: 55544433322,
-          dono_nome: "Carlos Pereira",
-        },
-      ];
-
-      const filtered = donoCpf
-        ? animais.filter((a) => a.dono_cpf === donoCpf)
-        : animais;
-
-      resolve(filtered);
-    }, 500);
-  });
-}
-
-async function buscarProdutosApi(): Promise<Produto[]> {
-  // TODO: Substituir por chamada real da API
-  console.log("Buscando produtos da API...");
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          id: 1,
-          qtde_minima: 10,
-          qtde_estoque: 50,
-          descricao: "Ração Premium para Cães",
-          categoria: "Alimentação",
-          preco_venda: 89.9,
-        },
-        {
-          id: 2,
-          qtde_minima: 5,
-          qtde_estoque: 30,
-          descricao: "Shampoo para Gatos",
-          categoria: "Higiene",
-          preco_venda: 24.9,
-        },
-        {
-          id: 3,
-          qtde_minima: 8,
-          qtde_estoque: 25,
-          descricao: "Brinquedo Interativo",
-          categoria: "Brinquedos",
-          preco_venda: 45.0,
-        },
-        {
-          id: 4,
-          qtde_minima: 3,
-          qtde_estoque: 15,
-          descricao: "Coleira Ajustável",
-          categoria: "Acessórios",
-          preco_venda: 35.5,
-        },
-      ]);
-    }, 500);
-  });
+async function buscarProdutosApi(){
+  const response = await api("/produto")
+  return response as any
 }
 
 const getInitialFormData = (servico: Servico | null | undefined) => {
@@ -346,7 +190,7 @@ export default function NewServicoPopup({
     async function loadAnimais() {
       setLoadingAnimais(true);
       try {
-        const donoCpf = Number(formData.cliente_cpf);
+        const donoCpf = formData.cliente_cpf;
         const data = await buscarAnimaisApi(donoCpf);
         if (!cancelled) {
           setAnimais(data);
@@ -387,15 +231,13 @@ export default function NewServicoPopup({
     );
 
     const data = {
-      funcionario_nome: funcionario?.nome || formData.funcionario_nome,
-      cliente_nome: cliente?.nome || formData.cliente_nome,
-      animal_nome: formData.animal_nome,
-      data_hora: new Date(formData.data_hora),
+      servicoCpf: formData.funcionario_cpf,
+      animalNome: formData.animal_nome,
+      dataHora: new Date(formData.data_hora),
       preco: Number(formData.preco),
       tipo: formData.tipo,
       descricao: formData.descricao,
-      dono_cpf: Number(formData.cliente_cpf),
-      dono_nome: cliente?.nome || "",
+      animalCpf: formData.dono_cpf,
     };
 
     if (isEditing) {
@@ -615,8 +457,8 @@ export default function NewServicoPopup({
                             </SelectTrigger>
                             <SelectContent>
                               {produtos.map((p) => (
-                                <SelectItem key={p.id} value={p.id.toString()}>
-                                  {p.descricao} (R$ {p.preco_venda})
+                                <SelectItem key={p.id_produto} value={p.id_produto.toString()}>
+                                  {p.id_produto} - {p.descricao} (R$ {p.preco_venda})
                                 </SelectItem>
                               ))}
                             </SelectContent>

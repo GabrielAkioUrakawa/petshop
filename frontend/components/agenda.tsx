@@ -22,7 +22,7 @@ async function getAgenda(data: string) {
   return api(`/servico/by-date?dataEspecifica=${data}`);
 }
 
-export default function AgendaDiariaCard({ open }: { open: boolean }) {
+export default function AgendaDiariaCard() {
   const [agenda, setAgenda] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState<Date | undefined>();
@@ -40,7 +40,7 @@ export default function AgendaDiariaCard({ open }: { open: boolean }) {
   }
 
   return (
-    <Card className="w-full max-w-3xl border-0 shadow-none h-[32rem]">
+    <Card className="w-full max-w-3xl border-0 shadow-none h-128">
       <CardHeader className="flex-row justify-between items-center">
         <CardTitle>Agenda</CardTitle>
       </CardHeader>
@@ -76,15 +76,12 @@ export default function AgendaDiariaCard({ open }: { open: boolean }) {
           </Button>
         </div>
 
-        {/* Loading */}
         {loading && <p>Carregando agenda...</p>}
 
-        {/* Nenhum resultado */}
         {!loading && agenda.length === 0 && (
           <p className="text-sm text-muted-foreground">Nenhum serviço encontrado.</p>
         )}
 
-        {/* Lista scrollável */}
         <div className="mt-2 h-[calc(100%-5rem)] overflow-y-auto pr-2 space-y-3">
           <AnimatePresence>
             {agenda.map((item, idx) => (

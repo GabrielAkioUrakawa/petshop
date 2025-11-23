@@ -3,7 +3,7 @@ const API_BASE = "http://localhost:3000";
 export async function api<T>(
   endpoint: string,
   options?: RequestInit
-): Promise<T> {
+): Promise<T | null> {
   const res = await fetch(`${API_BASE}${endpoint}`, {
     ...options,
     headers: {
@@ -17,5 +17,8 @@ export async function api<T>(
     throw new Error(`API error: ${res.status} - ${error}`);
   }
 
-  return res.json();
+  const text = await res.text();
+  if (!text) return null;
+
+  return JSON.parse(text);
 }

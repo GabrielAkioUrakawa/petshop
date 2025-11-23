@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
@@ -12,22 +13,29 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
+import { api } from "@/lib/api"
 
 async function criarFuncionarioApi(data) {
-  console.log("Enviando funcionário para API...", data)
-  return new Promise((resolve) => setTimeout(resolve, 1500))
+  const response = await api("/funcionario", {
+    method: "POST",
+    body: JSON.stringify(data),
+  })
+  return response as any
 }
 
 async function alterarFuncionarioApi(data) {
-  console.log("Alterando funcionário na API...", data)
-  return new Promise((resolve) => setTimeout(resolve, 1500))
+  const response = await api(`/funcionario/${data.cpf}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  })
+  return response as any
 }
 
 const getInitialFormData = (funcionario) => {
   if (funcionario) {
     return {
       cpf: funcionario.cpf.toString(),
-      nome: funcionario.nome,
+      nome: funcionario.funcionario_nome,
       email: funcionario.email,
       telefone: funcionario.telefone,
       endereco: funcionario.endereco,

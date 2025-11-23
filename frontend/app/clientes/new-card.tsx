@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
@@ -12,16 +13,22 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Cliente } from "./columns"
+import { api } from "@/lib/api"
 
 async function criarClienteApi(data) {
-  console.log("Enviando cliente para API...", data)
-  return new Promise((resolve) => setTimeout(resolve, 1500))
+  const response = await api("/cliente", {
+    method: "POST",
+    body: JSON.stringify(data),
+  })
+  return response as any
 }
 
 async function alterarClienteApi(data) {
-  console.log("Alterando cliente na API...", data)
-  return new Promise((resolve) => setTimeout(resolve, 1500))
+  const response = await api(`/cliente/${data.cpf}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  })
+  return response as any
 }
 
 const getInitialFormData = (cliente) => {
@@ -57,6 +64,7 @@ export default function NewClientePopup({ open, onClose, cliente, isEditing = fa
       email: formData.email,
       telefone: formData.telefone,
       endereco: formData.endereco,
+      dataCadastro: new Date()
     }
 
     if (isEditing) {

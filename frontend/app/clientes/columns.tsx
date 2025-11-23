@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { api } from "@/lib/api"
 
 export type Cliente = {
   cpf: number
@@ -21,8 +22,9 @@ export type Cliente = {
 }
 
 export function deleteCliente(cpf) {
-  console.log(`Excluindo cliente com CPF: ${cpf}`);
-  return new Promise((resolve) => setTimeout(resolve, 800));
+  return api(`/cliente/${cpf}`, {
+    method: "DELETE",
+  });
 }
 
 export function createColumns(onEdit?: (cliente: Cliente) => void): ColumnDef<Cliente>[] {

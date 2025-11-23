@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { api } from "@/lib/api"
 
 
 export type Funcionario = {
@@ -24,8 +25,9 @@ export type Funcionario = {
 }
 
 export function deleteFuncionario(cpf) {
-  console.log(`Excluindo funcionário com CPF: ${cpf}`);
-  return new Promise((resolve) => setTimeout(resolve, 800));
+  return api(`/funcionario/${cpf}`, {
+    method: "DELETE",
+  });
 }
 
 

@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { api } from "@/lib/api"
 
 export type Produto = {
   id_produto: number
@@ -21,8 +22,9 @@ export type Produto = {
 }
 
 export function deleteProduto(id_produto: number) {
-  console.log(`Excluindo produto com ID: ${id_produto}`);
-  return new Promise((resolve) => setTimeout(resolve, 800));
+  return api(`/produto/${id_produto}`, {
+    method: "DELETE",
+  });
 }
 
 export function createColumns(onEdit?: (produto: Produto) => void): ColumnDef<Produto>[] {

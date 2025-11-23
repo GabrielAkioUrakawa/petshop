@@ -13,7 +13,7 @@ import NewFornecedorPopup from "./new-card";
 import { api } from "@/lib/api";
 
 async function getData(): Promise<Fornecedor[]> {
-  const fornecedores = await api("/fornecedor")
+  const fornecedores = await api("/fornecedor") as Fornecedor[]
   return fornecedores
 }
 

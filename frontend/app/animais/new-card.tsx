@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import {
@@ -21,50 +22,28 @@ import { X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Animal } from "./columns"
 import { Cliente } from "../clientes/columns"
+import { api } from "@/lib/api"
 
 async function criarAnimalApi(data) {
-  console.log("Enviando animal para API...", data)
-  return new Promise((resolve) => setTimeout(resolve, 1500))
+  console.log("Criando animal...", data)
+  const response = await api("/animal", {
+    method: "POST",
+    body: JSON.stringify(data),
+  })
+  return response as any
 }
 
 async function alterarAnimalApi(data) {
-  console.log("Alterando animal na API...", data)
-  return new Promise((resolve) => setTimeout(resolve, 1500))
+  const response = await api(`/animal/${data.nome}/${data.dono_cpf}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  })
+  return response as any
 }
 
-async function buscarClientesApi(): Promise<Cliente[]> {
-  // TODO: Substituir por chamada real da API
-  console.log("Buscando clientes da API...")
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          cpf: 12345678900,
-          nome: "João Silva",
-          email: "joao.silva@email.com",
-          telefone: "(11) 91234-5678",
-          endereco: "Rua das Flores, 123, São Paulo, SP",
-          data_cadastro: new Date("2023-11-20"),
-        },
-        {
-          cpf: 98765432100,
-          nome: "Maria Oliveira",
-          email: "maria.oliveira@email.com",
-          telefone: "(21) 99876-5432",
-          endereco: "Av. Brasil, 456, Rio de Janeiro, RJ",
-          data_cadastro: new Date("2024-01-15"),
-        },
-        {
-          cpf: 55544433322,
-          nome: "Carlos Pereira",
-          email: "carlos.pereira@email.com",
-          telefone: "(31) 93456-7890",
-          endereco: "Praça Central, 789, Belo Horizonte, MG",
-          data_cadastro: new Date("2024-03-07"),
-        },
-      ])
-    }, 500)
-  })
+async function buscarClientesApi() {
+  const response = await api("/cliente")
+  return response as any
 }
 
 const getInitialFormData = (animal: Animal | null | undefined) => {
@@ -134,13 +113,13 @@ export default function NewAnimalPopup({ open, onClose, animal, isEditing = fals
     setLoading(true)
 
     const data = {
+      donoCpf: formData.dono_cpf,
       nome: formData.nome,
       raca: formData.raca,
       especie: formData.especie,
       sexo: formData.sexo,
       peso: Number(formData.peso),
-      data_nascimento: new Date(formData.data_nascimento),
-      dono_cpf: Number(formData.dono_cpf),
+      dataNascimento: new Date(formData.data_nascimento).toISOString(),
     }
 
     if (isEditing) {
