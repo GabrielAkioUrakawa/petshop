@@ -9,11 +9,12 @@ export class ProdutoService {
     descricao: string,
     categoria: string,
     precoVenda: number,
+    precoCompra: number,
     qtdeEstoque: number,
     qtdeMinima: number,
-    fornCnpj?: string
+    fornCnpj?: string,
   ) {
-    return this.produtoRepository.create(descricao, categoria, precoVenda, qtdeEstoque, qtdeMinima, fornCnpj);
+    return this.produtoRepository.create(descricao, categoria, precoVenda, precoCompra,qtdeEstoque, qtdeMinima, fornCnpj);
   }
 
   async findAll() {
@@ -29,11 +30,12 @@ export class ProdutoService {
     descricao: string,
     categoria: string,
     precoVenda: number,
+    precoCompra: number,
     qtdeEstoque: number,
     qtdeMinima: number,
-    fornCnpj?: string
+    fornCnpj?: string,
   ) {
-    return this.produtoRepository.update(idProduto, descricao, categoria, precoVenda, qtdeEstoque, qtdeMinima, fornCnpj);
+    return this.produtoRepository.update(idProduto, descricao, categoria, precoVenda, precoCompra, qtdeEstoque, qtdeMinima, fornCnpj);
   }
 
   async delete(idProduto: number) {

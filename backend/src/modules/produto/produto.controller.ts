@@ -30,6 +30,7 @@ export class ProdutoController {
     descricao: string;
     categoria: string;
     precoVenda: number;
+    precoCompra: number;
     qtdeEstoque: number;
     qtdeMinima: number;
     fornCnpj?: string;
@@ -38,6 +39,7 @@ export class ProdutoController {
       body.descricao,
       body.categoria,
       body.precoVenda,
+      body.precoCompra,
       body.qtdeEstoque,
       body.qtdeMinima,
       body.fornCnpj
@@ -51,6 +53,7 @@ export class ProdutoController {
       descricao: string;
       categoria: string;
       precoVenda: number;
+      precoCompra: number;
       qtdeEstoque: number;
       qtdeMinima: number;
       fornCnpj?: string;
@@ -61,6 +64,7 @@ export class ProdutoController {
       body.descricao,
       body.categoria,
       body.precoVenda,
+      body.precoCompra,
       body.qtdeEstoque,
       body.qtdeMinima,
       body.fornCnpj

@@ -20,13 +20,14 @@ export class ProdutoRepository {
     descricao: string,
     categoria: string,
     precoVenda: number,
+    precoCompra: number,
     qtdeEstoque: number,
     qtdeMinima: number,
     fornCnpj?: string
   ) {
     await this.pool.query(
-      'INSERT INTO produto (descricao, categoria, preco_venda, qtde_estoque, qtde_minima, forn_cnpj) VALUES ($1, $2, $3, $4, $5, $6)',
-      [descricao, categoria, precoVenda, qtdeEstoque, qtdeMinima, fornCnpj]
+      'INSERT INTO produto (descricao, categoria, preco_venda, preco_compra, qtde_estoque, qtde_minima, forn_cnpj) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+      [descricao, categoria, precoVenda, precoCompra,qtdeEstoque, qtdeMinima, fornCnpj]
     );
   }
 
@@ -45,13 +46,14 @@ export class ProdutoRepository {
     descricao: string,
     categoria: string,
     precoVenda: number,
+    precoCompra: number,
     qtdeEstoque: number,
     qtdeMinima: number,
     fornCnpj?: string
   ) {
     await this.pool.query(
-      'UPDATE produto SET descricao = $2, categoria = $3, preco_venda = $4, qtde_estoque = $5, qtde_minima = $6, forn_cnpj = $7 WHERE id_produto = $1',
-      [idProduto, descricao, categoria, precoVenda, qtdeEstoque, qtdeMinima, fornCnpj]
+      'UPDATE produto SET descricao = $2, categoria = $3, preco_venda = $4, preco_compra = $5, qtde_estoque = $6, qtde_minima = $7, forn_cnpj = $8 WHERE id_produto = $1',
+      [idProduto, descricao, categoria, precoVenda, precoCompra,qtdeEstoque, qtdeMinima, fornCnpj]
     );
   }
 
