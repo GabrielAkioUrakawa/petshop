@@ -1,104 +1,127 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Card } from "@/components/ui/card";
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import { api } from "@/lib/api";
 
-type ProdutoServico = {
-  id: number;
-  nome: string;
-  quantidade: number;
-};
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 
-// --- API FAKE ---
-async function getProdutosDoServico(servicoId) {
-  return new Promise((resolve) =>
-    setTimeout(() => {
-      resolve([
-        { id: 1, nome: "Shampoo", quantidade: 1 },
-        { id: 2, nome: "Cortador de unhas", quantidade: 1 },
-      ]);
-    }, 400)
-  );
+async function getFornecedores() {
+  return await api("/fornecedor");
 }
 
-export default function ProdutosUtilizadosNoServicoDialog({
-  open,
-  onClose,
-  servicoId,
-}: {
-  open: boolean;
-  onClose: () => void;
-  servicoId?: number | null;
-}) {
+async function getServicosFornecedor(nomeFornecedor: string) {
+  return api(`/servico/by-fornecedor/${nomeFornecedor}`);
+}
+
+export default function ProdutoFornecedor({ open }: { open: boolean }) {
+  const [fornecedores, setFornecedores] = useState<any[]>([]);
+  const [selectedFornecedor, setSelectedFornecedor] = useState<string | null>(
+    null
+  );
+  const [servicos, setServicos] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-  const [produtos, setProdutos] = useState<ProdutoServico[]>([]);
 
   useEffect(() => {
-    if (!open || !servicoId) return;
-
-    let cancelado = false;
-
-    async function carregar() {
-      setLoading(true);
-      const data = await getProdutosDoServico(servicoId);
-      if (!cancelado) {
-        setProdutos(data as ProdutoServico[]);
-        setLoading(false);
-      }
+    async function load() {
+      const res = await getFornecedores() as any;
+      setFornecedores(res);
     }
+    load();
+  }, []);
 
-    carregar();
-    return () => {
-      cancelado = true;
-    };
-  }, [open, servicoId]);
+  async function buscar() {
+    if (!selectedFornecedor) return;
+
+    setLoading(true);
+    const res = await getServicosFornecedor(selectedFornecedor) as any;
+    setServicos(res);
+    setLoading(false);
+  }
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-lg">
-        <DialogHeader>
-          <DialogTitle>Produtos utilizados no serviço</DialogTitle>
-        </DialogHeader>
+    <Card className="w-full max-w-lg border-0 shadow-none max-h-150">
+      <CardHeader>
+        <CardTitle>Produtos por Fornecedor</CardTitle>
+        <CardDescription>
+          Selecione o fornecedor para visualizar os produtos usados em
+          serviços.
+        </CardDescription>
+      </CardHeader>
 
-        <Card className="h-[300px] overflow-y-auto p-4 mt-2">
-          {loading && produtos.length === 0 && <p>Carregando...</p>}
+      <CardContent>
 
-          {!loading && produtos.length === 0 && (
-            <p className="text-sm text-muted-foreground">
-              Nenhum produto utilizado.
-            </p>
-          )}
+        <div className="flex items-center gap-2 mb-3">
+          <Select onValueChange={(v) => setSelectedFornecedor(v)}>
+            <SelectTrigger className="w-[300px]">
+              <SelectValue placeholder="Selecione um fornecedor" />
+            </SelectTrigger>
 
+            <SelectContent>
+              {fornecedores.map((f) => (
+                <SelectItem key={f.nome} value={f.nome}>
+                  {f.nome}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Button onClick={buscar} disabled={!selectedFornecedor || loading}>
+            Buscar
+          </Button>
+        </div>
+
+        {loading && <p>Carregando...</p>}
+
+        {!loading && servicos.length === 0 && (
+          <p className="text-sm text-muted-foreground">
+            Nenhum serviço encontrado para esse fornecedor.
+          </p>
+        )}
+
+        <div className="mt-2 h-[calc(90%-5rem)] max-h-100 overflow-y-auto pr-2">
           <AnimatePresence>
-            {produtos.map((p) => (
+            {servicos.map((s, i) => (
               <motion.div
-                key={p.id}
+                key={i}
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="p-3 mb-3 border rounded-md"
+                className="p-3 mb-3 border rounded-lg"
               >
                 <p>
-                  <strong>ID:</strong> {p.id}
+                  <strong>Fornecedor:</strong> {s.nome_fornecedor}
                 </p>
                 <p>
-                  <strong>Produto:</strong> {p.nome}
+                  <strong>Produto:</strong> {s.nome_produto}
                 </p>
                 <p>
-                  <strong>Quantidade:</strong> {p.quantidade}
+                  <strong>Tipo de serviço:</strong> {s.tipo_servico}
+                </p>
+                <p>
+                  <strong>Data:</strong>{" "}
+                  {new Date(s.data_hora).toLocaleString("pt-BR")}
                 </p>
               </motion.div>
             ))}
           </AnimatePresence>
-        </Card>
-      </DialogContent>
-    </Dialog>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

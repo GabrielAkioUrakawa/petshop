@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 export type Produto = {
-  id: number
+  id_produto: number
   qtde_minima: number
   qtde_estoque: number
   descricao: string
@@ -20,15 +20,15 @@ export type Produto = {
   preco_venda: number
 }
 
-export function deleteProduto(id: number) {
-  console.log(`Excluindo produto com ID: ${id}`);
+export function deleteProduto(id_produto: number) {
+  console.log(`Excluindo produto com ID: ${id_produto}`);
   return new Promise((resolve) => setTimeout(resolve, 800));
 }
 
 export function createColumns(onEdit?: (produto: Produto) => void): ColumnDef<Produto>[] {
   return [
     {
-      accessorKey: "id",
+      accessorKey: "id_produto",
       header: "ID",
     },
     {
@@ -78,7 +78,7 @@ export function createColumns(onEdit?: (produto: Produto) => void): ColumnDef<Pr
               >
                 Alterar
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-red-500" onClick={() => deleteProduto(produto.id)}><Trash className="text-red-500"></Trash>Excluir</DropdownMenuItem>
+              <DropdownMenuItem className="text-red-500" onClick={() => deleteProduto(produto.id_produto)}><Trash className="text-red-500"></Trash>Excluir</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )

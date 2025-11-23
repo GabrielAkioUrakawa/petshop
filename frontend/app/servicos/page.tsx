@@ -8,37 +8,16 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { createColumns, Servico } from "./columns";
 import { DataTable } from "./data-table";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, Store } from "lucide-react";
 import NewServicoPopup from "./new-card";
-import ProdutosUtilizadosNoServicoDialog from "./details-card";
+import { api } from "@/lib/api";
+
+import ProdutoFornecedor from "./details-card";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 async function getData(): Promise<Servico[]> {
-  return [
-    {
-      servico_cpf: "1AA",
-      funcionario_nome: "João Silva",
-      cliente_nome: "Maria Santos",
-      animal_nome: "Rex",
-      data_hora: new Date("2024-12-15T10:00:00"),
-      preco: 150.00,
-      tipo: "Consulta",
-      descricao: "Consulta veterinária de rotina",
-      dono_cpf: 12345678900,
-      dono_nome: "Maria Santos",
-    },
-    {
-      servico_cpf: "1AB",
-      funcionario_nome: "Maria Oliveira",
-      cliente_nome: "Carlos Pereira",
-      animal_nome: "Luna",
-      data_hora: new Date("2024-12-16T14:30:00"),
-      preco: 80.00,
-      tipo: "Banho",
-      descricao: "Banho e tosa",
-      dono_cpf: 55544433322,
-      dono_nome: "Carlos Pereira",
-    },
-  ];
+  const res = await api("/servico")
+  return res as Servico[]
 }
 
 export default function ServicosPage() {
@@ -46,10 +25,7 @@ export default function ServicosPage() {
   const [data, setData] = useState<Servico[]>([]);
   const [servicoEditando, setServicoEditando] = useState<Servico | null>(null);
   const [popupKey, setPopupKey] = useState(0);
-
-  // NOVOS STATES
-  const [viewProductsOpen, setViewProductsOpen] = useState(false);
-  const [servicoSelecionado, setServicoSelecionado] = useState<Servico | null>(null);
+  const [openMinimo, setOpenMinimo] = useState(false);
 
   useEffect(() => {
     getData().then(setData);
@@ -72,13 +48,7 @@ export default function ServicosPage() {
     setOpen(true);
   };
 
-  // NOVA FUNÇÃO
-  const handleViewProducts = (servico: Servico) => {
-    setServicoSelecionado(servico);
-    setViewProductsOpen(true);
-  };
-
-  const columns = createColumns(handleEdit, handleViewProducts);
+  const columns = createColumns(handleEdit);
 
   return (
     <SidebarProvider
@@ -96,9 +66,15 @@ export default function ServicosPage() {
           <div className="@container/main flex flex-1 min-h-0 flex-col gap-2">
             <div className="m-6">
               <h1 className="text-xl font-bold">Serviços</h1>
-              <Button className="my-2" onClick={handleNew}>
-                <Plus /> Agendar Novo
-              </Button>
+              <div className="flex gap-2">
+                <Button onClick={handleNew}>
+                  <Plus /> Criar Novo
+                </Button>
+
+                <Button variant="secondary" onClick={() => setOpenMinimo(true)}>
+                  <Store /> Verificar produtos utilizados nos serviços 
+                </Button>
+              </div>
               <DataTable columns={columns} data={data} />
             </div>
           </div>
@@ -113,12 +89,11 @@ export default function ServicosPage() {
         isEditing={!!servicoEditando}
       />
 
-      <ProdutosUtilizadosNoServicoDialog
-        open={viewProductsOpen}
-        onClose={() => setViewProductsOpen(false)}
-        servicoId={servicoSelecionado?.dono_cpf}
-      />
-
+      <Dialog open={openMinimo} onOpenChange={setOpenMinimo}>
+        <DialogContent className="max-w-lg">
+          <ProdutoFornecedor open={openMinimo} />
+        </DialogContent>
+      </Dialog>
     </SidebarProvider>
   );
 }

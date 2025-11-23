@@ -10,31 +10,12 @@ import { DataTable } from "./data-table";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import NewAnimalPopup from "./new-card";
+import { api } from "@/lib/api";
+import AnimalDetalhes from "./details-card";
 
 async function getData(): Promise<Animal[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      nome: "Rex",
-      raca: "Labrador",
-      especie: "Cão",
-      sexo: "Macho",
-      peso: 25.5,
-      data_nascimento: new Date("2020-05-15"),
-      dono_cpf: 12345678900,
-      dono_nome: "João Silva",
-    },
-    {
-      nome: "Luna",
-      raca: "Persa",
-      especie: "Gato",
-      sexo: "Fêmea",
-      peso: 4.2,
-      data_nascimento: new Date("2021-08-20"),
-      dono_cpf: 98765432100,
-      dono_nome: "Maria Oliveira",
-    },
-  ];
+  const animais = await api("/animal") 
+  return animais as Animal[];
 }
 
 export default function AnimaisPage() {
@@ -42,6 +23,9 @@ export default function AnimaisPage() {
   const [data, setData] = useState<Animal[]>([]);
   const [animalEditando, setAnimalEditando] = useState<Animal | null>(null);
   const [popupKey, setPopupKey] = useState(0);
+
+  const [viewProductsOpen, setViewProductsOpen] = useState(false);
+  const [servicoSelecionado, setServicoSelecionado] = useState<Animal | null>(null);
 
   // Carrega dados quando a página monta
   useEffect(() => {
@@ -65,7 +49,12 @@ export default function AnimaisPage() {
     setOpen(true);
   };
 
-  const columns = createColumns(handleEdit);
+  const handleViewProducts = (servico: Animal) => {
+    setServicoSelecionado(servico);
+    setViewProductsOpen(true);
+  };
+
+  const columns = createColumns(handleEdit, handleViewProducts);
 
   return (
     <SidebarProvider
@@ -98,6 +87,13 @@ export default function AnimaisPage() {
         onClose={handleClose}
         animal={animalEditando}
         isEditing={!!animalEditando}
+      />
+
+      <AnimalDetalhes
+        open={viewProductsOpen}
+        onClose={() => setViewProductsOpen(false)}
+        animalNome={servicoSelecionado?.nome}
+        animalCpf={servicoSelecionado?.dono_cpf}
       />
     </SidebarProvider>
   );

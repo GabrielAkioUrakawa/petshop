@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 export type Venda = {
-  id: string
+  id_compra: string
   data_hora: Date
   cpf_cliente: number
   meio: string
@@ -28,7 +28,7 @@ export function deleteVenda(id: string) {
 export function createColumns(onEdit?: (venda: Venda) => void): ColumnDef<Venda>[] {
   return [
     {
-      accessorKey: "id",
+      accessorKey: "id_compra",
       header: "ID",
     },
     {
@@ -44,12 +44,16 @@ export function createColumns(onEdit?: (venda: Venda) => void): ColumnDef<Venda>
       header: "CPF Cliente",
     },
     {
-      accessorKey: "meio",
+      accessorKey: "nome_cliente",
+      header: "Nome Cliente",
+    },
+    {
+      accessorKey: "forma_pagamento",
       header: "Meio de Pagamento",
     },
     {
-      accessorKey: "parcela",
-      header: "Parcela",
+      accessorKey: "total_produtos_adquiridos",
+      header: "Qtde Itens",
     },
     {
       accessorKey: "status",
@@ -75,7 +79,7 @@ export function createColumns(onEdit?: (venda: Venda) => void): ColumnDef<Venda>
               >
                 Alterar
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-red-500" onClick={() => deleteVenda(venda.id)}><Trash className="text-red-500"></Trash>Excluir</DropdownMenuItem>
+              <DropdownMenuItem className="text-red-500" onClick={() => deleteVenda(venda.id_compra)}><Trash className="text-red-500"></Trash>Excluir</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )

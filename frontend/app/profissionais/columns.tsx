@@ -36,7 +36,7 @@ export function createColumns(onEdit?: (funcionario: Funcionario) => void): Colu
       header: "CPF",
     },
     {
-      accessorKey: "nome",
+      accessorKey: "funcionario_nome",
       header: "Nome",
     },
     {
@@ -52,7 +52,7 @@ export function createColumns(onEdit?: (funcionario: Funcionario) => void): Colu
       header: "Endereço",
     },
     {
-      accessorKey: "qtd_servicos",
+      accessorKey: "total_servicos",
       header: "Serviços Realizados",
     },
     {

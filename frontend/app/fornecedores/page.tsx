@@ -10,32 +10,11 @@ import { DataTable } from "./data-table";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import NewFornecedorPopup from "./new-card";
+import { api } from "@/lib/api";
 
 async function getData(): Promise<Fornecedor[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      cnpj: 12345678000190,
-      nome: "PetShop Supplies LTDA",
-      email: "contato@petshopsupplies.com.br",
-      telefone: "(11) 3456-7890",
-      categoria: "Alimentação",
-    },
-    {
-      cnpj: 98765432000110,
-      nome: "Brinquedos Pet S.A.",
-      email: "vendas@brinquedospet.com.br",
-      telefone: "(21) 2345-6789",
-      categoria: "Brinquedos",
-    },
-    {
-      cnpj: 55544433000122,
-      nome: "Higiene Animal ME",
-      email: "comercial@higieneanimal.com.br",
-      telefone: "(31) 3456-7890",
-      categoria: "Higiene",
-    },
-  ];
+  const fornecedores = await api("/fornecedor")
+  return fornecedores
 }
 
 export default function FornecedoresPage() {

@@ -34,7 +34,6 @@ export function deleteServico(funcionario_nome: string, cliente_nome: string, an
 
 export function createColumns(
   onEdit?: (servico: Servico) => void,
-  onViewProducts?: (servico: Servico) => void
 ): ColumnDef<Servico>[] {
   return [
     {
@@ -91,11 +90,6 @@ export function createColumns(
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-
-              <DropdownMenuItem onClick={() => onViewProducts?.(servico)}>
-                Ver Produtos
-              </DropdownMenuItem>
-
               <DropdownMenuItem onClick={() => onEdit?.(servico)}>
                 Alterar
               </DropdownMenuItem>

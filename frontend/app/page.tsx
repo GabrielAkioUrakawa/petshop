@@ -1,3 +1,4 @@
+import AgendaDiariaCard from "@/components/agenda"
 import { AppSidebar } from "@/components/app-sidebar"
 import { ChartAreaInteractive } from "@/components/chart-area-interactive"
 import { SectionCards } from "@/components/section-cards"
@@ -27,7 +28,7 @@ export default function Page() {
               <SectionCards />
               <div className="px-4 lg:px-6 flex-1">
                 <div className="h-screen">
-                  <ChartAreaInteractive />
+                  <AgendaDiariaCard open={true} />
                 </div>
               </div>
             </div>

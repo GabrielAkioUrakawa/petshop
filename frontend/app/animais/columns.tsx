@@ -19,16 +19,15 @@ export type Animal = {
   peso: number
   data_nascimento: Date
 
-  dono_cpf: number
-  dono_nome: string
+  dono_cpf: string
 }
 
-export function deleteAnimal(nome: string, dono_cpf: number) {
+export function deleteAnimal(nome: string, dono_cpf: string) {
   console.log(`Excluindo animal ${nome} do dono com CPF: ${dono_cpf}`);
   return new Promise((resolve) => setTimeout(resolve, 800));
 }
 
-export function createColumns(onEdit?: (animal: Animal) => void): ColumnDef<Animal>[] {
+export function createColumns(onEdit?: (animal: Animal) => void,  onViewProducts?: (animal: Animal) => void): ColumnDef<Animal>[] {
   return [
     {
       accessorKey: "nome",
@@ -63,10 +62,6 @@ export function createColumns(onEdit?: (animal: Animal) => void): ColumnDef<Anim
       header: "CPF do Dono",
     },
     {
-      accessorKey: "dono_nome",
-      header: "Nome do Dono",
-    },
-    {
       id: "actions",
       header: "Ações",
       cell: ({ row }) => {
@@ -81,6 +76,9 @@ export function createColumns(onEdit?: (animal: Animal) => void): ColumnDef<Anim
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => onViewProducts?.(animal)}>
+                Ver Detalhes
+              </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => onEdit?.(animal)}
               >

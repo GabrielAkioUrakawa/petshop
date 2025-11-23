@@ -11,6 +11,8 @@ import {
 
   IconHeart,
 
+  IconHome,
+
   IconNurse,
 
   IconPaw,
@@ -41,9 +43,9 @@ const data = {
   },
   navMain: [
     {
-      title: "Dashboard",
+      title: "Home",
       url: "/",
-      icon: IconDashboard,
+      icon: IconHome,
     },
     {
       title: "Profissionais",
@@ -71,14 +73,14 @@ const data = {
       icon: IconBuildingFactory2,
     },
     {
+      title: "Compras de Produtos",
+      url: "/compras",
+      icon: IconShoppingCart,
+    },
+    {
       title: "Serviços",
       url: "/servicos",
       icon: IconHeart,
-    },
-    {
-      title: "Compras",
-      url: "/compras",
-      icon: IconShoppingCart,
     },
     {
       title: "Vendas",

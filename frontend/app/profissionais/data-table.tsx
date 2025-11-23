@@ -40,26 +40,23 @@ export function DataTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
-    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     state: {
       sorting,
       columnFilters,
     },
-  });
+  });  
 
   return (
     <div>
       <div className="flex items-center py-4">
         <Input
           placeholder="Filtrar nome..."
-          value={(table.getColumn("nome")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("funcionario_nome")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("nome")?.setFilterValue(event.target.value)
+            table.getColumn("funcionario_nome")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -107,7 +104,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Sem resultados
                 </TableCell>
               </TableRow>
             )}

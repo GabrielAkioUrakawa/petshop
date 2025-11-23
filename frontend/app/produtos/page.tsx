@@ -14,34 +14,11 @@ import NewProdutoPopup from "./new-card";
 import ProdutosAbaixoMinimoCard from "./details-card";
 
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { api } from "@/lib/api";
 
 async function getData(): Promise<Produto[]> {
-  return [
-    {
-      id: 1,
-      descricao: "Ração Premium para Cães",
-      categoria: "Alimentação",
-      qtde_minima: 10,
-      qtde_estoque: 50,
-      preco_venda: 89.9,
-    },
-    {
-      id: 2,
-      descricao: "Brinquedo para Gatos",
-      categoria: "Brinquedos",
-      qtde_minima: 5,
-      qtde_estoque: 25,
-      preco_venda: 29.9,
-    },
-    {
-      id: 3,
-      descricao: "Shampoo para Cães",
-      categoria: "Higiene",
-      qtde_minima: 8,
-      qtde_estoque: 30,
-      preco_venda: 45.0,
-    },
-  ];
+  const produtos = await api("/produto")
+  return produtos as Produto[];
 }
 
 export default function ProdutosPage() {
@@ -109,7 +86,7 @@ export default function ProdutosPage() {
       </SidebarInset>
 
       <NewProdutoPopup
-        key={`${produtoEditando?.id || "new"}-${popupKey}`}
+        key={`${produtoEditando?.id_produto || "new"}-${popupKey}`}
         open={open}
         onClose={handleClose}
         produto={produtoEditando}

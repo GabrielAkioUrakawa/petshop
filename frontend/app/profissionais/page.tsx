@@ -10,39 +10,13 @@ import { DataTable } from "./data-table";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import NewFuncionarioPopup from "./new-card";
+import { api } from "@/lib/api";
 
 async function getData(): Promise<Funcionario[]> {
   // Fetch data from your API here.
-  return [
-    {
-      cpf: 12345678900,
-      nome: "João Silva",
-      email: "joao.silva@email.com",
-      telefone: "(11) 91234-5678",
-      endereco: "Rua das Flores, 123, São Paulo, SP",
-      especialidade: "Veterinário",
-      qtd_servicos: 20,
-    },
-    {
-      cpf: 98765432100,
-      nome: "Maria Oliveira",
-      email: "maria.oliveira@email.com",
-      telefone: "(21) 99876-5432",
-      endereco: "Av. Brasil, 456, Rio de Janeiro, RJ",
-      especialidade: "Veterinário",
-      qtd_servicos: 23,
-    },
-    {
-      cpf: 55544433322,
-      nome: "Carlos Pereira",
-      email: "carlos.pereira@email.com",
-      telefone: "(31) 93456-7890",
-      endereco: "Praça Central, 789, Belo Horizonte, MG",
-      especialidade: "Veterinário",
-      qtd_servicos: 10,
-    },
-    // ...
-  ];
+  const funcionarios = await api("/funcionario/with-service-count");
+  
+  return funcionarios;
 }
 
 export default function FuncionariosPage() {

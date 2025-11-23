@@ -37,11 +37,11 @@ export function createColumns(onEdit?: (compra: Compra) => void): ColumnDef<Comp
       header: "ID Produto",
     },
     {
-      accessorKey: "nome_produto",
+      accessorKey: "descricao",
       header: "Nome Produto",
     },
     {
-      accessorKey: "cnpj_fornecedor",
+      accessorKey: "cnpj",
       header: "CNPJ Fornecedor",
     },
     {

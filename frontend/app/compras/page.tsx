@@ -10,29 +10,11 @@ import { DataTable } from "./data-table";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import NewCompraPopup from "./new-card";
+import { api } from "@/lib/api";
 
 async function getData(): Promise<Compra[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id_lote: 1,
-      id_produto: 1,
-      nome_produto: "Ração Premium para Cães",
-      cnpj_fornecedor: 12345678000190,
-      nome_fornecedor: "PetShop Supplies LTDA",
-      quantidade: 50,
-      preco_compra: 65.00,
-    },
-    {
-      id_lote: 2,
-      id_produto: 2,
-      nome_produto: "Brinquedo para Gatos",
-      cnpj_fornecedor: 98765432000110,
-      nome_fornecedor: "Brinquedos Pet S.A.",
-      quantidade: 30,
-      preco_compra: 18.50,
-    },
-  ];
+  const compras = await api("/lote")
+  return compras
 }
 
 export default function ComprasPage() {

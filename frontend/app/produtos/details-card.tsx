@@ -1,23 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
 import { Produto } from "./columns";
+import { api } from "@/lib/api";
 
 async function getProdutosAbaixoDoMinimo() {
-  return new Promise((resolve) =>
-    setTimeout(() => {
-      resolve([
-        { id: 1, descricao: "Ração", categoria: "Alimentos" },
-        { id: 2, descricao: "Sabonete", categoria: "Limpeza" },
-      ]);
-    }, 200)
-  );
+  const produtos = await api("/produto/low-stock")
+  return produtos
 }
 
 export default function ProdutosAbaixoMinimoCard({ open }: { open: boolean }) {
-  const [produtos, setProdutos] = useState<Produto[]>([]);
+  const [produtos, setProdutos] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -29,7 +25,7 @@ export default function ProdutosAbaixoMinimoCard({ open }: { open: boolean }) {
       setLoading(true);
       const data = await getProdutosAbaixoDoMinimo();
       if (!cancelado) {
-        setProdutos(data as Produto[]);
+        setProdutos(data as any);
         setLoading(false);
       }
     }
@@ -45,6 +41,7 @@ export default function ProdutosAbaixoMinimoCard({ open }: { open: boolean }) {
     <Card className="w-full max-w-lg border-0 shadow-none h-80"> {/* altura fixa */}
       <CardHeader className="flex-row justify-between items-center">
         <CardTitle>Estoque Abaixo do Mínimo</CardTitle>
+        <CardDescription>Produtos que a quantidade em estoque está abaixo do mínimo.</CardDescription>
       </CardHeader>
 
       <CardContent className="h-full">
@@ -62,20 +59,20 @@ export default function ProdutosAbaixoMinimoCard({ open }: { open: boolean }) {
           <AnimatePresence>
             {produtos.map((p) => (
               <motion.div
-                key={p.id}
+                key={p.id_produto}
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 className="p-3 mb-3 border rounded-lg"
               >
                 <p>
-                  <strong>ID:</strong> {p.id}
-                </p>
-                <p>
-                  <strong>Descrição:</strong> {p.descricao}
+                  <strong>Nome:</strong> {p.nome_produto}
                 </p>
                 <p>
                   <strong>Categoria:</strong> {p.categoria}
+                </p>
+                <p>
+                  <strong>Último Forncedor:</strong> {p.nome_fornecedor}
                 </p>
               </motion.div>
             ))}
