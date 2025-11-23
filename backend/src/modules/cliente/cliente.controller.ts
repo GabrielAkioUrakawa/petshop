@@ -26,13 +26,26 @@ export class ClienteController {
   }
 
   @Post()
-  async create(@Body() body: { cpf: string; dataCadastro: string }) {
-    return this.clienteService.create(body.cpf, body.dataCadastro);
+  async create(@Body() body: {
+    cpf: string;
+    dataCadastro: string;
+    nome: string;
+    email?: string;
+    telefone?: string;
+    endereco?: string;
+  }) {
+    return this.clienteService.create(body);
   }
 
   @Put(':cpf')
-  async update(@Param('cpf') cpf: string, @Body() body: { dataCadastro: string }) {
-    return this.clienteService.update(cpf, body.dataCadastro);
+  async update(@Param('cpf') cpf: string, @Body() body: {
+    dataCadastro?: string;
+    nome?: string;
+    email?: string;
+    telefone?: string;
+    endereco?: string;
+  }) {
+    return this.clienteService.update(cpf, body);
   }
 
   @Delete(':cpf')

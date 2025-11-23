@@ -44,16 +44,14 @@ export class ServicoController {
     descricao: string;
     animalNome: string;
     animalCpf: string;
+    produtos?: Array<{
+      idProduto: number;
+      quantidade: number;
+      precoUnitario: number;
+      idCompra: number;
+    }>;
   }) {
-    return this.servicoService.create(
-      body.servicoCpf,
-      body.dataHora,
-      body.preco,
-      body.tipo,
-      body.descricao,
-      body.animalNome,
-      body.animalCpf
-    );
+    return this.servicoService.create(body);
   }
 
   @Put(':servicoCpf/:dataHora')

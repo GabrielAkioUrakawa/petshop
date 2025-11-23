@@ -16,6 +16,12 @@ export declare class ServicoController {
         descricao: string;
         animalNome: string;
         animalCpf: string;
+        produtos?: Array<{
+            idProduto: number;
+            quantidade: number;
+            precoUnitario: number;
+            idCompra: number;
+        }>;
     }): Promise<void>;
     update(servicoCpf: string, dataHora: string, body: {
         preco: number;

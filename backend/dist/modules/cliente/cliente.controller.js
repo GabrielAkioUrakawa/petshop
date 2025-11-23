@@ -33,10 +33,10 @@ let ClienteController = class ClienteController {
         return this.clienteService.findByCpf(cpf);
     }
     async create(body) {
-        return this.clienteService.create(body.cpf, body.dataCadastro);
+        return this.clienteService.create(body);
     }
     async update(cpf, body) {
-        return this.clienteService.update(cpf, body.dataCadastro);
+        return this.clienteService.update(cpf, body);
     }
     async delete(cpf) {
         return this.clienteService.delete(cpf);

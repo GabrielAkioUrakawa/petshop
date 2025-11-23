@@ -1,18 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { CompraRepository } from './compra.repository';
 
+interface CreateCompraDto {
+  dataHora: string;
+  meio: string;
+  parcela: number;
+  status: string;
+  cpfCliente: string;
+  produtos?: Array<{
+    idProduto: number;
+    quantidade: number;
+    precoUnitario: number;
+    servicoCpf?: string;
+    servicoDataHora?: string;
+  }>;
+}
+
 @Injectable()
 export class CompraService {
   constructor(private readonly compraRepository: CompraRepository) {}
 
-  async create(
-    dataHora: string,
-    meio: string,
-    parcela: number,
-    status: string,
-    cpfCliente: string
-  ) {
-    return this.compraRepository.create(dataHora, meio, parcela, status, cpfCliente);
+  async create(data: CreateCompraDto) {
+    return this.compraRepository.create(data);
   }
 
   async findAll() {

@@ -1,12 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { FuncionarioRepository } from './funcionario.repository';
 
+interface CreateFuncionarioDto {
+  cpf: string;
+  especialidade: string;
+  nome: string;
+  email?: string;
+  telefone?: string;
+  endereco?: string;
+}
+
+interface UpdateFuncionarioDto {
+  especialidade?: string;
+  nome?: string;
+  email?: string;
+  telefone?: string;
+  endereco?: string;
+}
+
 @Injectable()
 export class FuncionarioService {
   constructor(private readonly funcionarioRepository: FuncionarioRepository) {}
 
-  async create(cpf: string, especialidade: string) {
-    return this.funcionarioRepository.create(cpf, especialidade);
+  async create(data: CreateFuncionarioDto) {
+    return this.funcionarioRepository.create(data);
   }
 
   async findAll() {
@@ -17,8 +34,8 @@ export class FuncionarioService {
     return this.funcionarioRepository.findByCpf(cpf);
   }
 
-  async update(cpf: string, especialidade: string) {
-    return this.funcionarioRepository.update(cpf, especialidade);
+  async update(cpf: string, data: UpdateFuncionarioDto) {
+    return this.funcionarioRepository.update(cpf, data);
   }
 
   async delete(cpf: string) {

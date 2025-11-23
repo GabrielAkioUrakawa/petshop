@@ -1,8 +1,23 @@
 import { ServicoRepository } from './servico.repository';
+interface CreateServicoDto {
+    servicoCpf: string;
+    dataHora: string;
+    preco: number;
+    tipo: string;
+    descricao: string;
+    animalNome: string;
+    animalCpf: string;
+    produtos?: Array<{
+        idProduto: number;
+        quantidade: number;
+        precoUnitario: number;
+        idCompra: number;
+    }>;
+}
 export declare class ServicoService {
     private readonly servicoRepository;
     constructor(servicoRepository: ServicoRepository);
-    create(servicoCpf: string, dataHora: string, preco: number, tipo: string, descricao: string, animalNome: string, animalCpf: string): Promise<void>;
+    create(data: CreateServicoDto): Promise<void>;
     findAll(): Promise<any[]>;
     findById(servicoCpf: string, dataHora: string): Promise<any>;
     update(servicoCpf: string, dataHora: string, preco: number, tipo: string, descricao: string, animalNome: string, animalCpf: string): Promise<void>;
@@ -12,3 +27,4 @@ export declare class ServicoService {
     count(): Promise<number>;
     findRevenueByMonth(mes: number, ano: number): Promise<any>;
 }
+export {};

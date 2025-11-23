@@ -17,8 +17,8 @@ let FuncionarioService = class FuncionarioService {
     constructor(funcionarioRepository) {
         this.funcionarioRepository = funcionarioRepository;
     }
-    async create(cpf, especialidade) {
-        return this.funcionarioRepository.create(cpf, especialidade);
+    async create(data) {
+        return this.funcionarioRepository.create(data);
     }
     async findAll() {
         return this.funcionarioRepository.findAll();
@@ -26,8 +26,8 @@ let FuncionarioService = class FuncionarioService {
     async findByCpf(cpf) {
         return this.funcionarioRepository.findByCpf(cpf);
     }
-    async update(cpf, especialidade) {
-        return this.funcionarioRepository.update(cpf, especialidade);
+    async update(cpf, data) {
+        return this.funcionarioRepository.update(cpf, data);
     }
     async delete(cpf) {
         return this.funcionarioRepository.delete(cpf);

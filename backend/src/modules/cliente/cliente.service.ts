@@ -1,12 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { ClienteRepository } from './cliente.repository';
 
+interface CreateClienteDto {
+  cpf: string;
+  dataCadastro: string;
+  nome: string;
+  email?: string;
+  telefone?: string;
+  endereco?: string;
+}
+
+interface UpdateClienteDto {
+  dataCadastro?: string;
+  nome?: string;
+  email?: string;
+  telefone?: string;
+  endereco?: string;
+}
+
 @Injectable()
 export class ClienteService {
   constructor(private readonly clienteRepository: ClienteRepository) {}
 
-  async create(cpf: string, dataCadastro: string) {
-    return this.clienteRepository.create(cpf, dataCadastro);
+  async create(data: CreateClienteDto) {
+    return this.clienteRepository.create(data);
   }
 
   async findAll() {
@@ -17,8 +34,8 @@ export class ClienteService {
     return this.clienteRepository.findByCpf(cpf);
   }
 
-  async update(cpf: string, dataCadastro: string) {
-    return this.clienteRepository.update(cpf, dataCadastro);
+  async update(cpf: string, data: UpdateClienteDto) {
+    return this.clienteRepository.update(cpf, data);
   }
 
   async delete(cpf: string) {

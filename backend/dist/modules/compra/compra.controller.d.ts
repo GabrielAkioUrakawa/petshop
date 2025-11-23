@@ -11,7 +11,16 @@ export declare class CompraController {
         parcela: number;
         status: string;
         cpfCliente: string;
-    }): Promise<void>;
+        produtos?: Array<{
+            idProduto: number;
+            quantidade: number;
+            precoUnitario: number;
+            servicoCpf?: string;
+            servicoDataHora?: string;
+        }>;
+    }): Promise<{
+        id_compra: any;
+    }>;
     update(idCompra: string, body: {
         dataHora: string;
         meio: string;

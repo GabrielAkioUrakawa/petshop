@@ -1,28 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { ServicoRepository } from './servico.repository';
 
+interface CreateServicoDto {
+  servicoCpf: string;
+  dataHora: string;
+  preco: number;
+  tipo: string;
+  descricao: string;
+  animalNome: string;
+  animalCpf: string;
+  produtos?: Array<{
+    idProduto: number;
+    quantidade: number;
+    precoUnitario: number;
+    idCompra: number;
+  }>;
+}
+
 @Injectable()
 export class ServicoService {
   constructor(private readonly servicoRepository: ServicoRepository) {}
 
-  async create(
-    servicoCpf: string,
-    dataHora: string,
-    preco: number,
-    tipo: string,
-    descricao: string,
-    animalNome: string,
-    animalCpf: string
-  ) {
-    return this.servicoRepository.create(
-      servicoCpf,
-      dataHora,
-      preco,
-      tipo,
-      descricao,
-      animalNome,
-      animalCpf
-    );
+  async create(data: CreateServicoDto) {
+    return this.servicoRepository.create(data);
   }
 
   async findAll() {

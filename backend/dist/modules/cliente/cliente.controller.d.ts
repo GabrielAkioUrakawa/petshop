@@ -9,9 +9,17 @@ export declare class ClienteController {
     create(body: {
         cpf: string;
         dataCadastro: string;
+        nome: string;
+        email?: string;
+        telefone?: string;
+        endereco?: string;
     }): Promise<void>;
     update(cpf: string, body: {
-        dataCadastro: string;
+        dataCadastro?: string;
+        nome?: string;
+        email?: string;
+        telefone?: string;
+        endereco?: string;
     }): Promise<void>;
     delete(cpf: string): Promise<void>;
 }

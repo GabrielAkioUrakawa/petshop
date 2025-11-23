@@ -30,14 +30,15 @@ export class CompraController {
     parcela: number;
     status: string;
     cpfCliente: string;
+    produtos?: Array<{
+      idProduto: number;
+      quantidade: number;
+      precoUnitario: number;
+      servicoCpf?: string;
+      servicoDataHora?: string;
+    }>;
   }) {
-    return this.compraService.create(
-      body.dataHora,
-      body.meio,
-      body.parcela,
-      body.status,
-      body.cpfCliente
-    );
+    return this.compraService.create(body);
   }
 
   @Put(':idCompra')

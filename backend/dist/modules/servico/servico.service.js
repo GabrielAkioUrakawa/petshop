@@ -17,8 +17,8 @@ let ServicoService = class ServicoService {
     constructor(servicoRepository) {
         this.servicoRepository = servicoRepository;
     }
-    async create(servicoCpf, dataHora, preco, tipo, descricao, animalNome, animalCpf) {
-        return this.servicoRepository.create(servicoCpf, dataHora, preco, tipo, descricao, animalNome, animalCpf);
+    async create(data) {
+        return this.servicoRepository.create(data);
     }
     async findAll() {
         return this.servicoRepository.findAll();

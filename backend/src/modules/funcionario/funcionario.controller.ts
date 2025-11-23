@@ -26,13 +26,26 @@ export class FuncionarioController {
   }
 
   @Post()
-  async create(@Body() body: { cpf: string; especialidade: string }) {
-    return this.funcionarioService.create(body.cpf, body.especialidade);
+  async create(@Body() body: {
+    cpf: string;
+    especialidade: string;
+    nome: string;
+    email?: string;
+    telefone?: string;
+    endereco?: string;
+  }) {
+    return this.funcionarioService.create(body);
   }
 
   @Put(':cpf')
-  async update(@Param('cpf') cpf: string, @Body() body: { especialidade: string }) {
-    return this.funcionarioService.update(cpf, body.especialidade);
+  async update(@Param('cpf') cpf: string, @Body() body: {
+    especialidade?: string;
+    nome?: string;
+    email?: string;
+    telefone?: string;
+    endereco?: string;
+  }) {
+    return this.funcionarioService.update(cpf, body);
   }
 
   @Delete(':cpf')

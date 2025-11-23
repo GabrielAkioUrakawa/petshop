@@ -30,7 +30,7 @@ let CompraController = class CompraController {
         return this.compraService.findById(Number(idCompra));
     }
     async create(body) {
-        return this.compraService.create(body.dataHora, body.meio, body.parcela, body.status, body.cpfCliente);
+        return this.compraService.create(body);
     }
     async update(idCompra, body) {
         return this.compraService.update(Number(idCompra), body.dataHora, body.meio, body.parcela, body.status, body.cpfCliente);

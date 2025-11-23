@@ -24,8 +24,27 @@ let FuncionarioRepository = class FuncionarioRepository {
             ssl: false,
         });
     }
-    async create(cpf, especialidade) {
-        await this.pool.query('INSERT INTO funcionario (cpf, especialidade) VALUES ($1, $2)', [cpf, especialidade]);
+    async create(data) {
+        const client = await this.pool.connect();
+        try {
+            await client.query('BEGIN');
+            await client.query(`INSERT INTO pessoa (cpf, nome, email, telefone, endereco)
+         VALUES ($1, $2, $3, $4, $5)
+         ON CONFLICT (cpf) DO UPDATE SET
+           nome = EXCLUDED.nome,
+           email = EXCLUDED.email,
+           telefone = EXCLUDED.telefone,
+           endereco = EXCLUDED.endereco`, [data.cpf, data.nome, data.email, data.telefone, data.endereco]);
+            await client.query('INSERT INTO funcionario (cpf, especialidade) VALUES ($1, $2)', [data.cpf, data.especialidade]);
+            await client.query('COMMIT');
+        }
+        catch (error) {
+            await client.query('ROLLBACK');
+            throw error;
+        }
+        finally {
+            client.release();
+        }
     }
     async findAll() {
         const result = await this.pool.query(`SELECT F.CPF, F.ESPECIALIDADE, P.NOME, P.TELEFONE, P.ENDERECO
@@ -41,8 +60,45 @@ let FuncionarioRepository = class FuncionarioRepository {
        WHERE F.CPF = $1`, [cpf]);
         return result.rows[0];
     }
-    async update(cpf, especialidade) {
-        await this.pool.query('UPDATE funcionario SET especialidade = $2 WHERE cpf = $1', [cpf, especialidade]);
+    async update(cpf, data) {
+        const client = await this.pool.connect();
+        try {
+            await client.query('BEGIN');
+            const pessoaFields = [];
+            const pessoaValues = [];
+            let pessoaParamCount = 1;
+            if (data.nome !== undefined) {
+                pessoaFields.push(`nome = $${pessoaParamCount++}`);
+                pessoaValues.push(data.nome);
+            }
+            if (data.email !== undefined) {
+                pessoaFields.push(`email = $${pessoaParamCount++}`);
+                pessoaValues.push(data.email);
+            }
+            if (data.telefone !== undefined) {
+                pessoaFields.push(`telefone = $${pessoaParamCount++}`);
+                pessoaValues.push(data.telefone);
+            }
+            if (data.endereco !== undefined) {
+                pessoaFields.push(`endereco = $${pessoaParamCount++}`);
+                pessoaValues.push(data.endereco);
+            }
+            if (pessoaFields.length > 0) {
+                pessoaValues.push(cpf);
+                await client.query(`UPDATE pessoa SET ${pessoaFields.join(', ')} WHERE cpf = $${pessoaParamCount}`, pessoaValues);
+            }
+            if (data.especialidade !== undefined) {
+                await client.query('UPDATE funcionario SET especialidade = $1 WHERE cpf = $2', [data.especialidade, cpf]);
+            }
+            await client.query('COMMIT');
+        }
+        catch (error) {
+            await client.query('ROLLBACK');
+            throw error;
+        }
+        finally {
+            client.release();
+        }
     }
     async delete(cpf) {
         await this.pool.query('DELETE FROM funcionario WHERE cpf = $1', [cpf]);

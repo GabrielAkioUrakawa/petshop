@@ -33,10 +33,10 @@ let FuncionarioController = class FuncionarioController {
         return this.funcionarioService.findByCpf(cpf);
     }
     async create(body) {
-        return this.funcionarioService.create(body.cpf, body.especialidade);
+        return this.funcionarioService.create(body);
     }
     async update(cpf, body) {
-        return this.funcionarioService.update(cpf, body.especialidade);
+        return this.funcionarioService.update(cpf, body);
     }
     async delete(cpf) {
         return this.funcionarioService.delete(cpf);

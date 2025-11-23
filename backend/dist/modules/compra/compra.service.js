@@ -17,8 +17,8 @@ let CompraService = class CompraService {
     constructor(compraRepository) {
         this.compraRepository = compraRepository;
     }
-    async create(dataHora, meio, parcela, status, cpfCliente) {
-        return this.compraRepository.create(dataHora, meio, parcela, status, cpfCliente);
+    async create(data) {
+        return this.compraRepository.create(data);
     }
     async findAll() {
         return this.compraRepository.findAll();

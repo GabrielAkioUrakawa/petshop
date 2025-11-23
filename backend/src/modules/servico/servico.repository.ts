@@ -16,20 +16,69 @@ export class ServicoRepository {
     });
   }
 
-  async create(
-    servicoCpf: string,
-    dataHora: string,
-    preco: number,
-    tipo: string,
-    descricao: string,
-    animalNome: string,
-    animalCpf: string
-  ) {
-    await this.pool.query(
-      `INSERT INTO servico (servico_cpf, data_hora, preco, tipo, descricao, animal_nome, animal_cpf)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-      [servicoCpf, dataHora, preco, tipo, descricao, animalNome, animalCpf]
-    );
+  async create(data: {
+    servicoCpf: string;
+    dataHora: string;
+    preco: number;
+    tipo: string;
+    descricao: string;
+    animalNome: string;
+    animalCpf: string;
+    produtos?: Array<{
+      idProduto: number;
+      quantidade: number;
+      precoUnitario: number;
+      idCompra: number;
+    }>;
+  }) {
+    const client = await this.pool.connect();
+    try {
+      await client.query('BEGIN');
+
+      // Insere o serviço
+      await client.query(
+        `INSERT INTO servico (servico_cpf, data_hora, preco, tipo, descricao, animal_nome, animal_cpf)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [data.servicoCpf, data.dataHora, data.preco, data.tipo, data.descricao, data.animalNome, data.animalCpf]
+      );
+
+      // Se houver produtos, insere/atualiza na tabela COMPRA_INCLUI e atualiza o estoque
+      if (data.produtos && data.produtos.length > 0) {
+        for (const produto of data.produtos) {
+          // Atualiza a relação COMPRA_INCLUI para vincular com o serviço
+          await client.query(
+            `INSERT INTO compra_inclui (id_compra, id_produto, quantidade, preco_unitario, servico_cpf, servico_data_hora)
+             VALUES ($1, $2, $3, $4, $5, $6)
+             ON CONFLICT (id_compra, id_produto) DO UPDATE SET
+               servico_cpf = EXCLUDED.servico_cpf,
+               servico_data_hora = EXCLUDED.servico_data_hora`,
+            [
+              produto.idCompra,
+              produto.idProduto,
+              produto.quantidade,
+              produto.precoUnitario,
+              data.servicoCpf,
+              data.dataHora
+            ]
+          );
+
+          // Atualiza o estoque do produto (diminui a quantidade)
+          await client.query(
+            `UPDATE produto
+             SET qtde_estoque = qtde_estoque - $1
+             WHERE id_produto = $2`,
+            [produto.quantidade, produto.idProduto]
+          );
+        }
+      }
+
+      await client.query('COMMIT');
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
   }
 
   async findAll() {

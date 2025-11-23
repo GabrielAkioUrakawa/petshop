@@ -17,8 +17,8 @@ let ClienteService = class ClienteService {
     constructor(clienteRepository) {
         this.clienteRepository = clienteRepository;
     }
-    async create(cpf, dataCadastro) {
-        return this.clienteRepository.create(cpf, dataCadastro);
+    async create(data) {
+        return this.clienteRepository.create(data);
     }
     async findAll() {
         return this.clienteRepository.findAll();
@@ -26,8 +26,8 @@ let ClienteService = class ClienteService {
     async findByCpf(cpf) {
         return this.clienteRepository.findByCpf(cpf);
     }
-    async update(cpf, dataCadastro) {
-        return this.clienteRepository.update(cpf, dataCadastro);
+    async update(cpf, data) {
+        return this.clienteRepository.update(cpf, data);
     }
     async delete(cpf) {
         return this.clienteRepository.delete(cpf);

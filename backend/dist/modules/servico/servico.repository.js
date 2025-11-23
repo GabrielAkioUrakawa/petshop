@@ -24,9 +24,40 @@ let ServicoRepository = class ServicoRepository {
             ssl: false,
         });
     }
-    async create(servicoCpf, dataHora, preco, tipo, descricao, animalNome, animalCpf) {
-        await this.pool.query(`INSERT INTO servico (servico_cpf, data_hora, preco, tipo, descricao, animal_nome, animal_cpf)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)`, [servicoCpf, dataHora, preco, tipo, descricao, animalNome, animalCpf]);
+    async create(data) {
+        const client = await this.pool.connect();
+        try {
+            await client.query('BEGIN');
+            await client.query(`INSERT INTO servico (servico_cpf, data_hora, preco, tipo, descricao, animal_nome, animal_cpf)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)`, [data.servicoCpf, data.dataHora, data.preco, data.tipo, data.descricao, data.animalNome, data.animalCpf]);
+            if (data.produtos && data.produtos.length > 0) {
+                for (const produto of data.produtos) {
+                    await client.query(`INSERT INTO compra_inclui (id_compra, id_produto, quantidade, preco_unitario, servico_cpf, servico_data_hora)
+             VALUES ($1, $2, $3, $4, $5, $6)
+             ON CONFLICT (id_compra, id_produto) DO UPDATE SET
+               servico_cpf = EXCLUDED.servico_cpf,
+               servico_data_hora = EXCLUDED.servico_data_hora`, [
+                        produto.idCompra,
+                        produto.idProduto,
+                        produto.quantidade,
+                        produto.precoUnitario,
+                        data.servicoCpf,
+                        data.dataHora
+                    ]);
+                    await client.query(`UPDATE produto
+             SET qtde_estoque = qtde_estoque - $1
+             WHERE id_produto = $2`, [produto.quantidade, produto.idProduto]);
+                }
+            }
+            await client.query('COMMIT');
+        }
+        catch (error) {
+            await client.query('ROLLBACK');
+            throw error;
+        }
+        finally {
+            client.release();
+        }
     }
     async findAll() {
         const result = await this.pool.query(`SELECT S.SERVICO_CPF, S.DATA_HORA, S.PRECO, S.TIPO, S.DESCRICAO,

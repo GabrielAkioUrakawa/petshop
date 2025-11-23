@@ -9,9 +9,17 @@ export declare class FuncionarioController {
     create(body: {
         cpf: string;
         especialidade: string;
+        nome: string;
+        email?: string;
+        telefone?: string;
+        endereco?: string;
     }): Promise<void>;
     update(cpf: string, body: {
-        especialidade: string;
+        especialidade?: string;
+        nome?: string;
+        email?: string;
+        telefone?: string;
+        endereco?: string;
     }): Promise<void>;
     delete(cpf: string): Promise<void>;
 }

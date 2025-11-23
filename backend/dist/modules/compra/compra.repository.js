@@ -24,9 +24,40 @@ let CompraRepository = class CompraRepository {
             ssl: false,
         });
     }
-    async create(dataHora, meio, parcela, status, cpfCliente) {
-        await this.pool.query(`INSERT INTO compra (data_hora, meio, parcela, status, cpf_cliente)
-       VALUES ($1, $2, $3, $4, $5)`, [dataHora, meio, parcela, status, cpfCliente]);
+    async create(data) {
+        const client = await this.pool.connect();
+        try {
+            await client.query('BEGIN');
+            const compraResult = await client.query(`INSERT INTO compra (data_hora, meio, parcela, status, cpf_cliente)
+         VALUES ($1, $2, $3, $4, $5)
+         RETURNING id_compra`, [data.dataHora, data.meio, data.parcela, data.status, data.cpfCliente]);
+            const idCompra = compraResult.rows[0].id_compra;
+            if (data.produtos && data.produtos.length > 0) {
+                for (const produto of data.produtos) {
+                    await client.query(`INSERT INTO compra_inclui (id_compra, id_produto, quantidade, preco_unitario, servico_cpf, servico_data_hora)
+             VALUES ($1, $2, $3, $4, $5, $6)`, [
+                        idCompra,
+                        produto.idProduto,
+                        produto.quantidade,
+                        produto.precoUnitario,
+                        produto.servicoCpf || null,
+                        produto.servicoDataHora || null
+                    ]);
+                    await client.query(`UPDATE produto
+             SET qtde_estoque = qtde_estoque - $1
+             WHERE id_produto = $2`, [produto.quantidade, produto.idProduto]);
+                }
+            }
+            await client.query('COMMIT');
+            return { id_compra: idCompra };
+        }
+        catch (error) {
+            await client.query('ROLLBACK');
+            throw error;
+        }
+        finally {
+            client.release();
+        }
     }
     async findAll() {
         const result = await this.pool.query('SELECT * FROM compra');
