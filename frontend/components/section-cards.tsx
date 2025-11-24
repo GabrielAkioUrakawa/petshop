@@ -22,7 +22,7 @@ export function SectionCards() {
   useEffect(() => {
     async function load() {
       try {
-        const receitaRes = await api("/servico/revenue-by-month?mes=11&ano=2024");
+        const receitaRes = await api("/servico/revenue-by-month?mes=11&ano=2025");
         setReceita(receitaRes);
 
         const clientesRes = await api("/cliente/count");
@@ -52,7 +52,7 @@ export function SectionCards() {
       <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
         { receita && (<Card className="@container/card">
           <CardHeader>
-            <CardDescription>Receita Total</CardDescription>
+            <CardDescription>Receita Total (11/2025)</CardDescription>
             <CardTitle className="text-2xl font-semibold">
               R$ {receita.faturamento_total}
             </CardTitle>

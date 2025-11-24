@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Produto } from "../produtos/columns"
+import { api } from "@/lib/api"
 
 export type Servico = {
   servico_cpf: string
@@ -27,9 +28,10 @@ export type Servico = {
   produtos?: Produto[]
 }
 
-export function deleteServico(funcionario_nome: string, cliente_nome: string, animal_nome: string) {
-  console.log(`Excluindo serviço do funcionário ${funcionario_nome} para cliente ${cliente_nome} e animal ${animal_nome}`);
-  return new Promise((resolve) => setTimeout(resolve, 800));
+export function deleteServico(servicoCpf, dataHora) {
+  return api(`/servico/${servicoCpf}/${dataHora}`, {
+      method: "DELETE",
+    })
 }
 
 export function createColumns(
@@ -98,9 +100,8 @@ export function createColumns(
                 className="text-red-500"
                 onClick={() =>
                   deleteServico(
-                    servico.funcionario_nome,
-                    servico.cliente_nome,
-                    servico.animal_nome
+                    servico.servico_cpf,
+                    servico.data_hora,
                   )
                 }
               >

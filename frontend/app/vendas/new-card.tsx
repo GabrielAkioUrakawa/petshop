@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,137 +24,37 @@ import { Venda } from "./columns";
 import { Cliente } from "../clientes/columns";
 import { Produto } from "../produtos/columns";
 import { Servico } from "../servicos/columns";
+import { api } from "@/lib/api";
 
 async function criarVendaApi(data) {
-  console.log("Enviando venda para API...", data);
-  return new Promise((resolve) => setTimeout(resolve, 1500));
+  const response = await api("/compra", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+  return response as any;
 }
 
 async function alterarVendaApi(data) {
-  console.log("Alterando venda na API...", data);
-  return new Promise((resolve) => setTimeout(resolve, 1500));
+  const response = await api(`/compra/${data.idCompra}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  });
+  return response as any;
 }
 
-async function buscarClientesApi(): Promise<Cliente[]> {
-  // TODO: Substituir por chamada real da API
-  console.log("Buscando clientes da API...");
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          cpf: 12345678900,
-          nome: "João Silva",
-          email: "joao.silva@email.com",
-          telefone: "(11) 91234-5678",
-          endereco: "Rua das Flores, 123, São Paulo, SP",
-          data_cadastro: new Date("2023-11-20"),
-        },
-        {
-          cpf: 98765432100,
-          nome: "Maria Oliveira",
-          email: "maria.oliveira@email.com",
-          telefone: "(21) 99876-5432",
-          endereco: "Av. Brasil, 456, Rio de Janeiro, RJ",
-          data_cadastro: new Date("2024-01-15"),
-        },
-        {
-          cpf: 55544433322,
-          nome: "Carlos Pereira",
-          email: "carlos.pereira@email.com",
-          telefone: "(31) 93456-7890",
-          endereco: "Praça Central, 789, Belo Horizonte, MG",
-          data_cadastro: new Date("2024-03-07"),
-        },
-      ]);
-    }, 500);
-  });
+async function buscarClientesApi() {
+  const response = await api("/cliente");
+  return response as any;
 }
 
-async function buscarProdutosApi(): Promise<Produto[]> {
-  // TODO: Substituir por chamada real da API
-  console.log("Buscando produtos da API...");
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          id: 1,
-          qtde_minima: 10,
-          qtde_estoque: 50,
-          descricao: "Ração Premium para Cães",
-          categoria: "Alimentação",
-          preco_venda: 89.9,
-        },
-        {
-          id: 2,
-          qtde_minima: 5,
-          qtde_estoque: 30,
-          descricao: "Shampoo para Gatos",
-          categoria: "Higiene",
-          preco_venda: 24.9,
-        },
-        {
-          id: 3,
-          qtde_minima: 8,
-          qtde_estoque: 25,
-          descricao: "Brinquedo Interativo",
-          categoria: "Brinquedos",
-          preco_venda: 45.0,
-        },
-        {
-          id: 4,
-          qtde_minima: 3,
-          qtde_estoque: 15,
-          descricao: "Coleira Ajustável",
-          categoria: "Acessórios",
-          preco_venda: 35.5,
-        },
-      ]);
-    }, 500);
-  });
+async function buscarProdutosApi() {
+  const response = await api("/produto");
+  return response as any;
 }
 
-async function buscarServicosApi(): Promise<Servico[]> {
-  // TODO: Substituir por chamada real da API
-  console.log("Buscando serviços da API...");
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          funcionario_nome: "João Silva",
-          cliente_nome: "Maria Oliveira",
-          animal_nome: "Rex",
-          data_hora: new Date("2024-01-15T10:00:00"),
-          preco: 150.0,
-          tipo: "Consulta",
-          descricao: "Consulta veterinária completa",
-          dono_cpf: 98765432100,
-          dono_nome: "Maria Oliveira",
-        },
-        {
-          funcionario_nome: "Carlos Pereira",
-          cliente_nome: "João Silva",
-          animal_nome: "Luna",
-          data_hora: new Date("2024-01-16T14:30:00"),
-          preco: 80.0,
-          tipo: "Tosa",
-          descricao: "Tosa completa",
-          dono_cpf: 12345678900,
-          dono_nome: "João Silva",
-        },
-        {
-          funcionario_nome: "Ana Costa",
-          cliente_nome: "Carlos Pereira",
-          animal_nome: "Thor",
-          data_hora: new Date("2024-01-17T09:00:00"),
-          preco: 120.0,
-          tipo: "Banho",
-          descricao: "Banho e secagem",
-          dono_cpf: 55544433322,
-          dono_nome: "Carlos Pereira",
-        },
-      ]);
-    }, 500);
-  });
+async function buscarServicosApi() {
+  const response = await api("/servico");
+  return response as any;
 }
 
 // Função para gerar chave única do serviço
@@ -166,35 +67,38 @@ function getServicoKey(servico: Servico): string {
 }
 
 const getInitialFormData = (
-  venda: Venda | null | undefined
+  venda
 ): {
+  id_compra: string;
   data_hora: string;
   cpf_cliente: string;
   produtos_keys: string[];
   servicos_keys: string[];
-  meio: string;
+  forma_pagamento: string;
   parcela: string;
   status: string;
 } => {
   if (venda) {
     return {
+      id_compra: venda.id_compra,
       data_hora: venda.data_hora
         ? new Date(venda.data_hora).toISOString().slice(0, 16)
         : "",
       cpf_cliente: venda.cpf_cliente.toString(),
       produtos_keys: [],
       servicos_keys: [],
-      meio: venda.meio,
-      parcela: venda.parcela.toString(),
+      forma_pagamento: venda.forma_pagamento,
+      parcela: venda.parcela,
       status: venda.status,
     };
   }
   return {
+    id_compra: "",
     data_hora: "",
     cpf_cliente: "",
     produtos_keys: [],
     servicos_keys: [],
-    meio: "",
+    forma_pagamento: "",
     parcela: "",
     status: "",
   };
@@ -268,20 +172,43 @@ export default function NewVendaPopup({
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (!formData.cpf_cliente) {
-      return;
-    }
+    if (!formData.cpf_cliente) return;
 
     setLoading(true);
 
+    // Transformar PRODUTOS para o formato correto do backend
+    const produtosFormatados = produtosLista
+      .filter((p) => p.id !== null)
+      .map((p) => {
+        const produto = produtos.find((prod) => prod.id_produto === p.id);
+        return {
+          idProduto: p.id,
+          quantidade: p.quantidade,
+          precoUnitario: produto?.preco_venda ?? 0,
+        };
+      });
+
+    // Transformar SERVICOS (keys → cpf + dataHora)
+    const servicosFormatados = servicosLista.map((key) => {
+      const servico = servicos.find((s) => getServicoKey(s) === key);
+
+      return {
+        idProduto: undefined,
+        quantidade: 1,
+        precoUnitario: servico?.preco ?? 0,
+        servicoCpf: servico?.servico_cpf?.toString(),
+        servicoDataHora: servico?.data_hora,
+      };
+    });
+
     const data = {
-      data_hora: new Date(formData.data_hora),
-      cpf_cliente: Number(formData.cpf_cliente),
-      produtos_keys: formData.produtos_keys,
-      servicos_keys: formData.servicos_keys,
-      meio: formData.meio,
+      idCompra: formData.id_compra,
+      dataHora: new Date(formData.data_hora).toISOString(),
+      meio: formData.forma_pagamento,
       parcela: Number(formData.parcela),
       status: formData.status,
+      cpfCliente: formData.cpf_cliente.toString(),
+      produtos: [...produtosFormatados, ...servicosFormatados],
     };
 
     if (isEditing) {
@@ -422,7 +349,10 @@ export default function NewVendaPopup({
                             </SelectTrigger>
                             <SelectContent>
                               {produtos.map((p) => (
-                                <SelectItem key={p.id} value={p.id.toString()}>
+                                <SelectItem
+                                  key={p.id_produto}
+                                  value={p.id_produto.toString()}
+                                >
                                   {p.descricao} (R$ {p.preco_venda})
                                 </SelectItem>
                               ))}
@@ -500,14 +430,14 @@ export default function NewVendaPopup({
                     </div>
 
                     <div className="grid gap-2">
-                      <Label htmlFor="meio">Meio de Pagamento</Label>
+                      <Label htmlFor="forma_pagamento">Meio de Pagamento</Label>
                       <Input
-                        id="meio"
+                        id="forma_pagamento"
                         type="text"
                         required
                         placeholder="Dinheiro, Cartão, PIX..."
-                        value={formData.meio}
-                        onChange={(e) => handleChange("meio", e.target.value)}
+                        value={formData.forma_pagamento}
+                        onChange={(e) => handleChange("forma_pagamento", e.target.value)}
                       />
                     </div>
 

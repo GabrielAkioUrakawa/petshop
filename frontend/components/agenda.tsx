@@ -40,7 +40,7 @@ export default function AgendaDiariaCard() {
   }
 
   return (
-    <Card className="w-full max-w-3xl border-0 shadow-none h-128">
+    <Card className="w-full border-0 shadow-none h-full">
       <CardHeader className="flex-row justify-between items-center">
         <CardTitle>Agenda</CardTitle>
       </CardHeader>

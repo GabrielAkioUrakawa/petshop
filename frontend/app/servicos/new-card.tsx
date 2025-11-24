@@ -38,7 +38,7 @@ async function criarServicoApi(data) {
 }
 
 async function alterarServicoApi(data) {
-  const response = await api(`/servico/${data.servico_cpf}`, {
+  const response = await api(`/servico/${data.servicoCpf}/${data.dataHora}`, {
     method: "PUT",
     body: JSON.stringify(data),
   })
@@ -66,15 +66,14 @@ async function buscarProdutosApi(){
   return response as any
 }
 
-const getInitialFormData = (servico: Servico | null | undefined) => {
+const getInitialFormData = (servico) => {
   if (servico) {
     return {
-      funcionario_cpf: "",
+      funcionario_cpf: servico.servico_cpf,
       funcionario_nome: servico.funcionario_nome,
-      cliente_cpf: "",
+      cliente_cpf: servico.animal_cpf,
       cliente_nome: servico.cliente_nome,
       animal_nome: servico.animal_nome,
-      dono_cpf: servico.dono_cpf?.toString() || "",
       produto_id: "",
       data_hora: servico.data_hora
         ? new Date(servico.data_hora).toISOString().slice(0, 16)
@@ -210,45 +209,54 @@ export default function NewServicoPopup({
   }, [formData.cliente_cpf, open]);
 
   async function handleSubmit(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (
-      !formData.funcionario_cpf ||
-      !formData.cliente_cpf ||
-      !formData.animal_nome
-    ) {
-      return;
-    }
-
-    setLoading(true);
-
-    // Buscar nomes dos selecionados para manter compatibilidade com o tipo Servico
-    const funcionario = funcionarios.find(
-      (f) => f.cpf.toString() === formData.funcionario_cpf
-    );
-    const cliente = clientes.find(
-      (c) => c.cpf.toString() === formData.cliente_cpf
-    );
-
-    const data = {
-      servicoCpf: formData.funcionario_cpf,
-      animalNome: formData.animal_nome,
-      dataHora: new Date(formData.data_hora),
-      preco: Number(formData.preco),
-      tipo: formData.tipo,
-      descricao: formData.descricao,
-      animalCpf: formData.dono_cpf,
-    };
-
-    if (isEditing) {
-      await alterarServicoApi(data);
-    } else {
-      await criarServicoApi(data);
-    }
-
-    setLoading(false);
-    onClose?.();
+  if (
+    !formData.funcionario_cpf ||
+    !formData.cliente_cpf ||
+    !formData.animal_nome
+  ) {
+    return;
   }
+
+  setLoading(true);
+
+  // Produtos formatados conforme o backend espera
+  const produtosFormatados = produtosLista
+    .filter((p) => p.id !== null)
+    .map((p) => {
+      const produto = produtos.find((prod) => prod.id_produto === p.id);
+
+      return {
+        idProduto: p.id,
+        quantidade: p.quantidade,
+        precoUnitario: produto?.preco_venda ?? 0,
+        idCompra: 0, // backend ignora na criação, mas exige no DTO
+      };
+    });
+
+  const data = {
+    servicoCpf: formData.cliente_cpf,                 // CPF do cliente do serviço
+    funcionarioCpf: formData.funcionario_cpf,        // CPF do funcionário executando
+    dataHora: formData.data_hora.replace("T", " ") + ":00",
+    preco: Number(formData.preco),
+    tipo: formData.tipo,
+    descricao: formData.descricao,
+    animalNome: formData.animal_nome,
+    animalCpf: formData.cliente_cpf,                 // dono é o próprio cliente
+    produtos: produtosFormatados.length > 0 ? produtosFormatados : undefined,
+  };
+
+  if (isEditing) {
+    await alterarServicoApi(data);
+  } else {
+    await criarServicoApi(data);
+  }
+
+  setLoading(false);
+  onClose?.();
+}
+
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => {
