@@ -46,8 +46,8 @@ let AnimalRepository = class AnimalRepository {
     async findByCliente(cpfCliente) {
         const result = await this.pool.query(`SELECT A.NOME, A.ESPECIE, A.RACA, A.SEXO, A.PESO, A.DATA_NASCIMENTO, P.NOME AS NOME_DONO
        FROM ANIMAL A
-       JOIN PESSOA P ON A.DONO_CPF = P.CPF
-       WHERE A.DONO_CPF = $1
+       JOIN PESSOA P ON A.ANIMAL_CPF = P.CPF
+       WHERE A.ANIMAL_CPF = $1
        ORDER BY A.NOME`, [cpfCliente]);
         return result.rows;
     }

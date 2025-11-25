@@ -77,6 +77,7 @@ export class ProdutoRepository {
       JOIN COMPRA_INCLUI CI ON P.ID_PRODUTO = CI.ID_PRODUTO
       GROUP BY P.DESCRICAO, P.CATEGORIA, P.PRECO_VENDA
       ORDER BY QUANTIDADE_TOTAL_VENDIDA DESC
+      LIMIT 1
     `);
     return result.rows;
   }
