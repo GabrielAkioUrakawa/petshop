@@ -231,19 +231,19 @@ export default function NewServicoPopup({
         idProduto: p.id,
         quantidade: p.quantidade,
         precoUnitario: produto?.preco_venda ?? 0,
-        idCompra: 0, // backend ignora na criação, mas exige no DTO
+        idCompra: 0, 
       };
     });
 
   const data = {
-    servicoCpf: formData.cliente_cpf,                 // CPF do cliente do serviço
-    funcionarioCpf: formData.funcionario_cpf,        // CPF do funcionário executando
+    servicoCpf: formData.cliente_cpf,                
+    funcionarioCpf: formData.funcionario_cpf,        
     dataHora: formData.data_hora.replace("T", " ") + ":00",
     preco: Number(formData.preco),
     tipo: formData.tipo,
     descricao: formData.descricao,
     animalNome: formData.animal_nome,
-    animalCpf: formData.cliente_cpf,                 // dono é o próprio cliente
+    animalCpf: formData.cliente_cpf,                
     produtos: produtosFormatados.length > 0 ? produtosFormatados : undefined,
   };
 

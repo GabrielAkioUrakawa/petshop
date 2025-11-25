@@ -54,7 +54,7 @@ export function SectionCards() {
           <CardHeader>
             <CardDescription>Receita Total (11/2025)</CardDescription>
             <CardTitle className="text-2xl font-semibold">
-              R$ {receita.faturamento_total}
+              R$ {Number(receita.faturamento_total).toFixed(2).replace('.', ',')}
             </CardTitle>
           </CardHeader>
         </Card>)}
@@ -91,7 +91,7 @@ export function SectionCards() {
                   {produto.nome_produto}
                 </h3>
                 <p className="text-sm text-gray-500">
-                  {produto.categoria} – R$ {produto.preco_venda}/un.
+                  {produto.categoria} – R$ {produto.preco_venda}/un. - {produto.quantidade_total_vendida} unidades
                 </p>
               </CardTitle>
             </CardHeader>

@@ -69,7 +69,7 @@ export default function ProdutosPage() {
             <div className="m-6">
               <h1 className="text-xl font-bold">Produtos</h1>
 
-              <div className="flex gap-2">
+              <div className="flex gap-2 my-2">
                 <Button onClick={handleNew}>
                   <Plus /> Criar Novo
                 </Button>

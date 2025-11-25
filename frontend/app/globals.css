@@ -45,47 +45,29 @@
 
 :root {
   --radius: 0.625rem;
-
-  /* BASE */
-  --background: oklch(1 0 0);                 /* #FFFFFF */
-  --foreground: oklch(0.24 0.01 257);         /* #111827 */
-
-  --card: oklch(0.97 0.004 247);              /* #F3F4F6 */
+  --background: oklch(1 0 0);                 
+  --foreground: oklch(0.24 0.01 257);         
+  --card: oklch(0.97 0.004 247);              
   --card-foreground: oklch(0.24 0.01 257);
-
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.24 0.01 257);
-
-  /* PRIMARY — Azul profissional */
-  --primary: oklch(0.66 0.12 247);            /* #4A90E2 */
-  --primary-foreground: oklch(1 0 0);         /* texto branco */
-
-  /* SECONDARY — Verde água */
-  --secondary: oklch(0.83 0.09 172);          /* #50E3C2 */
+  --primary: oklch(0.66 0.12 247);            
+  --primary-foreground: oklch(1 0 0);         
+  --secondary: oklch(0.83 0.09 172);         
   --secondary-foreground: oklch(0.24 0.01 257);
-
-  /* ACCENT — Laranja suave */
-  --accent: oklch(80.906% 0.08466 244.768);              /* #F5A623 */
+  --accent: oklch(80.906% 0.08466 244.768);           
   --accent-foreground: oklch(0.24 0.01 257);
-
-  /* MUTED / NEUTROS */
-  --muted: oklch(0.97 0.004 247);             /* #F3F4F6 */
-  --muted-foreground: oklch(0.53 0.02 257);   /* #6B7280 */
-
-  --destructive: oklch(0.60 0.20 28);         /* vermelho neutro */
-
-  --border: oklch(0.93 0.004 247);            /* #E5E7EB */
+  --muted: oklch(0.97 0.004 247);            
+  --muted-foreground: oklch(0.53 0.02 257);   
+  --destructive: oklch(0.60 0.20 28);        
+  --border: oklch(0.93 0.004 247);           
   --input: oklch(0.93 0.004 247);
-  --ring: oklch(0.66 0.12 247);               /* Azul */
-
-  /* CHART COLORS (variações da paleta) */
-  --chart-1: oklch(0.66 0.12 247);            /* azul */
-  --chart-2: oklch(0.83 0.09 172);            /* verde água */
-  --chart-3: oklch(0.78 0.17 68);             /* laranja */
-  --chart-4: oklch(0.53 0.02 257);            /* cinza escuro */
-  --chart-5: oklch(0.93 0.004 247);           /* cinza claro */
-
-  /* SIDEBAR */
+  --ring: oklch(0.66 0.12 247);               
+  --chart-1: oklch(0.66 0.12 247);           
+  --chart-2: oklch(0.83 0.09 172);           
+  --chart-3: oklch(0.78 0.17 68);             
+  --chart-4: oklch(0.53 0.02 257);           
+  --chart-5: oklch(0.93 0.004 247);          
   --sidebar: oklch(0.97 0.004 247);
   --sidebar-foreground: oklch(0.24 0.01 257);
   --sidebar-primary: oklch(0.66 0.12 247);

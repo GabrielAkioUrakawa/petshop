@@ -55,7 +55,7 @@ export default function ProdutosAbaixoMinimoCard({ open }: { open: boolean }) {
         )}
 
         {/* Área scrollável */}
-        <div className="mt-2 h-[calc(100%-2rem)] overflow-y-auto pr-2">
+        <div className="mt-2 h-[calc(90%-2rem)] overflow-y-auto pr-2">
           <AnimatePresence>
             {produtos.map((p) => (
               <motion.div
@@ -72,7 +72,7 @@ export default function ProdutosAbaixoMinimoCard({ open }: { open: boolean }) {
                   <strong>Categoria:</strong> {p.categoria}
                 </p>
                 <p>
-                  <strong>Último Forncedor:</strong> {p.nome_fornecedor}
+                  <strong>Fornecedor:</strong> {p.nome_fornecedor}
                 </p>
               </motion.div>
             ))}

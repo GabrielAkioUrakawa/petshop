@@ -66,7 +66,7 @@ export default function ServicosPage() {
           <div className="@container/main flex flex-1 min-h-0 flex-col gap-2">
             <div className="m-6">
               <h1 className="text-xl font-bold">Serviços</h1>
-              <div className="flex gap-2">
+              <div className="flex gap-2 my-2">
                 <Button onClick={handleNew}>
                   <Plus /> Criar Novo
                 </Button>
