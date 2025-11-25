@@ -129,8 +129,8 @@ export default function NewCompraPopup({ open, onClose, compra, isEditing = fals
     setLoading(true)
 
     const data = {
-      idLote: Number(formData.idLote),
-      idProd: Number(formData.id_produto),
+      idLote: formData.idLote,
+      idProd: formData.id_produto,
       fCnpj: Number(formData.cnpj_fornecedor),
       quantidade: Number(formData.quantidade),
     }
@@ -156,7 +156,7 @@ export default function NewCompraPopup({ open, onClose, compra, isEditing = fals
     let cancelled = false
 
     async function loadPrecoCompra() {
-      const idProduto = Number(formData.id_produto)
+      const idProduto = formData.id_produto
       if (!idProduto) return
 
       try {

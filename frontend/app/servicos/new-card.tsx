@@ -402,7 +402,7 @@ export default function NewServicoPopup({
                         <SelectContent>
                           {animais.map((animal) => (
                             <SelectItem
-                              key={`${animal.nome}-${animal.dono_cpf}`}
+                              key={`${animal.nome}-${animal.animal_cpf}`}
                               value={animal.nome}
                             >
                               {animal.nome} - {animal.raca} ({animal.especie})

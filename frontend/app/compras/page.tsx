@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -12,8 +13,8 @@ import { Plus } from "lucide-react";
 import NewCompraPopup from "./new-card";
 import { api } from "@/lib/api";
 
-async function getData(): Promise<Compra[]> {
-  const compras = await api("/lote")
+async function getData(){
+  const compras = await api("/lote") as any
   return compras
 }
 

@@ -26,7 +26,7 @@ export class AnimalRepository {
     dataNascimento: string
   ) {
     await this.pool.query(
-      `INSERT INTO animal (dono_cpf, nome, raca, especie, sexo, peso, data_nascimento)
+      `INSERT INTO animal (animal_cpf, nome, raca, especie, sexo, peso, data_nascimento)
        VALUES ($1, $2, $3, $4, $5, $6, $7)`,
       [donoCpf, nome, raca, especie, sexo, peso, dataNascimento]
     );
@@ -39,7 +39,7 @@ export class AnimalRepository {
 
   async findByNomeAndDonoCpf(nome: string, donoCpf: string) {
     const result = await this.pool.query(
-      'SELECT * FROM animal WHERE nome = $1 AND dono_cpf = $2',
+      'SELECT * FROM animal WHERE nome = $1 AND animal_cpf = $2',
       [nome, donoCpf]
     );
     return result.rows[0];
@@ -56,13 +56,13 @@ export class AnimalRepository {
   ) {
     await this.pool.query(
       `UPDATE animal SET raca = $3, especie = $4, sexo = $5, peso = $6, data_nascimento = $7
-       WHERE nome = $1 AND dono_cpf = $2`,
+       WHERE nome = $1 AND animal_cpf = $2`,
       [nome, donoCpf, raca, especie, sexo, peso, dataNascimento]
     );
   }
 
   async delete(nome: string, donoCpf: string) {
-    await this.pool.query('DELETE FROM animal WHERE nome = $1 AND dono_cpf = $2', [nome, donoCpf]);
+    await this.pool.query('DELETE FROM animal WHERE nome = $1 AND animal_cpf = $2', [nome, donoCpf]);
   }
 
   async findByCliente(cpfCliente: string) {

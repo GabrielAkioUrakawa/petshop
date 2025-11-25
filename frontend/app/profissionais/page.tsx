@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -12,9 +13,9 @@ import { Plus } from "lucide-react";
 import NewFuncionarioPopup from "./new-card";
 import { api } from "@/lib/api";
 
-async function getData(): Promise<Funcionario[]> {
+async function getData() {
   // Fetch data from your API here.
-  const funcionarios = await api("/funcionario/with-service-count");
+  const funcionarios = await api("/funcionario/with-service-count") as any;
   
   return funcionarios;
 }

@@ -25,7 +25,7 @@ let AnimalRepository = class AnimalRepository {
         });
     }
     async create(donoCpf, nome, raca, especie, sexo, peso, dataNascimento) {
-        await this.pool.query(`INSERT INTO animal (dono_cpf, nome, raca, especie, sexo, peso, data_nascimento)
+        await this.pool.query(`INSERT INTO animal (animal_cpf, nome, raca, especie, sexo, peso, data_nascimento)
        VALUES ($1, $2, $3, $4, $5, $6, $7)`, [donoCpf, nome, raca, especie, sexo, peso, dataNascimento]);
     }
     async findAll() {
@@ -33,15 +33,15 @@ let AnimalRepository = class AnimalRepository {
         return result.rows;
     }
     async findByNomeAndDonoCpf(nome, donoCpf) {
-        const result = await this.pool.query('SELECT * FROM animal WHERE nome = $1 AND dono_cpf = $2', [nome, donoCpf]);
+        const result = await this.pool.query('SELECT * FROM animal WHERE nome = $1 AND animal_cpf = $2', [nome, donoCpf]);
         return result.rows[0];
     }
     async update(nome, donoCpf, raca, especie, sexo, peso, dataNascimento) {
         await this.pool.query(`UPDATE animal SET raca = $3, especie = $4, sexo = $5, peso = $6, data_nascimento = $7
-       WHERE nome = $1 AND dono_cpf = $2`, [nome, donoCpf, raca, especie, sexo, peso, dataNascimento]);
+       WHERE nome = $1 AND animal_cpf = $2`, [nome, donoCpf, raca, especie, sexo, peso, dataNascimento]);
     }
     async delete(nome, donoCpf) {
-        await this.pool.query('DELETE FROM animal WHERE nome = $1 AND dono_cpf = $2', [nome, donoCpf]);
+        await this.pool.query('DELETE FROM animal WHERE nome = $1 AND animal_cpf = $2', [nome, donoCpf]);
     }
     async findByCliente(cpfCliente) {
         const result = await this.pool.query(`SELECT A.NOME, A.ESPECIE, A.RACA, A.SEXO, A.PESO, A.DATA_NASCIMENTO, P.NOME AS NOME_DONO

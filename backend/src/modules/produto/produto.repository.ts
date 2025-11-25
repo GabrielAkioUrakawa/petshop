@@ -36,7 +36,7 @@ export class ProdutoRepository {
     return result.rows;
   }
 
-  async findById(idProduto: number) {
+  async findById(idProduto: string) {
     const result = await this.pool.query('SELECT * FROM produto WHERE id_produto = $1', [idProduto]);
     return result.rows[0];
   }

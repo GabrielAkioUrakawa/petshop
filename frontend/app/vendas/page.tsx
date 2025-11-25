@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -17,8 +18,8 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
-async function getByRange(dataInicio: string, dataFinal: string): Promise<Venda[]> {
-  return await api(`/compra/by-date-range?dataInicio=${dataInicio}&dataFinal=${dataFinal}`);
+async function getByRange(dataInicio: string, dataFinal: string) {
+  return await api(`/compra/by-date-range?dataInicio=${dataInicio}&dataFinal=${dataFinal}`) as any;
 }
 
 export default function VendasPage() {

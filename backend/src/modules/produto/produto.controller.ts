@@ -22,7 +22,7 @@ export class ProdutoController {
 
   @Get(':id')
   async findById(@Param('id') id: string) {
-    return this.produtoService.findById(Number(id));
+    return this.produtoService.findById(id);
   }
 
   @Post()

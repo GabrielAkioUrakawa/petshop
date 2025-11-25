@@ -82,7 +82,7 @@ export default function AnimaisPage() {
       </SidebarInset>
 
       <NewAnimalPopup 
-        key={`${animalEditando?.nome || "new"}-${animalEditando?.dono_cpf || ""}-${popupKey}`}
+        key={`${animalEditando?.nome || "new"}-${animalEditando?.animal_cpf || ""}-${popupKey}`}
         open={open} 
         onClose={handleClose}
         animal={animalEditando}
@@ -93,7 +93,7 @@ export default function AnimaisPage() {
         open={viewProductsOpen}
         onClose={() => setViewProductsOpen(false)}
         animalNome={servicoSelecionado?.nome}
-        animalCpf={servicoSelecionado?.dono_cpf}
+        animalCpf={servicoSelecionado?.animal_cpf}
       />
     </SidebarProvider>
   );

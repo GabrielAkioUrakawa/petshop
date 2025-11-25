@@ -34,7 +34,7 @@ async function criarAnimalApi(data) {
 }
 
 async function alterarAnimalApi(data) {
-  const response = await api(`/animal/${data.nome}/${data.dono_cpf}`, {
+  const response = await api(`/animal/${data.nome}/${data.aniaml_cpf}`, {
     method: "PUT",
     body: JSON.stringify(data),
   })
@@ -57,7 +57,7 @@ const getInitialFormData = (animal: Animal | null | undefined) => {
       data_nascimento: animal.data_nascimento 
         ? new Date(animal.data_nascimento).toISOString().split('T')[0]
         : "",
-      dono_cpf: animal.dono_cpf.toString(),
+      dono_cpf: animal.animal_cpf.toString(),
     }
   }
   return {

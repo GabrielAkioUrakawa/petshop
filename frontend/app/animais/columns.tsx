@@ -20,11 +20,11 @@ export type Animal = {
   peso: number
   data_nascimento: Date
 
-  dono_cpf: string
+  animal_cpf: string
 }
 
-export function deleteAnimal(nome: string, dono_cpf: string) {
-  return api(`/animal/${nome}/${dono_cpf}`, {
+export function deleteAnimal(nome: string, animal_cpf: string) {
+  return api(`/animal/${nome}/${animal_cpf}`, {
     method: "DELETE",
   })
 }
@@ -60,7 +60,7 @@ export function createColumns(onEdit?: (animal: Animal) => void,  onViewProducts
           : "",
     },
     {
-      accessorKey: "dono_cpf",
+      accessorKey: "animal_cpf",
       header: "CPF do Dono",
     },
     {
@@ -86,7 +86,7 @@ export function createColumns(onEdit?: (animal: Animal) => void,  onViewProducts
               >
                 Alterar
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-red-500" onClick={() => deleteAnimal(animal.nome, animal.dono_cpf)}><Trash className="text-red-500"></Trash>Excluir</DropdownMenuItem>
+              <DropdownMenuItem className="text-red-500" onClick={() => deleteAnimal(animal.nome, animal.animal_cpf)}><Trash className="text-red-500"></Trash>Excluir</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )

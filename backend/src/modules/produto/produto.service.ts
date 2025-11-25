@@ -21,7 +21,7 @@ export class ProdutoService {
     return this.produtoRepository.findAll();
   }
 
-  async findById(idProduto: number) {
+  async findById(idProduto: string) {
     return this.produtoRepository.findById(idProduto);
   }
 
